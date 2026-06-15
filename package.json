@@ -9,7 +9,8 @@
     "format:check": "oxfmt --check .",
     "lint": "oxlint .",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync:content": "bash scripts/sync-content.sh"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
