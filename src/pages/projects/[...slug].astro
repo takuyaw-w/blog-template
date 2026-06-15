@@ -19,6 +19,7 @@ type Props = CollectionEntry<'projects'>;
 const project = Astro.props;
 const { Content } = await render(project);
 const { heroImage, heroImageAlt, gallery } = project.data;
+const hasHeroImage = Boolean(heroImage);
 const getProjectTagPath = (tag: string) => `/projects/tags/${toTaxonomySlug(tag)}/`;
 const getProjectCategoryPath = (category: string) => `/projects/categories/${toTaxonomySlug(category)}/`;
 ---
@@ -27,7 +28,7 @@ const getProjectCategoryPath = (category: string) => `/projects/categories/${toT
 	<main class="project-detail-main">
 		<a class="back-link" href="/projects/" data-history-back>Back</a>
 		<article class="project-detail">
-			<header class="project-header">
+			<header class:list={['project-header', { 'project-header--without-hero': !hasHeroImage }]}>
 				<h1 class="project-title">{project.data.title}</h1>
 				<p class="description">{project.data.description}</p>
 				<ul class="meta">
@@ -103,6 +104,10 @@ const getProjectCategoryPath = (category: string) => `/projects/categories/${toT
 	.project-header {
 		padding-bottom: 2rem;
 		border-bottom: 1px solid rgb(var(--border));
+	}
+	.project-header--without-hero {
+		padding-bottom: 0;
+		border-bottom: 0;
 	}
 	.project-title {
 		margin: 0;
