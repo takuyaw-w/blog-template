@@ -1,0 +1,104 @@
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+import FallbackImage from '../assets/blog-placeholder-1.jpg';
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: ImageMetadata | URL | string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { title, description, image = FallbackImage } = Astro.props;
+const imageURL =
+	typeof image === 'string' || image instanceof URL
+		? new URL(image, Astro.site ?? Astro.url)
+		: new URL(image.src, Astro.site ?? Astro.url);
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+<link rel="alternate icon" href="/favicon.ico" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+	rel="alternate"
+	type="application/rss+xml"
+	title={SITE_TITLE}
+	href={new URL('rss.xml', Astro.site)}
+/>
+<meta name="generator" content={Astro.generator} />
+
+<script is:inline>
+	(() => {
+		const storageKey = 'theme';
+		const getStoredTheme = () => {
+			try {
+				return localStorage.getItem(storageKey);
+			} catch {
+				return null;
+			}
+		};
+		const getPreferredTheme = () =>
+			window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+		const getCurrentTheme = () =>
+			document.documentElement.dataset.theme || getStoredTheme() || getPreferredTheme();
+		const updateThemeButtons = (theme) => {
+			document.querySelectorAll('.theme-toggle').forEach((button) => {
+				button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
+			});
+		};
+		const applyTheme = (theme, persist = false) => {
+			document.documentElement.dataset.theme = theme;
+			if (persist) {
+				try {
+					localStorage.setItem(storageKey, theme);
+				} catch {
+					// Ignore storage failures; the active page can still switch theme.
+				}
+			}
+			updateThemeButtons(theme);
+		};
+
+		window.__setTheme = (theme) => applyTheme(theme, true);
+		window.__getTheme = getCurrentTheme;
+		applyTheme(getCurrentTheme());
+
+		if (!window.__themeInitialized) {
+			window.__themeInitialized = true;
+			document.addEventListener('astro:before-swap', (event) => {
+				event.newDocument.documentElement.dataset.theme = getCurrentTheme();
+			});
+			document.addEventListener('astro:page-load', () => {
+				applyTheme(getCurrentTheme());
+			});
+		}
+	})();
+</script>
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageURL} />

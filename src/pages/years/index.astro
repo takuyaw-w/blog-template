@@ -1,0 +1,18 @@
+---
+import TaxonomyList from '../../components/TaxonomyList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { countValues, getBlogPosts, getPostYear } from '../../utils/blog';
+
+const posts = await getBlogPosts();
+const years = countValues(posts.map((post) => getPostYear(post.data.pubDate))).sort(
+	([a], [b]) => Number(b) - Number(a),
+);
+---
+
+<PageLayout title={`Years | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<h1 class="taxonomy-title">Years</h1>
+		<TaxonomyList items={years} basePath="/years" />
+	</main>
+</PageLayout>

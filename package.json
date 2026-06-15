@@ -1,0 +1,36 @@
+{
+  "name": "blog-template",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "lint": "oxlint .",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/noto-sans-jp": "^5.2.9",
+    "@resvg/resvg-js": "^2.6.2",
+    "@shikijs/transformers": "^4.2.0",
+    "@tabler/icons": "^3.44.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.1",
+    "astro": "^6.4.6",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectList from '../../components/ProjectList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout title={`Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="projects-main">
+		<section class="page-header">
+			<h1>Projects</h1>
+			<p class="lead">A short index of projects, experiments, and ongoing work.</p>
+		</section>
+		<ProjectList projects={projects} />
+	</main>
+</PageLayout>
+<style>
+	.projects-main {
+		width: 1400px;
+	}
+	.page-header {
+		margin-bottom: 2rem;
+	}
+	h1 {
+		margin-bottom: 0.5rem;
+		font-size: 2rem;
+	}
+	.lead {
+		max-width: 640px;
+		margin: 0;
+		color: rgb(var(--gray));
+	}
+</style>

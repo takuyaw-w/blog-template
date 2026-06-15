@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import TaxonomyList from '../../../components/TaxonomyList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { countValues } from '../../../utils/blog';
+
+const projects = await getCollection('projects');
+const categories = countValues(projects.map((project) => project.data.category));
+---
+
+<PageLayout title={`Project Categories | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<h1 class="taxonomy-title">Project Categories</h1>
+		<TaxonomyList items={categories} basePath="/projects/categories" />
+	</main>
+</PageLayout>

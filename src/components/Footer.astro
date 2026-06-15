@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+---
+
+<footer class="site-footer">
+	<div class="footer-inner">
+		<nav class="footer-sitemap" aria-label="Footer navigation">
+			<div class="footer-group">
+				<a class="footer-group-title" href="/blog/">Blog</a>
+				<ul>
+					<li><a href="/categories/">Categories</a></li>
+					<li><a href="/tags/">Tags</a></li>
+					<li><a href="/years/">Years</a></li>
+				</ul>
+			</div>
+			<div class="footer-group">
+				<a class="footer-group-title" href="/projects/">Projects</a>
+				<ul>
+					<li><a href="/projects/categories/">Categories</a></li>
+					<li><a href="/projects/tags/">Tags</a></li>
+				</ul>
+			</div>
+			<a class="footer-top-link" href="/about/">About</a>
+		</nav>
+		<div class="social-links">
+			<a href="https://x.com/astrodotbuild" target="_blank">
+				<span class="sr-only">Follow Astro on X</span>
+				<Icon name="brand-x" size={32} />
+			</a>
+			<a href="https://github.com/withastro/astro" target="_blank">
+				<span class="sr-only">Go to Astro's GitHub repo</span>
+				<Icon name="brand-github" size={32} />
+			</a>
+		</div>
+	</div>
+</footer>
+<style>
+	.site-footer {
+		padding: 2.25em 1em 5em;
+		background-color: rgb(var(--surface));
+		color: rgb(var(--gray));
+		text-align: center;
+	}
+	.footer-inner {
+		width: 960px;
+		max-width: 100%;
+		margin: 0 auto;
+		padding-top: 1.5em;
+		border-top: 1px solid rgba(var(--border), 0.8);
+	}
+	.footer-sitemap {
+		display: grid;
+		grid-template-columns: minmax(160px, auto) repeat(2, auto);
+		gap: 1.25rem 2.5rem;
+		justify-content: center;
+		align-items: start;
+		text-align: left;
+	}
+	.footer-sitemap a {
+		color: rgb(var(--gray));
+		text-decoration: none;
+	}
+	.footer-sitemap a:hover {
+		color: rgb(var(--gray-dark));
+	}
+	.footer-group-title,
+	.footer-top-link {
+		color: rgb(var(--gray-dark));
+		font-weight: 700;
+	}
+	.footer-group ul {
+		display: grid;
+		gap: 0.25rem;
+		margin: 0.35rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.social-links {
+		display: flex;
+		justify-content: center;
+		gap: 1em;
+		margin-top: 1em;
+	}
+	.social-links a {
+		color: rgb(var(--gray));
+		text-decoration: none;
+	}
+	.social-links a:hover {
+		color: rgb(var(--gray-dark));
+	}
+	@media (max-width: 520px) {
+		.footer-sitemap {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+	}
+</style>

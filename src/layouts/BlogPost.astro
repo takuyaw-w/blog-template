@@ -1,0 +1,630 @@
+---
+import { Image } from 'astro:assets';
+import type { MarkdownHeading } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug, type BlogPostEntry } from '../utils/blog';
+import PageLayout from './PageLayout.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+	postId?: string;
+	headings?: MarkdownHeading[];
+	readingTimeMinutes?: number;
+	relatedPosts?: BlogPostEntry[];
+};
+
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	category,
+	postId,
+	tags = [],
+	headings = [],
+	readingTimeMinutes,
+	relatedPosts = [],
+} = Astro.props;
+const tocHeadings = headings.filter(
+	(heading) => heading.depth >= 2 && heading.depth <= 3 && heading.slug !== 'footnote-label',
+);
+const markdownUrl = postId ? `/blog/${postId}.md` : undefined;
+const hasArticleInfo = tags.length > 0 || readingTimeMinutes !== undefined || category !== undefined;
+const hasSidebar = hasArticleInfo || tocHeadings.length > 0;
+const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) : heroImage;
+---
+
+<PageLayout title={title} description={description} image={ogImage}>
+		<main class="blog-post-main">
+			<a class="back-link" href="/blog/" data-history-back>Back</a>
+			<article>
+				<div class:list={['article-body', { 'no-sidebar': !hasSidebar }]}>
+					{heroImage && <Image class="hero-image" width={1200} height={630} src={heroImage} alt="" />}
+					{
+						tocHeadings.length > 0 && (
+							<details class="table-of-contents mobile-toc">
+								<summary>INDEX</summary>
+								<ol>
+									{tocHeadings.map((heading) => (
+										<li>
+											<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
+												{heading.text}
+											</a>
+										</li>
+									))}
+								</ol>
+							</details>
+						)
+					}
+					<div class="article-content">
+						<div class="title">
+							<h1>{title}</h1>
+							<hr />
+						</div>
+						<div class="prose prose-lg prose-blog">
+							<slot />
+							{
+								markdownUrl && (
+									<p class="source-link">
+										Markdown source:{' '}
+										<a href={markdownUrl} rel="alternate" type="text/markdown">
+											{markdownUrl}
+										</a>
+									</p>
+								)
+							}
+							{
+								relatedPosts.length > 0 && (
+									<section class="related-posts" aria-labelledby="related-posts-heading">
+										<h2 id="related-posts-heading">Related Posts</h2>
+										<ul>
+											{relatedPosts.map((relatedPost) => (
+												<li>
+													<a class="related-post-link" href={`/blog/${relatedPost.id}/`}>
+														<span class="related-post-body">
+															<span class="related-post-eyebrow">
+																{relatedPost.data.category} / {formatPostDate(relatedPost.data.pubDate)}
+															</span>
+															<span class="related-post-title">{relatedPost.data.title}</span>
+															<span class="related-post-description">{relatedPost.data.description}</span>
+														</span>
+														<span class="related-post-meta">約{getReadingTimeMinutes(relatedPost.body)}分</span>
+													</a>
+												</li>
+											))}
+										</ul>
+									</section>
+								)
+							}
+						</div>
+					</div>
+					{
+						hasSidebar && (
+							<aside class="article-sidebar" aria-label="Article sidebar">
+								{hasArticleInfo && (
+									<section class="article-info" aria-labelledby="article-info-heading">
+										<h2 id="article-info-heading">INFO</h2>
+										<dl>
+											<div>
+												<dt>PubDate</dt>
+												<dd>
+													<FormattedDate date={pubDate} />
+												</dd>
+											</div>
+											{updatedDate !== undefined && (
+												<div>
+													<dt>UpdatedDate</dt>
+													<dd>
+														<FormattedDate date={updatedDate} />
+													</dd>
+												</div>
+											)}
+											{readingTimeMinutes !== undefined && (
+												<div>
+													<dt>Read time</dt>
+													<dd>約{readingTimeMinutes}分</dd>
+												</div>
+											)}
+											{category !== undefined && (
+												<div>
+													<dt>Category</dt>
+													<dd>
+														<a class="article-category" href={`/categories/${toTaxonomySlug(category)}/`}>
+															{category}
+														</a>
+													</dd>
+												</div>
+											)}
+											{tags.length > 0 && (
+												<div>
+													<dt>Tags</dt>
+													<dd>
+														<ul class="article-tags">
+															{tags.map((tag) => (
+																<li>
+																	<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
+																</li>
+															))}
+														</ul>
+													</dd>
+												</div>
+											)}
+										</dl>
+									</section>
+								)}
+								{tocHeadings.length > 0 && (
+									<details class="table-of-contents desktop-toc" aria-label="Table of contents" open>
+										<summary>INDEX</summary>
+										<ol>
+											{tocHeadings.map((heading) => (
+												<li>
+													<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
+														{heading.text}
+													</a>
+												</li>
+											))}
+										</ol>
+									</details>
+								)}
+							</aside>
+						)
+					}
+				</div>
+			</article>
+		</main>
+		<style>
+			.blog-post-main {
+				width: 1400px;
+				max-width: calc(100% - 2em);
+			}
+			.back-link {
+				display: inline-flex;
+				margin-bottom: 2rem;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+				text-decoration: none;
+			}
+			.back-link:focus-visible {
+				outline: 2px solid rgba(var(--accent-rgb), 0.45);
+				outline-offset: 3px;
+			}
+			.hero-image {
+				grid-column: 1 / -1;
+				display: block;
+				width: 100%;
+				max-width: 1200px;
+				aspect-ratio: 1200 / 630;
+				margin: 0 auto 0.75rem;
+				border-radius: 12px;
+				object-fit: cover;
+			}
+			.article-content {
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.article-body {
+				display: grid;
+				grid-template-columns: minmax(0, 1040px) 300px;
+				gap: 3rem;
+				align-items: start;
+				width: 100%;
+				max-width: 100%;
+				margin: auto;
+			}
+			.article-body.no-sidebar {
+				display: block;
+				width: 100%;
+			}
+			.article-body.no-sidebar .article-content {
+				width: 1040px;
+				max-width: 100%;
+				margin: auto;
+			}
+			.table-of-contents {
+				padding: 1rem 0;
+				font-size: 0.9rem;
+				line-height: 1.4;
+			}
+			.table-of-contents summary {
+				display: block;
+				margin: 0 0 0.75rem;
+				color: rgb(var(--black));
+				font-size: 0.85rem;
+				letter-spacing: 0.04em;
+				list-style: none;
+				text-transform: uppercase;
+				cursor: pointer;
+			}
+			.table-of-contents summary::-webkit-details-marker {
+				display: none;
+			}
+			.table-of-contents ol {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+			}
+			.table-of-contents li + li {
+				margin-top: 0.45rem;
+			}
+			.table-of-contents a {
+				display: block;
+				padding: 0.2rem 0 0.2rem 0.65rem;
+				border-left: 2px solid transparent;
+				border-radius: 0 6px 6px 0;
+				color: rgb(var(--gray));
+				text-decoration: none;
+				transition:
+					background-color 150ms ease,
+					border-color 150ms ease,
+					color 150ms ease;
+			}
+			.table-of-contents a:hover {
+				color: var(--accent);
+			}
+			.table-of-contents a.is-active {
+				border-left-color: var(--accent);
+				background: rgba(var(--accent-rgb), 0.1);
+				color: rgb(var(--black));
+			}
+			.table-of-contents a.depth-3 {
+				padding-left: 1.55rem;
+			}
+			.article-sidebar {
+				align-self: stretch;
+				display: grid;
+				grid-template-rows: auto 1fr;
+				gap: 1.25rem;
+			}
+			.desktop-toc {
+				position: sticky;
+				top: 1.5rem;
+				align-self: start;
+			}
+			.article-info {
+				padding: 1rem 0;
+				border-bottom: 1px solid rgb(var(--border));
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				line-height: 1.4;
+			}
+			.article-info h2 {
+				margin: 0 0 0.75rem;
+				color: rgb(var(--black));
+				font-size: 0.85rem;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.article-info dl {
+				display: grid;
+				gap: 0.9rem;
+				margin: 0;
+			}
+			.article-info dt {
+				margin: 0 0 0.35rem;
+				color: rgb(var(--black));
+				font-size: 0.8rem;
+				font-weight: 700;
+			}
+			.article-info dd {
+				margin: 0;
+			}
+			.article-category {
+				color: rgb(var(--gray-dark));
+				font-weight: 700;
+				text-decoration-color: rgba(var(--gray), 0.35);
+				text-underline-offset: 0.18em;
+			}
+			.article-category:hover {
+				color: var(--accent);
+			}
+			.article-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.45rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.article-tags a {
+				display: inline-flex;
+				align-items: center;
+				min-height: 1.8rem;
+				padding: 0.2rem 0.55rem;
+				border: 1px solid rgba(var(--border), 0.9);
+				border-radius: 999px;
+				background: rgba(var(--surface-strong), 0.72);
+				color: rgb(var(--gray-dark));
+				text-decoration: none;
+			}
+			.article-tags a:hover {
+				border-color: rgba(var(--accent-rgb), 0.45);
+				color: var(--accent);
+			}
+			.mobile-toc {
+				display: none;
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+				font-size: clamp(2rem, 4vw, 3rem);
+				line-height: 1.12;
+				overflow-wrap: anywhere;
+			}
+			.source-link {
+				margin-top: 3rem;
+				padding-top: 1.25rem;
+				border-top: 1px solid rgb(var(--border));
+				color: rgb(var(--gray));
+				font-size: 0.85rem;
+			}
+			.source-link a {
+				color: rgb(var(--gray-dark));
+				text-decoration-color: rgba(var(--gray), 0.35);
+				text-underline-offset: 0.18em;
+			}
+			.source-link a:hover {
+				color: var(--accent);
+			}
+			.related-posts {
+				margin-top: 3rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--border));
+			}
+			.related-posts h2 {
+				margin: 0 0 1rem;
+				font-size: 1.1rem;
+				letter-spacing: 0;
+			}
+			.related-posts ul {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 0.85rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.related-posts li {
+				min-width: 0;
+			}
+			.related-post-link {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				min-height: 100%;
+				padding: 0.9rem;
+				border: 1px solid rgba(var(--border), 0.86);
+				border-radius: 8px;
+				background: rgba(var(--surface-strong), 0.62);
+				color: inherit;
+				text-decoration: none;
+			}
+			.related-post-link:hover {
+				border-color: rgba(var(--accent-rgb), 0.3);
+			}
+			.related-post-link:focus-visible {
+				outline: 2px solid rgba(var(--accent-rgb), 0.45);
+				outline-offset: 3px;
+			}
+			.related-post-body {
+				min-width: 0;
+			}
+			.related-post-eyebrow {
+				display: block;
+				margin-bottom: 0.45rem;
+				color: rgb(var(--gray));
+				font-size: 0.72rem;
+				line-height: 1.35;
+			}
+			.related-post-title {
+				display: block;
+				color: rgb(var(--black));
+				font-size: 1rem;
+				font-weight: 700;
+				line-height: 1.35;
+			}
+			.related-post-link:hover .related-post-title,
+			.related-post-link:focus-visible .related-post-title {
+				color: rgb(var(--gray-dark));
+			}
+			.related-post-description {
+				display: block;
+				margin-top: 0.25rem;
+				color: rgb(var(--gray));
+				font-size: 0.8rem;
+				line-height: 1.5;
+			}
+			.related-post-meta {
+				display: block;
+				margin-top: 0.9rem;
+				color: rgb(var(--gray));
+				font-size: 0.78rem;
+				line-height: 1.4;
+			}
+			@media (min-width: 981px) {
+				.table-of-contents:not([open]) ol {
+					display: block;
+				}
+			}
+			@media (max-width: 980px) {
+				.article-body {
+					display: block;
+					width: 100%;
+				}
+				.article-sidebar {
+					position: static;
+					margin: 0 1em;
+				}
+				.article-info {
+					border-top: 1px solid rgb(var(--border));
+				}
+				.table-of-contents {
+					position: static;
+					margin: 0 1em 1rem;
+					padding: 1rem 0;
+					border-top: 1px solid rgb(var(--border));
+					border-bottom: 1px solid rgb(var(--border));
+				}
+				.desktop-toc {
+					position: static;
+					display: none;
+				}
+				.mobile-toc {
+					display: block;
+				}
+				.hero-image {
+					border-radius: 10px;
+				}
+				.table-of-contents summary {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					margin: 0;
+				}
+				.table-of-contents summary::after {
+					content: '+';
+					color: rgb(var(--gray));
+					font-size: 1.1rem;
+					line-height: 1;
+				}
+				.table-of-contents[open] summary {
+					margin-bottom: 0.75rem;
+				}
+				.table-of-contents[open] summary::after {
+					content: '-';
+				}
+				.related-posts ul {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+		<script is:inline>
+			(() => {
+				const controllerKey = '__blogTocActiveController';
+				const initKey = '__blogInitActiveToc';
+				const initializedKey = '__blogTocActiveInitialized';
+				const initActiveToc = () => {
+					window[controllerKey]?.abort?.();
+
+					const controller = new AbortController();
+					window[controllerKey] = controller;
+					const tocLinks = Array.from(
+						document.querySelectorAll('.table-of-contents a[href^="#"]'),
+					);
+
+					if (tocLinks.length === 0) {
+						return;
+					}
+
+					const tocItems = tocLinks
+						.map((link) => {
+							const rawId = link.getAttribute('href')?.slice(1);
+
+							if (!rawId) {
+								return undefined;
+							}
+
+							let id = rawId;
+							try {
+								id = decodeURIComponent(rawId);
+							} catch {
+								// Keep the raw hash when it is not URI-encoded.
+							}
+
+							const target = document.getElementById(id);
+
+							return target ? { id, link, target } : undefined;
+						})
+						.filter(Boolean);
+
+					if (tocItems.length === 0) {
+						return;
+					}
+
+					const headingById = new Map();
+					tocItems.forEach(({ id, target }) => {
+						if (!headingById.has(id)) {
+							headingById.set(id, target);
+						}
+					});
+					const headings = Array.from(headingById.values());
+
+					const setActiveHeading = (activeId) => {
+						tocItems.forEach(({ id, link }) => {
+							const isActive = id === activeId;
+							link.classList.toggle('is-active', isActive);
+
+							if (isActive) {
+								link.setAttribute('aria-current', 'location');
+							} else {
+								link.removeAttribute('aria-current');
+							}
+						});
+					};
+
+					let ticking = false;
+					const updateActiveHeading = () => {
+						ticking = false;
+
+						const activationLine = Math.max(window.innerHeight * 0.28, 96);
+						let activeHeading = headings[0];
+
+						for (const heading of headings) {
+							if (heading.getBoundingClientRect().top <= activationLine) {
+								activeHeading = heading;
+							} else {
+								break;
+							}
+						}
+
+						const bottomReached =
+							window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+
+						if (bottomReached) {
+							activeHeading = headings[headings.length - 1];
+						}
+
+						setActiveHeading(activeHeading.id);
+					};
+
+					const requestUpdate = () => {
+						if (ticking) {
+							return;
+						}
+
+						ticking = true;
+						window.requestAnimationFrame(updateActiveHeading);
+					};
+
+					window.addEventListener('scroll', requestUpdate, {
+						passive: true,
+						signal: controller.signal,
+					});
+					window.addEventListener('resize', requestUpdate, {
+						passive: true,
+						signal: controller.signal,
+					});
+					updateActiveHeading();
+				};
+
+				window[initKey] = initActiveToc;
+				initActiveToc();
+
+				if (!window[initializedKey]) {
+					window[initializedKey] = true;
+					document.addEventListener('astro:page-load', () => window[initKey]?.());
+					document.addEventListener('astro:before-swap', () => window[controllerKey]?.abort?.());
+				}
+			})();
+		</script>
+		<script>
+			import { bindHistoryBackLinks } from '../utils/history-back';
+
+			bindHistoryBackLinks();
+		</script>
+</PageLayout>

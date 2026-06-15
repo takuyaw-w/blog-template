@@ -1,0 +1,68 @@
+---
+import Pagination from '../../../../components/Pagination.astro';
+import PostList from '../../../../components/PostList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../../consts';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import {
+	fromTaxonomySlug,
+	getBlogPosts,
+	getPageItems,
+	getPageNumbers,
+	getTotalPages,
+	sortPostsByDate,
+	toTaxonomySlug,
+} from '../../../../utils/blog';
+
+export async function getStaticPaths() {
+	const posts = await getBlogPosts();
+	const categories = [...new Set(posts.map((post) => post.data.category))];
+
+	return categories.flatMap((category) => {
+		const totalPages = getTotalPages(posts.filter((post) => post.data.category === category).length);
+
+		return getPageNumbers(totalPages)
+			.filter((page) => page > 1)
+			.map((page) => ({
+				params: { category: toTaxonomySlug(category), page: String(page) },
+				props: { category, page },
+			}));
+	});
+}
+
+const currentPage = Number(Astro.props.page);
+const categoryName = Astro.props.category ?? fromTaxonomySlug(Astro.params.category ?? '');
+const posts = sortPostsByDate((await getBlogPosts()).filter((post) => post.data.category === categoryName));
+const totalPages = getTotalPages(posts.length);
+const currentPosts = getPageItems(posts, currentPage);
+---
+
+<PageLayout title={`${categoryName} | Page ${currentPage} | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<a class="back-link" href="/categories/" data-history-back>Back</a>
+		<h1 class="taxonomy-title">{categoryName}</h1>
+		<PostList posts={currentPosts} />
+		<Pagination
+			currentPage={currentPage}
+			totalPages={totalPages}
+			basePath={`/categories/${toTaxonomySlug(categoryName)}`}
+		/>
+	</main>
+	<style>
+		.back-link {
+			display: inline-flex;
+			margin-bottom: 1.5rem;
+			color: rgb(var(--gray));
+			font-size: 0.95rem;
+			text-decoration: none;
+		}
+		.back-link:focus-visible {
+			outline: 2px solid rgba(var(--accent-rgb), 0.45);
+			outline-offset: 3px;
+		}
+	</style>
+	<script>
+		import { bindHistoryBackLinks } from '../../../../utils/history-back';
+
+		bindHistoryBackLinks();
+	</script>
+</PageLayout>

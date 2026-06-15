@@ -1,0 +1,266 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+import Icon from './Icon.astro';
+---
+
+<header class="site-header">
+	<nav class="site-nav" aria-label="Primary navigation">
+		<h2 class="site-title"><a href="/">{SITE_TITLE}</a></h2>
+		<div id="primary-navigation" class="internal-links">
+			<HeaderLink href="/">Blog</HeaderLink>
+			<HeaderLink href="/projects">Projects</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
+		</div>
+		<div class="header-actions">
+			<div class="social-links">
+				<button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+					<Icon name="sun" class="theme-icon theme-icon-light" size={20} />
+					<Icon name="moon" class="theme-icon theme-icon-dark" size={20} />
+				</button>
+				<a href="https://x.com/astrodotbuild" target="_blank">
+					<span class="sr-only">Follow Astro on X</span>
+					<Icon name="brand-x" size={32} />
+				</a>
+				<a href="https://github.com/withastro/astro" target="_blank">
+					<span class="sr-only">Go to Astro's GitHub repo</span>
+					<Icon name="brand-github" size={32} />
+				</a>
+			</div>
+			<button
+				class="menu-toggle"
+				type="button"
+				aria-controls="primary-navigation"
+				aria-expanded="false"
+				aria-label="Open navigation menu"
+			>
+				<span class="menu-toggle-line"></span>
+				<span class="menu-toggle-line"></span>
+				<span class="menu-toggle-line"></span>
+			</button>
+		</div>
+	</nav>
+</header>
+<style>
+	.site-header {
+		margin: 0;
+		padding: 0 1em;
+		border-bottom: 1px solid rgba(var(--border), 0.72);
+		background-color: rgb(var(--surface-strong));
+	}
+	.site-title {
+		margin: 0;
+		font-size: 1em;
+	}
+	.site-title a,
+	.site-title a.active {
+		color: rgb(var(--black)) !important;
+		text-decoration: none;
+		transition: color 0.2s ease;
+		-webkit-tap-highlight-color: transparent;
+	}
+	.site-title a:link,
+	.site-title a:visited,
+	.site-title a:hover,
+	.site-title a:focus-visible,
+	.site-title a:active {
+		color: rgb(var(--black)) !important;
+		text-decoration: none;
+	}
+	.internal-links {
+		position: relative;
+		display: flex;
+		align-items: center;
+		isolation: isolate;
+	}
+	.header-actions,
+	.social-links,
+	.social-links a {
+		display: flex;
+		align-items: center;
+	}
+	.header-actions {
+		gap: 0.25rem;
+	}
+	.social-links a {
+		padding: 1em 0.5em;
+		color: rgb(var(--black));
+		text-decoration: none;
+	}
+	.menu-toggle {
+		display: none;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid rgb(var(--border));
+		border-radius: 999px;
+		background: rgb(var(--surface-soft));
+		color: rgb(var(--black));
+		cursor: pointer;
+	}
+	.menu-toggle:hover {
+		color: var(--accent);
+	}
+	.menu-toggle-line {
+		position: absolute;
+		width: 1.05rem;
+		height: 2px;
+		border-radius: 999px;
+		background: currentColor;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+	}
+	.menu-toggle-line:nth-child(1) {
+		transform: translateY(-0.36rem);
+	}
+	.menu-toggle-line:nth-child(3) {
+		transform: translateY(0.36rem);
+	}
+	.site-header[data-menu-open='true'] .menu-toggle-line:nth-child(1) {
+		transform: rotate(45deg);
+	}
+	.site-header[data-menu-open='true'] .menu-toggle-line:nth-child(2) {
+		opacity: 0;
+	}
+	.site-header[data-menu-open='true'] .menu-toggle-line:nth-child(3) {
+		transform: rotate(-45deg);
+	}
+	.theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		margin: 0 0.25rem;
+		border: 1px solid rgb(var(--border));
+		border-radius: 999px;
+		background: rgb(var(--surface-soft));
+		color: rgb(var(--black));
+		cursor: pointer;
+	}
+	.theme-toggle:hover {
+		color: var(--accent);
+	}
+	.theme-icon-dark {
+		display: none;
+	}
+	:global(html[data-theme='dark']) .theme-icon-light {
+		display: none;
+	}
+	:global(html[data-theme='dark']) .theme-icon-dark {
+		display: block;
+	}
+	.site-nav {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+		align-items: center;
+	}
+	.site-nav .internal-links {
+		justify-self: center;
+	}
+	.site-nav .header-actions {
+		justify-self: end;
+	}
+	@media (max-width: 720px) {
+		.site-header {
+			padding: 0.6rem 1rem;
+		}
+		.site-nav {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.65rem 1rem;
+		}
+		.site-title {
+			min-width: 0;
+			line-height: 1.2;
+		}
+		.site-title a {
+			display: block;
+			overflow-wrap: anywhere;
+		}
+		.header-actions {
+			justify-content: flex-end;
+		}
+		.internal-links {
+			grid-column: 1 / -1;
+			justify-self: stretch;
+			display: none;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0.25rem;
+			padding: 0.5rem 0 0.2rem;
+			border-top: 1px solid rgba(var(--border), 0.8);
+		}
+		.site-header[data-menu-open='true'] .internal-links {
+			display: flex;
+		}
+		.social-links {
+			display: flex;
+		}
+		.social-links a {
+			display: none;
+		}
+		.menu-toggle {
+			position: relative;
+			display: inline-flex;
+		}
+	}
+</style>
+<script is:inline>
+	(() => {
+		const initNavigationMenu = () => {
+			document.querySelectorAll('.site-header').forEach((header) => {
+				const toggle = header.querySelector('.menu-toggle');
+				const menu = header.querySelector('.internal-links');
+
+				if (!toggle || !menu || header.dataset.menuInitialized === 'true') {
+					return;
+				}
+
+				header.dataset.menuInitialized = 'true';
+				const setOpen = (isOpen) => {
+					header.dataset.menuOpen = String(isOpen);
+					toggle.setAttribute('aria-expanded', String(isOpen));
+					toggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+				};
+
+				setOpen(false);
+				toggle.addEventListener('click', () => {
+					setOpen(header.dataset.menuOpen !== 'true');
+				});
+				menu.querySelectorAll('a').forEach((link) => {
+					link.addEventListener('click', () => setOpen(false));
+				});
+				document.addEventListener('keydown', (event) => {
+					if (event.key === 'Escape') {
+						setOpen(false);
+					}
+				});
+			});
+		};
+		const initThemeToggle = () => {
+			document.querySelectorAll('.theme-toggle').forEach((button) => {
+				button.onclick = () => {
+					const currentTheme = window.__getTheme?.() || document.documentElement.dataset.theme || 'light';
+					const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+					if (window.__setTheme) {
+						window.__setTheme(nextTheme);
+					} else {
+						document.documentElement.dataset.theme = nextTheme;
+					}
+				};
+			});
+		};
+
+		initNavigationMenu();
+		initThemeToggle();
+		if (!window.__themeToggleInitialized) {
+			window.__themeToggleInitialized = true;
+			document.addEventListener('astro:page-load', initNavigationMenu);
+			document.addEventListener('astro:page-load', initThemeToggle);
+		}
+	})();
+</script>

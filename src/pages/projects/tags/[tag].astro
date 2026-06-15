@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectList from '../../../components/ProjectList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { fromTaxonomySlug } from '../../../utils/blog';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+	const tags = [...new Set(projects.flatMap((project) => project.data.tags))];
+
+	return tags.map((tag) => ({
+		params: { tag },
+		props: { tag },
+	}));
+}
+
+const { tag } = Astro.props;
+const tagName = tag ?? fromTaxonomySlug(Astro.params.tag ?? '');
+const projects = (await getCollection('projects'))
+	.filter((project) => project.data.tags.includes(tagName))
+	.sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout title={`${tagName} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="projects-main">
+		<a class="back-link" href="/projects/tags/" data-history-back>Back</a>
+		<section class="page-header">
+			<p class="eyebrow">Project Tag</p>
+			<h1>{tagName}</h1>
+			<p class="lead">{projects.length} project{projects.length === 1 ? '' : 's'} tagged with this label.</p>
+		</section>
+		<ProjectList projects={projects} />
+	</main>
+<style>
+	.projects-main {
+		width: 1400px;
+	}
+	.back-link {
+		display: inline-flex;
+		margin-bottom: 1.5rem;
+		color: rgb(var(--gray));
+		font-size: 0.95rem;
+		text-decoration: none;
+	}
+	.back-link:focus-visible {
+		outline: 2px solid rgba(var(--accent-rgb), 0.45);
+		outline-offset: 3px;
+	}
+	.page-header {
+		margin-bottom: 2rem;
+	}
+	.eyebrow {
+		margin: 0 0 0.35rem;
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: uppercase;
+	}
+	h1 {
+		margin: 0 0 0.5rem;
+		font-size: 2rem;
+	}
+		.lead {
+			max-width: 640px;
+			margin: 0;
+			color: rgb(var(--gray));
+		}
+	</style>
+	<script>
+		import { bindHistoryBackLinks } from '../../../utils/history-back';
+
+		bindHistoryBackLinks();
+	</script>
+</PageLayout>

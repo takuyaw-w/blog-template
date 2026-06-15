@@ -1,0 +1,51 @@
+---
+import Pagination from '../../components/Pagination.astro';
+import PostList from '../../components/PostList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getBlogPosts, getPageItems, getPostYear, getTotalPages, sortPostsByDate } from '../../utils/blog';
+
+export async function getStaticPaths() {
+	const posts = await getBlogPosts();
+	const years = [...new Set(posts.map((post) => getPostYear(post.data.pubDate)))];
+
+	return years.map((year) => ({
+		params: { year },
+		props: { year },
+	}));
+}
+
+const { year } = Astro.props;
+const yearName = year ?? Astro.params.year ?? '';
+const posts = sortPostsByDate((await getBlogPosts()).filter((post) => getPostYear(post.data.pubDate) === yearName));
+const currentPage = 1;
+const totalPages = getTotalPages(posts.length);
+const currentPosts = getPageItems(posts, currentPage);
+---
+
+<PageLayout title={`${yearName} | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<a class="back-link" href="/years/" data-history-back>Back</a>
+		<h1 class="taxonomy-title">{yearName}</h1>
+		<PostList posts={currentPosts} />
+		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/years/${yearName}`} />
+	</main>
+	<style>
+		.back-link {
+			display: inline-flex;
+			margin-bottom: 1.5rem;
+			color: rgb(var(--gray));
+			font-size: 0.95rem;
+			text-decoration: none;
+		}
+		.back-link:focus-visible {
+			outline: 2px solid rgba(var(--accent-rgb), 0.45);
+			outline-offset: 3px;
+		}
+	</style>
+	<script>
+		import { bindHistoryBackLinks } from '../../utils/history-back';
+
+		bindHistoryBackLinks();
+	</script>
+</PageLayout>

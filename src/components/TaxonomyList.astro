@@ -1,0 +1,48 @@
+---
+interface Props {
+	items: [name: string, count: number][];
+	basePath: string;
+}
+
+const { items, basePath } = Astro.props;
+---
+
+<ul class="taxonomy-list">
+	{
+		items.map(([name, count]) => (
+			<li>
+				<a href={`${basePath}/${encodeURIComponent(name)}/`}>
+					<span>{name}</span>
+					<span class="count">{count}</span>
+				</a>
+			</li>
+		))
+	}
+</ul>
+<style>
+	.taxonomy-list {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+	.taxonomy-list li {
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.taxonomy-list a {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		padding: 1rem 0.75rem;
+		border-radius: 6px;
+		color: rgb(var(--black));
+		text-decoration: none;
+		transition: background-color 0.2s ease;
+	}
+	.taxonomy-list a:hover {
+		background-color: rgba(var(--gray-light), 45%);
+	}
+	.count {
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+	}
+</style>

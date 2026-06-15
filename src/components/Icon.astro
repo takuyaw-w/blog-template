@@ -1,0 +1,48 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import BrandGithub from '@tabler/icons/outline/brand-github.svg?raw';
+import BrandX from '@tabler/icons/outline/brand-x.svg?raw';
+import ExternalLink from '@tabler/icons/outline/external-link.svg?raw';
+import Moon from '@tabler/icons/outline/moon.svg?raw';
+import Sun from '@tabler/icons/outline/sun.svg?raw';
+
+const icons = {
+	'brand-github': BrandGithub,
+	'brand-x': BrandX,
+	'external-link': ExternalLink,
+	moon: Moon,
+	sun: Sun,
+} as const;
+
+interface Props extends HTMLAttributes<'span'> {
+	name: keyof typeof icons;
+	size?: number | string;
+}
+
+const { name, size = 24, class: className, style, ...attrs } = Astro.props;
+const iconSize = typeof size === 'number' ? `${size}px` : size;
+const iconStyle = [`--icon-size: ${iconSize}`, style].filter(Boolean).join('; ');
+---
+
+<span
+	{...attrs}
+	aria-hidden="true"
+	class:list={['site-icon', className]}
+	style={iconStyle}
+	set:html={icons[name]}
+/>
+
+<style>
+	.site-icon {
+		display: inline-flex;
+		flex: 0 0 auto;
+		width: var(--icon-size);
+		height: var(--icon-size);
+		line-height: 0;
+	}
+	.site-icon :global(svg) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+</style>

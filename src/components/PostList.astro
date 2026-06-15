@@ -1,0 +1,145 @@
+---
+import type { BlogPostEntry } from '../utils/blog';
+import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug } from '../utils/blog';
+
+interface Props {
+	posts: BlogPostEntry[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul class="post-list">
+	{
+		posts.map((post) => (
+			<li>
+				<div class="post-item">
+					<a class="post-main-link" href={`/blog/${post.id}/`}>
+						<div class="post-copy">
+							<h4 class="title">{post.data.title}</h4>
+							<p class="summary">{post.data.description}</p>
+						</div>
+						<span class="link-meta">
+							<time class="date" datetime={post.data.pubDate.toISOString()}>
+								{post.data.category} / {formatPostDate(post.data.pubDate)}
+							</time>
+							<span class="link-indicator" aria-hidden="true"></span>
+						</span>
+					</a>
+					<ul class="post-meta" aria-label={`${post.data.title} metadata`}>
+						<li>約{getReadingTimeMinutes(post.body)}分</li>
+						{post.data.tags.map((tag) => (
+							<li class="tag-item">
+								<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</li>
+		))
+	}
+</ul>
+<style>
+	.post-list {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+	.post-list li {
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.post-item {
+		margin: 0;
+		padding: 1rem 0.75rem;
+		border-radius: 6px;
+	}
+	.post-copy {
+		min-width: 0;
+	}
+	.title {
+		margin: 0;
+		color: rgb(var(--black));
+		font-size: 1.25rem;
+		line-height: 1.2;
+	}
+	.post-main-link {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-start;
+		justify-content: space-between;
+		padding-bottom: 0.35rem;
+		border-radius: 6px;
+		text-decoration: none;
+	}
+	.post-main-link:hover .title,
+	.post-main-link:focus-visible .title {
+		color: rgb(var(--gray-dark));
+	}
+	.post-main-link:focus-visible {
+		outline: 2px solid rgba(var(--accent-rgb), 0.45);
+		outline-offset: 3px;
+	}
+	.post-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		margin: 0.4rem 0 0;
+		padding: 0;
+		color: rgb(var(--gray));
+		font-size: 0.78rem;
+		line-height: 1.45;
+		list-style: none;
+	}
+	.post-meta li {
+		border-bottom: 0;
+	}
+	.post-meta a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.45rem;
+		color: inherit;
+		text-decoration: none;
+	}
+	.tag-item a {
+		padding: 0 0.45rem;
+		border: 1px solid rgba(var(--border), 0.9);
+		border-radius: 999px;
+		color: rgb(var(--gray));
+	}
+	.tag-item a:hover,
+	.tag-item a:focus-visible {
+		border-color: rgba(var(--accent-rgb), 0.28);
+		color: rgb(var(--gray-dark));
+	}
+	.summary {
+		margin: 0.35rem 0 0;
+		color: rgb(var(--gray));
+		line-height: 1.5;
+	}
+	.date {
+		margin: 0;
+		color: rgb(var(--gray));
+		white-space: nowrap;
+	}
+	.link-meta {
+		display: inline-flex;
+		flex: 0 0 auto;
+		gap: 0.55rem;
+		align-items: center;
+	}
+	.link-indicator {
+		width: 0.45rem;
+		height: 0.45rem;
+		border-top: 2px solid rgba(var(--gray), 0.78);
+		border-right: 2px solid rgba(var(--gray), 0.78);
+		transform: rotate(45deg);
+	}
+	@media (max-width: 720px) {
+		.post-main-link {
+			display: block;
+		}
+		.link-meta {
+			margin-top: 0.25rem;
+		}
+	}
+</style>

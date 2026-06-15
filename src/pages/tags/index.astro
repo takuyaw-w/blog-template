@@ -1,0 +1,16 @@
+---
+import TaxonomyList from '../../components/TaxonomyList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { countValues, getBlogPosts } from '../../utils/blog';
+
+const posts = await getBlogPosts();
+const tags = countValues(posts.flatMap((post) => post.data.tags));
+---
+
+<PageLayout title={`Tags | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<h1 class="taxonomy-title">Tags</h1>
+		<TaxonomyList items={tags} basePath="/tags" />
+	</main>
+</PageLayout>
