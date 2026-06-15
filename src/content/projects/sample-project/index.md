@@ -10,12 +10,6 @@ tags:
   - Documentation
 url: "https://example.com"
 repository: "https://github.com/example/sample-project"
-heroImage: "../../assets/blog-placeholder-1.jpg"
-heroImageAlt: "Sample project preview"
-gallery:
-  - image: "../../assets/blog-placeholder-1.jpg"
-    alt: "Sample project gallery image"
-    caption: "ギャラリー画像のキャプション例です。"
 order: 1
 ---
 
@@ -36,16 +30,16 @@ tags:
   - Portfolio
 url: "https://example.com"
 repository: "https://github.com/example/sample-project"
-heroImage: "../../assets/blog-placeholder-1.jpg"
+heroImage: "./assets/cover.png"
 heroImageAlt: "Sample project preview"
 gallery:
-  - image: "../../assets/blog-placeholder-1.jpg"
+  - image: "./assets/screenshot.png"
     alt: "Sample project gallery image"
     caption: "ギャラリー画像のキャプション"
 order: 1
 ```
 
-`status` は `Active`、`Archived`、`Planning` のどれかを指定します。`url` と `repository` は必要な場合だけ書きます。
+`status` は `Active`、`Archived`、`Planning` のどれかを指定します。`url`、`repository`、`heroImage`、`gallery` は必要な場合だけ書きます。画像はプロジェクト記事のディレクトリ内に `assets/` を作り、`./assets/cover.png` のように相対パスで指定します。
 
 ## Overview
 

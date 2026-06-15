@@ -8,7 +8,6 @@ tags:
   - Writing
 pubDate: "2026-01-15"
 updatedDate: "2026-01-20"
-heroImage: "../../assets/blog-placeholder-1.jpg"
 ---
 
 このファイルは、ブログ記事を書くためのサンプルです。frontmatter の項目、見出し、本文、リスト、引用、表、コード、画像、脚注など、よく使う要素を一通り入れています。
@@ -28,10 +27,10 @@ tags:
   - Sample
 pubDate: "2026-01-15"
 updatedDate: "2026-01-20"
-heroImage: "../../assets/blog-placeholder-1.jpg"
+heroImage: "./assets/cover.png"
 ```
 
-最低限必要なのは `title`、`description`、`pubDate` です。`category` と `tags` は一覧や分類ページに使われます。`updatedDate` と `heroImage` は必要なときだけ設定します。
+最低限必要なのは `title`、`description`、`pubDate` です。`category` と `tags` は一覧や分類ページに使われます。`updatedDate` と `heroImage` は必要なときだけ設定します。画像は記事ディレクトリ内に `assets/` を作り、`./assets/cover.png` のように相対パスで指定します。
 
 ## 見出し
 
@@ -116,7 +115,9 @@ console.log(`Current status: ${status}`);
 
 本文中に画像を置く場合は、相対パスで指定できます。
 
-![サンプル画像](../../assets/blog-placeholder-1.jpg)
+```md
+![サンプル画像](./assets/example.png)
+```
 
 画像の説明文は、画像が表示されない環境でも意味が伝わるように書きます。
 

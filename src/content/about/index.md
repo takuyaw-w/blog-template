@@ -7,7 +7,6 @@ age: "30"
 location: "Tokyo, Japan"
 company: "Example Company"
 experience: "8+ years"
-heroImage: "../../assets/blog-placeholder-1.jpg"
 highlights:
   - "プロダクトの目的に合わせたUI設計と実装"
   - "Astro、TypeScript、CSSを使ったWebサイト制作"
