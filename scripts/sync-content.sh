@@ -28,6 +28,8 @@ mkdir -p src/content/blog
 mkdir -p src/content/projects
 mkdir -p src/content/about
 
-rsync -a --delete .content/blog/ src/content/blog/
-rsync -a --delete .content/projects/ src/content/projects/
-rsync -a --delete .content/about/ src/content/about/
+cp -R .content/blog/. src/content/blog/
+cp -R .content/projects/. src/content/projects/
+cp -R .content/about/. src/content/about/
+
+echo "Content synced from ${CONTENT_REPO}@${CONTENT_BRANCH}"
