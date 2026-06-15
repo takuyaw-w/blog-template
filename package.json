@@ -10,7 +10,8 @@
     "lint": "oxlint .",
     "preview": "astro preview",
     "astro": "astro",
-    "sync:content": "bash scripts/sync-content.sh"
+    "sync:content": "bash scripts/sync-content.sh",
+    "build:with-content": "pnpm run sync:content && pnpm run build"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
