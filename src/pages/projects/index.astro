@@ -13,7 +13,11 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 			<h1>Projects</h1>
 			<p class="lead">A short index of projects, experiments, and ongoing work.</p>
 		</section>
-		<ProjectList projects={projects} />
+		<ProjectList
+			projects={projects}
+			emptyTitle="No projects yet."
+			emptyDescription="Published projects will appear here."
+		/>
 	</main>
 </PageLayout>
 <style>

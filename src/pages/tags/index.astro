@@ -11,6 +11,11 @@ const tags = countValues(posts.flatMap((post) => post.data.tags));
 <PageLayout title={`Tags | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<h1 class="taxonomy-title">Tags</h1>
-		<TaxonomyList items={tags} basePath="/tags" />
+		<TaxonomyList
+			items={tags}
+			basePath="/tags"
+			emptyTitle="No tags yet."
+			emptyDescription="Tags will appear here once blog entries are published."
+		/>
 	</main>
 </PageLayout>

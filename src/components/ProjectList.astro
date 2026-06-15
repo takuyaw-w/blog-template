@@ -2,46 +2,53 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { toTaxonomySlug } from '../utils/blog';
+import EmptyState from './EmptyState.astro';
 import ProjectActionLink from './ProjectActionLink.astro';
 
 type ProjectEntry = CollectionEntry<'projects'>;
 
 type Props = {
 	projects: ProjectEntry[];
+	emptyTitle?: string;
+	emptyDescription?: string;
 };
 
-const { projects } = Astro.props;
+const {
+	projects,
+	emptyTitle = 'No projects yet.',
+	emptyDescription = 'Published projects will appear here.',
+} = Astro.props;
 const getProjectPath = (id: string) => `/projects/${id}/`;
 const getProjectTagPath = (tag: string) => `/projects/tags/${toTaxonomySlug(tag)}/`;
 ---
 
-<ul class="project-list">
-	{
-		projects.map((project) => (
-			<li class="project">
-				<a class="project-link" href={getProjectPath(project.id)}>
-					{project.data.heroImage && (
-						<Image
-							class="project-image"
-							src={project.data.heroImage}
-							alt={project.data.heroImageAlt ?? `${project.data.title} preview`}
-							width={640}
-							height={360}
-						/>
-					)}
-					<span class="project-card-body">
-						<span class="meta">
-							{project.data.category} / {project.data.status} / {project.data.period}
+{
+	projects.length > 0 ? (
+		<ul class="project-list">
+			{projects.map((project) => (
+				<li class="project">
+					<a class="project-link" href={getProjectPath(project.id)}>
+						{project.data.heroImage && (
+							<Image
+								class="project-image"
+								src={project.data.heroImage}
+								alt={project.data.heroImageAlt ?? `${project.data.title} preview`}
+								width={640}
+								height={360}
+							/>
+						)}
+						<span class="project-card-body">
+							<span class="meta">
+								{project.data.category} / {project.data.status} / {project.data.period}
+							</span>
+							<span class="project-header">
+								<span class="project-title">{project.data.title}</span>
+								<span class="link-indicator" aria-hidden="true" />
+							</span>
+							<span class="description">{project.data.description}</span>
 						</span>
-						<span class="project-header">
-							<span class="project-title">{project.data.title}</span>
-							<span class="link-indicator" aria-hidden="true"></span>
-						</span>
-						<span class="description">{project.data.description}</span>
-					</span>
-				</a>
-				{
-					project.data.tags.length > 0 && (
+					</a>
+					{project.data.tags.length > 0 && (
 						<ul class="tags" aria-label={`${project.data.title} tags`}>
 							{project.data.tags.map((tag) => (
 								<li>
@@ -49,20 +56,20 @@ const getProjectTagPath = (tag: string) => `/projects/tags/${toTaxonomySlug(tag)
 								</li>
 							))}
 						</ul>
-					)
-				}
-				{
-					(project.data.url || project.data.repository) && (
+					)}
+					{(project.data.url || project.data.repository) && (
 						<div class="links">
 							{project.data.url && <ProjectActionLink href={project.data.url} label="View project" />}
 							{project.data.repository && <ProjectActionLink href={project.data.repository} label="Repository" />}
 						</div>
-					)
-				}
-			</li>
-		))
-	}
-</ul>
+					)}
+				</li>
+			))}
+		</ul>
+	) : (
+		<EmptyState title={emptyTitle} description={emptyDescription} ariaLabel="No projects" />
+	)
+}
 
 <style>
 	.project-list {

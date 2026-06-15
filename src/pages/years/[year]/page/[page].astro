@@ -32,7 +32,11 @@ const currentPosts = getPageItems(posts, currentPage);
 	<main class="listing-main">
 		<a class="back-link" href="/years/" data-history-back>Back</a>
 		<h1 class="taxonomy-title">{yearName}</h1>
-		<PostList posts={currentPosts} />
+		<PostList
+			posts={currentPosts}
+			emptyTitle={`No blog posts from ${yearName} yet.`}
+			emptyDescription="Published blog entries from this year will appear here."
+		/>
 		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/years/${yearName}`} />
 	</main>
 	<style>

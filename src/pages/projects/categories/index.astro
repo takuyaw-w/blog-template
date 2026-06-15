@@ -12,6 +12,11 @@ const categories = countValues(projects.map((project) => project.data.category))
 <PageLayout title={`Project Categories | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<h1 class="taxonomy-title">Project Categories</h1>
-		<TaxonomyList items={categories} basePath="/projects/categories" />
+		<TaxonomyList
+			items={categories}
+			basePath="/projects/categories"
+			emptyTitle="No project categories yet."
+			emptyDescription="Project categories will appear here once projects are published."
+		/>
 	</main>
 </PageLayout>

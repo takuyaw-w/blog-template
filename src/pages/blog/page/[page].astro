@@ -26,7 +26,11 @@ const currentPosts = getPageItems(posts, currentPage);
 <PageLayout title={`${SITE_TITLE} | Page ${currentPage}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<section>
-			<PostList posts={currentPosts} />
+			<PostList
+				posts={currentPosts}
+				emptyTitle="No blog posts yet."
+				emptyDescription="Published blog entries will appear here."
+			/>
 			<Pagination currentPage={currentPage} totalPages={totalPages} basePath="/blog" />
 		</section>
 	</main>

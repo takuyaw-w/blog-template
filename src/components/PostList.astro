@@ -1,44 +1,55 @@
 ---
+import EmptyState from './EmptyState.astro';
 import type { BlogPostEntry } from '../utils/blog';
 import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug } from '../utils/blog';
 
 interface Props {
 	posts: BlogPostEntry[];
+	emptyTitle?: string;
+	emptyDescription?: string;
 }
 
-const { posts } = Astro.props;
+const {
+	posts,
+	emptyTitle = 'No blog posts yet.',
+	emptyDescription = 'Published blog entries will appear here.',
+} = Astro.props;
 ---
 
-<ul class="post-list">
-	{
-		posts.map((post) => (
-			<li>
-				<div class="post-item">
-					<a class="post-main-link" href={`/blog/${post.id}/`}>
-						<div class="post-copy">
-							<h4 class="title">{post.data.title}</h4>
-							<p class="summary">{post.data.description}</p>
-						</div>
-						<span class="link-meta">
-							<time class="date" datetime={post.data.pubDate.toISOString()}>
-								{post.data.category} / {formatPostDate(post.data.pubDate)}
-							</time>
-							<span class="link-indicator" aria-hidden="true"></span>
-						</span>
-					</a>
-					<ul class="post-meta" aria-label={`${post.data.title} metadata`}>
-						<li>約{getReadingTimeMinutes(post.body)}分</li>
-						{post.data.tags.map((tag) => (
-							<li class="tag-item">
-								<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
-							</li>
-						))}
-					</ul>
-				</div>
-			</li>
-		))
-	}
-</ul>
+{
+	posts.length > 0 ? (
+		<ul class="post-list">
+			{posts.map((post) => (
+				<li>
+					<div class="post-item">
+						<a class="post-main-link" href={`/blog/${post.id}/`}>
+							<div class="post-copy">
+								<h4 class="title">{post.data.title}</h4>
+								<p class="summary">{post.data.description}</p>
+							</div>
+							<span class="link-meta">
+								<time class="date" datetime={post.data.pubDate.toISOString()}>
+									{post.data.category} / {formatPostDate(post.data.pubDate)}
+								</time>
+								<span class="link-indicator" aria-hidden="true" />
+							</span>
+						</a>
+						<ul class="post-meta" aria-label={`${post.data.title} metadata`}>
+							<li>約{getReadingTimeMinutes(post.body)}分</li>
+							{post.data.tags.map((tag) => (
+								<li class="tag-item">
+									<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				</li>
+			))}
+		</ul>
+	) : (
+		<EmptyState title={emptyTitle} description={emptyDescription} ariaLabel="No blog posts" />
+	)
+}
 <style>
 	.post-list {
 		margin: 0;

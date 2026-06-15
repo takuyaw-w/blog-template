@@ -1,24 +1,37 @@
 ---
+import EmptyState from './EmptyState.astro';
+
 interface Props {
 	items: [name: string, count: number][];
 	basePath: string;
+	emptyTitle?: string;
+	emptyDescription?: string;
 }
 
-const { items, basePath } = Astro.props;
+const {
+	items,
+	basePath,
+	emptyTitle = 'No items yet.',
+	emptyDescription = 'Items will appear here once content is published.',
+} = Astro.props;
 ---
 
-<ul class="taxonomy-list">
-	{
-		items.map(([name, count]) => (
-			<li>
-				<a href={`${basePath}/${encodeURIComponent(name)}/`}>
-					<span>{name}</span>
-					<span class="count">{count}</span>
-				</a>
-			</li>
-		))
-	}
-</ul>
+{
+	items.length > 0 ? (
+		<ul class="taxonomy-list">
+			{items.map(([name, count]) => (
+				<li>
+					<a href={`${basePath}/${encodeURIComponent(name)}/`}>
+						<span>{name}</span>
+						<span class="count">{count}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	) : (
+		<EmptyState title={emptyTitle} description={emptyDescription} ariaLabel="No taxonomy items" />
+	)
+}
 <style>
 	.taxonomy-list {
 		margin: 0;

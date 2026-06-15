@@ -12,6 +12,11 @@ const tags = countValues(projects.flatMap((project) => project.data.tags));
 <PageLayout title={`Project Tags | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<h1 class="taxonomy-title">Project Tags</h1>
-		<TaxonomyList items={tags} basePath="/projects/tags" />
+		<TaxonomyList
+			items={tags}
+			basePath="/projects/tags"
+			emptyTitle="No project tags yet."
+			emptyDescription="Project tags will appear here once projects are published."
+		/>
 	</main>
 </PageLayout>

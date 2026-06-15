@@ -11,6 +11,11 @@ const categories = countValues(posts.map((post) => post.data.category));
 <PageLayout title={`Categories | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<h1 class="taxonomy-title">Categories</h1>
-		<TaxonomyList items={categories} basePath="/categories" />
+		<TaxonomyList
+			items={categories}
+			basePath="/categories"
+			emptyTitle="No categories yet."
+			emptyDescription="Categories will appear here once blog entries are published."
+		/>
 	</main>
 </PageLayout>

@@ -40,7 +40,11 @@ const currentPosts = getPageItems(posts, currentPage);
 	<main class="listing-main">
 		<a class="back-link" href="/categories/" data-history-back>Back</a>
 		<h1 class="taxonomy-title">{categoryName}</h1>
-		<PostList posts={currentPosts} />
+		<PostList
+			posts={currentPosts}
+			emptyTitle={`No blog posts in ${categoryName} yet.`}
+			emptyDescription="Published blog entries for this category will appear here."
+		/>
 		<Pagination
 			currentPage={currentPage}
 			totalPages={totalPages}

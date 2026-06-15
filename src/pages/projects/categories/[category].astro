@@ -30,7 +30,11 @@ const projects = (await getCollection('projects'))
 			<h1>{categoryName}</h1>
 			<p class="lead">{projects.length} project{projects.length === 1 ? '' : 's'} in this category.</p>
 		</section>
-		<ProjectList projects={projects} />
+		<ProjectList
+			projects={projects}
+			emptyTitle={`No projects in ${categoryName} yet.`}
+			emptyDescription="Published projects for this category will appear here."
+		/>
 	</main>
 <style>
 	.projects-main {

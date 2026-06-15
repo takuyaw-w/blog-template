@@ -30,7 +30,11 @@ const projects = (await getCollection('projects'))
 			<h1>{tagName}</h1>
 			<p class="lead">{projects.length} project{projects.length === 1 ? '' : 's'} tagged with this label.</p>
 		</section>
-		<ProjectList projects={projects} />
+		<ProjectList
+			projects={projects}
+			emptyTitle={`No projects tagged ${tagName} yet.`}
+			emptyDescription="Published projects with this tag will appear here."
+		/>
 	</main>
 <style>
 	.projects-main {

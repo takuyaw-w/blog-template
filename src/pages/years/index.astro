@@ -13,6 +13,11 @@ const years = countValues(posts.map((post) => getPostYear(post.data.pubDate))).s
 <PageLayout title={`Years | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<h1 class="taxonomy-title">Years</h1>
-		<TaxonomyList items={years} basePath="/years" />
+		<TaxonomyList
+			items={years}
+			basePath="/years"
+			emptyTitle="No years yet."
+			emptyDescription="Years will appear here once blog entries are published."
+		/>
 	</main>
 </PageLayout>
