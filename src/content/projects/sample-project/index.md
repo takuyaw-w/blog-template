@@ -79,6 +79,15 @@ const projectStatus = ["Active", "Archived", "Planning"] as const;
 type ProjectStatus = (typeof projectStatus)[number];
 ```
 
+Mermaidの図は、コードブロックの言語名に `mermaid` を指定すると表示できます。
+
+```mermaid
+flowchart LR
+  A[Plan] --> B[Design]
+  B --> C[Build]
+  C --> D[Publish]
+```
+
 ## What I Learned
 
 プロジェクトから得た学びや、次に改善したいことを書きます。

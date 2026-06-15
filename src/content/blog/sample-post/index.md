@@ -111,6 +111,18 @@ console.log(`Current status: ${status}`);
 + title: "New title"
 ```
 
+## Mermaid
+
+Mermaidの図は、コードブロックの言語名に `mermaid` を指定すると表示できます。
+
+```mermaid
+flowchart TD
+  A[下書き] --> B{内容を確認}
+  B -->|修正する| C[本文を編集]
+  C --> B
+  B -->|公開する| D[公開]
+```
+
 ## 画像
 
 本文中に画像を置く場合は、相対パスで指定できます。

@@ -24,6 +24,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^6.4.6",
+    "mermaid": "^11.15.0",
     "satori": "^0.26.0",
     "sharp": "^0.34.3",
     "tailwindcss": "^4.3.1"

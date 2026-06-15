@@ -230,6 +230,30 @@ hr {
   :where(.astro-code .line.diff.remove):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   background: rgba(var(--solarized-red), 0.14);
 }
+.mermaid-figure {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 2rem 0;
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid rgb(var(--border));
+  border-radius: 8px;
+  background: rgba(var(--surface-strong), 0.72);
+}
+.mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  min-width: min(100%, 36rem);
+}
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+.mermaid-error {
+  margin: 0.75rem 0 2rem;
+  color: rgb(var(--solarized-red));
+  font-size: 0.9rem;
+}
 html[data-theme="dark"] .astro-code {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
