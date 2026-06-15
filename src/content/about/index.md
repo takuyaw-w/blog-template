@@ -51,10 +51,10 @@ career:
     description: "コーポレートサイト、ブログ、ポートフォリオサイトの設計と実装を担当しました。"
 socials:
   - label: "GitHub"
-    url: "https://github.com/example"
+    url: "https://github.com/takuyaw-w"
     icon: "github"
   - label: "X"
-    url: "https://x.com/example"
+    url: "https://x.com/takuyaw_w_x"
     icon: "x"
 ---
 
