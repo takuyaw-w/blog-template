@@ -14,6 +14,7 @@
     "build:with-content": "pnpm run sync:content && pnpm run build"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.2.0",
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
@@ -24,6 +25,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^6.4.6",
+    "linkedom": "^0.18.12",
     "mermaid": "^11.15.0",
     "satori": "^0.26.0",
     "sharp": "^0.34.3",

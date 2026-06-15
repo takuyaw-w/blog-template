@@ -1,6 +1,7 @@
 // @ts-check
 
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import {
   transformerNotationDiff,
@@ -9,6 +10,7 @@ import {
 } from "@shikijs/transformers";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { remarkMermaid } from "./src/utils/remark-mermaid.mjs";
 
 const site = process.env.SITE_URL ?? "http://localhost:4321";
 
@@ -17,6 +19,9 @@ export default defineConfig({
   site,
   integrations: [mdx(), sitemap()],
   markdown: {
+    processor: unified({
+      remarkPlugins: [remarkMermaid],
+    }),
     syntaxHighlight: "shiki",
     shikiConfig: {
       themes: {
