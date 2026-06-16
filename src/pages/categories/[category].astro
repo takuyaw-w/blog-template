@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 	const categories = [...new Set(posts.map((post) => post.data.category))];
 
 	return categories.map((category) => ({
-		params: { category: toTaxonomySlug(category) },
+		params: { category },
 		props: { category },
 	}));
 }

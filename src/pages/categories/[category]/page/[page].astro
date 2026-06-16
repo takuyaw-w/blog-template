@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 		return getPageNumbers(totalPages)
 			.filter((page) => page > 1)
 			.map((page) => ({
-				params: { category: toTaxonomySlug(category), page: String(page) },
+				params: { category, page: String(page) },
 				props: { category, page },
 			}));
 	});
