@@ -5,9 +5,12 @@ readonly SSH_DIR="$HOME/.ssh"
 readonly SSH_KEY_PATH="$SSH_DIR/content_deploy_key"
 readonly CONTENT_WORK_DIR=".content"
 
-readonly BLOG_SOURCE_DIR="$CONTENT_WORK_DIR/blog"
-readonly PROJECTS_SOURCE_DIR="$CONTENT_WORK_DIR/projects"
-readonly ABOUT_SOURCE_DIR="$CONTENT_WORK_DIR/about"
+readonly BLOG_SOURCE_DIR="$CONTENT_WORK_DIR/src/content/blog"
+readonly PROJECTS_SOURCE_DIR="$CONTENT_WORK_DIR/src/content/projects"
+readonly ABOUT_SOURCE_DIR="$CONTENT_WORK_DIR/src/content/about"
+readonly LEGACY_BLOG_SOURCE_DIR="$CONTENT_WORK_DIR/blog"
+readonly LEGACY_PROJECTS_SOURCE_DIR="$CONTENT_WORK_DIR/projects"
+readonly LEGACY_ABOUT_SOURCE_DIR="$CONTENT_WORK_DIR/about"
 
 readonly BLOG_TARGET_DIR="src/content/blog"
 readonly PROJECTS_TARGET_DIR="src/content/projects"
@@ -103,10 +106,22 @@ function copy_optional_directory() {
   log_info "Synced ${source_dir} -> ${target_dir}"
 }
 
+function resolve_source_directory() {
+  local preferred_dir="$1"
+  local fallback_dir="$2"
+
+  if [ -d "$preferred_dir" ]; then
+    echo "$preferred_dir"
+    return 0
+  fi
+
+  echo "$fallback_dir"
+}
+
 function sync_content_directories() {
-  copy_optional_directory "$BLOG_SOURCE_DIR" "$BLOG_TARGET_DIR"
-  copy_optional_directory "$PROJECTS_SOURCE_DIR" "$PROJECTS_TARGET_DIR"
-  copy_required_directory "$ABOUT_SOURCE_DIR" "$ABOUT_TARGET_DIR"
+  copy_optional_directory "$(resolve_source_directory "$BLOG_SOURCE_DIR" "$LEGACY_BLOG_SOURCE_DIR")" "$BLOG_TARGET_DIR"
+  copy_optional_directory "$(resolve_source_directory "$PROJECTS_SOURCE_DIR" "$LEGACY_PROJECTS_SOURCE_DIR")" "$PROJECTS_TARGET_DIR"
+  copy_required_directory "$(resolve_source_directory "$ABOUT_SOURCE_DIR" "$LEGACY_ABOUT_SOURCE_DIR")" "$ABOUT_TARGET_DIR"
 }
 
 function main() {
