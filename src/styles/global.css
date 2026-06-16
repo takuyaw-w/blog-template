@@ -197,6 +197,26 @@ hr {
 .prose-blog :where(a:hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   text-decoration-color: var(--accent);
 }
+.prose-blog
+  :where(:not(pre) > code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  padding: 0.12em 0.34em;
+  border: 1px solid rgba(var(--border), 0.72);
+  border-radius: 0.32rem;
+  background: rgba(var(--surface-soft), 0.56);
+  color: rgb(var(--gray-dark));
+  font-family: var(--font-mono);
+  font-size: 0.91em;
+  font-weight: 500;
+  font-feature-settings: normal;
+  line-break: auto;
+  white-space: break-spaces;
+}
+.prose-blog
+  :where(:not(pre) > code):not(:where([class~="not-prose"], [class~="not-prose"] *))::before,
+.prose-blog
+  :where(:not(pre) > code):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
+  content: "";
+}
 .prose-blog :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   border: 1px solid rgb(var(--border));
   font-feature-settings: normal;
