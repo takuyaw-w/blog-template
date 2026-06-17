@@ -71,6 +71,22 @@ Use this skill with `AGENTS.md`; keep `AGENTS.md` as the repo-level contract and
 - `build:with-content` runs clean, content sync, then static build.
 - Do not run content sync unless the user expects it and required secrets are available.
 
+## Subagent Routing
+
+Use `AGENTS.md` as the source of truth for subagent responsibilities. Route work by edited surface:
+
+- Use PM for multi-step changes, ambiguous scope, release decisions, or when the user asks for planning.
+- Use Cloudflare Specialist for `wrangler.jsonc`, Workers Static Assets, deploy hooks, Cloudflare build logs, dependency install failures in Cloudflare, or dashboard guidance.
+- Use Astro Specialist for `astro.config.mjs`, routes, content collections, metadata, OGP, RSS, sitemap, Markdown, or Mermaid.
+- Use Implementation Squad for bounded edits with a clear write scope.
+- Use QA / Reviewer after non-trivial edits, before commit/push, or when validation coverage is uncertain.
+- Use Content / SEO for Japanese copy, taxonomy, page titles/descriptions, canonical URLs, and content schema/frontmatter.
+- Use Security / Supply Chain for dependency, lockfile, install-script, secret, or CI/CD changes.
+- Use Design / UI for responsive layout, mobile behavior, typography, navigation, and visual tone.
+- Use Release / Git when commit, push, deploy sequencing, or branch hygiene is the main risk.
+
+For small single-file changes, one agent may cover multiple roles. Do not create parallel work unless the responsibilities and write scopes are disjoint.
+
 ## Validation
 
 Use the validation matrix in `AGENTS.md`. For docs-only skill or README edits, run formatter check and `git diff --check`; for source, content rendering, Mermaid, OGP, or deployment changes, run the broader command set listed there.

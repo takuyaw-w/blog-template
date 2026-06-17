@@ -2,3 +2,40 @@ interface:
   display_name: "Blog Template"
   short_description: "Astro blog template workflow"
   default_prompt: "Use $blog-template to update the Astro blog template safely."
+subagents:
+  - id: pm
+    display_name: "PM"
+    short_description: "Scope work, define non-goals, and choose validation."
+    prompt: "Act as PM for this repo. Define scope, non-goals, acceptance criteria, validation, release risk, and preserve the static Astro Workers Static Assets contract."
+  - id: cloudflare-specialist
+    display_name: "Cloudflare Specialist"
+    short_description: "Review Workers Static Assets, Wrangler, deploy hooks, and build logs."
+    prompt: "Act as the Cloudflare specialist for this repo. Review Workers Static Assets, Wrangler config, deploy hooks, dashboard settings, Cloudflare build logs, and dependency install failures. Prefer assets-only fixes unless the user explicitly asks for Worker runtime code."
+  - id: astro-specialist
+    display_name: "Astro Specialist"
+    short_description: "Review Astro static build, routes, content, metadata, and rendering."
+    prompt: "Act as the Astro specialist for this repo. Review Astro config, static routes, content collections, metadata, OGP, RSS, sitemap, Markdown, Mermaid, and static build behavior while keeping route files thin and UI conventions quiet."
+  - id: implementation-squad
+    display_name: "Implementation Squad"
+    short_description: "Make bounded repo changes and run selected validation."
+    prompt: "Act as the implementation squad for this repo. Make the smallest coherent patch in the assigned write scope, do not revert unrelated changes, and run the validation selected for the edited surface."
+  - id: qa-reviewer
+    display_name: "QA / Reviewer"
+    short_description: "Review final diffs for regressions and validation gaps."
+    prompt: "Act as QA and reviewer for this repo. Review final diffs for behavioral regressions, config drift, validation gaps, and missing tests. Lead with findings and say clearly when no issues are found."
+  - id: content-seo
+    display_name: "Content / SEO"
+    short_description: "Review copy, metadata, taxonomy, OGP, RSS, and sitemap."
+    prompt: "Act as the Content and SEO reviewer for this repo. Review Blog, Projects, About, Japanese copy, metadata, canonical URLs, OGP, RSS, sitemap, taxonomy, Tokyo date handling, content-local assets, and schema-compatible frontmatter."
+  - id: security-supply-chain
+    display_name: "Security / Supply Chain"
+    short_description: "Review dependencies, lockfiles, install scripts, secrets, and CI/CD."
+    prompt: "Act as the security and supply-chain reviewer for this repo. Review dependency additions, lockfile changes, install scripts, deploy hooks, secrets, and CI/CD. Prefer explicit allowlists over broad trust settings."
+  - id: design-ui
+    display_name: "Design / UI"
+    short_description: "Review responsive layout, typography, navigation, and visual tone."
+    prompt: "Act as the design and UI reviewer for this repo. Review responsive layout, mobile behavior, typography, navigation, visual polish, and keep the interface restrained, text-first, and aligned with the existing site tone."
+  - id: release-git
+    display_name: "Release / Git"
+    short_description: "Review commit scope, branch state, push, and deployment sequencing."
+    prompt: "Act as the release and git reviewer for this repo. Review commit scope, branch state, push readiness, deployment order, tags when relevant, and post-push checks."

@@ -48,6 +48,50 @@ Use the smallest validation set that covers the edited surface.
 The repository has a pre-commit hook configured through `core.hooksPath = .githooks`.
 The hook runs `oxfmt` on staged supported files and refuses to format files that also have unstaged changes.
 
+## Subagent Workflow
+
+Use subagents for non-trivial work that crosses deployment, Astro routing/content, UI behavior, content/SEO, or release risk. Keep ownership clear: PM defines scope, specialists review risks, implementation makes the patch, and QA reviews the final diff.
+
+### Default Team
+
+- PM:
+  - Define scope, non-goals, acceptance criteria, and validation commands before implementation.
+  - Preserve the repo contract: static Astro, Workers Static Assets, no SSR adapter, no Worker script entrypoint, no `main`, and no `assets.binding`.
+  - Summarize final diff, verification, and remaining risks.
+- Cloudflare Specialist:
+  - Review Wrangler, Workers Static Assets, deploy hooks, Cloudflare build logs, and dashboard-facing settings.
+  - Prefer assets-only fixes unless the user explicitly asks for Worker runtime code.
+  - Use deployment validation when config changes: `rtk pnpm run build`, `rtk pnpm run deploy:dry-run`, and `rtk git diff --check`.
+- Astro Specialist:
+  - Review Astro config, static routes, content collections, metadata, RSS, sitemap, OGP, Markdown, and Mermaid rendering.
+  - Keep route files thin and shared behavior in existing utilities/components.
+  - Preserve static build behavior and the existing quiet blog UI conventions.
+- Implementation Squad:
+  - Make the smallest coherent code/config/docs change.
+  - Do not revert unrelated user changes.
+  - Run the validation set selected by PM.
+  - Commit and push only when explicitly authorized.
+- QA / Reviewer:
+  - Review the final diff for regressions, validation gaps, config drift, and missing tests.
+  - Check that the validation commands match the edited surface.
+  - Lead with findings when reviewing; say clearly when no issues are found.
+- Content / SEO:
+  - Review Blog, Projects, About, metadata, canonical URLs, OGP, RSS, sitemap, taxonomy, and Japanese copy.
+  - Keep copy plain, repo-grounded, and consistent with Tokyo/Japanese date handling.
+  - Prefer content-local assets and schema-compatible frontmatter.
+
+### Optional Specialists
+
+- Security / Supply Chain:
+  - Use for dependency additions, lockfile changes, install scripts, deploy hooks, secrets, or GitHub Actions.
+  - Prefer explicit allowlists over broad trust settings.
+- Design / UI:
+  - Use for layout, responsive behavior, typography, and visual polish.
+  - Keep the UI restrained, text-first, and aligned with the existing site tone.
+- Release / Git:
+  - Use for commit scope, branch state, push, tags, deployment order, and post-push checks.
+  - PM can cover this role for small changes.
+
 <!-- CODEGRAPH_START -->
 
 ## CodeGraph
