@@ -8,9 +8,11 @@ import {
 	getBlogTaxonomyPage,
 	type BlogTaxonomyType,
 } from '../utils/blog';
+import { getProjectsByYear } from '../utils/projects';
 import BackLink from './BackLink.astro';
 import Pagination from './Pagination.astro';
 import PostList from './PostList.astro';
+import ProjectList from './ProjectList.astro';
 
 interface Props {
 	type: BlogTaxonomyType;
@@ -20,6 +22,7 @@ interface Props {
 
 const { type, value, currentPage = 1 } = Astro.props;
 const { currentPosts, totalPages } = await getBlogTaxonomyPage(type, value, currentPage);
+const projects = type === 'year' && currentPage === 1 ? await getProjectsByYear(value) : [];
 const copy = getBlogTaxonomyCopy(type, value);
 const pageTitle =
 	currentPage === 1 ? `${value} | ${SITE_TITLE}` : `${value} | Page ${currentPage} | ${SITE_TITLE}`;
@@ -29,7 +32,41 @@ const pageTitle =
 	<main class="listing-main">
 		<BackLink href={getBlogTaxonomyIndexPath(type)} />
 		<h1 class="taxonomy-title">{value}</h1>
-		<PostList posts={currentPosts} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
+		{
+			type === 'year' ? (
+				<>
+					<section class="taxonomy-section" aria-labelledby="year-blog-heading">
+						<h2 id="year-blog-heading">Blog</h2>
+						<PostList
+							posts={currentPosts}
+							emptyTitle={copy.emptyTitle}
+							emptyDescription={copy.emptyDescription}
+						/>
+					</section>
+					{currentPage === 1 && (
+						<section class="taxonomy-section" aria-labelledby="year-projects-heading">
+							<h2 id="year-projects-heading">Projects</h2>
+							<ProjectList
+								projects={projects}
+								emptyTitle={`No projects from ${value} yet.`}
+								emptyDescription="Published projects from this year will appear here."
+							/>
+						</section>
+					)}
+				</>
+			) : (
+				<PostList posts={currentPosts} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
+			)
+		}
 		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={getBlogTaxonomyBasePath(type, value)} />
 	</main>
 </PageLayout>
+<style>
+	.taxonomy-section + .taxonomy-section {
+		margin-top: 3rem;
+	}
+	.taxonomy-section h2 {
+		margin-bottom: 0.75rem;
+		font-size: 1.25rem;
+	}
+</style>

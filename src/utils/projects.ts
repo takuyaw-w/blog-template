@@ -9,6 +9,25 @@ export const sortProjectsByOrder = (projects: ProjectEntry[]) =>
 
 export const getProjects = async () => sortProjectsByOrder(await getCollection("projects"));
 
+export const getProjectYear = (project: ProjectEntry) => {
+  const idMatch = /^(?<year>\d{4})(?:\/|$)/.exec(project.id);
+
+  if (idMatch?.groups) {
+    return idMatch.groups.year;
+  }
+
+  return /(?<year>\d{4})/.exec(project.data.period)?.groups?.year;
+};
+
+export const getProjectYears = (projects: ProjectEntry[]) =>
+  projects.map(getProjectYear).filter((year) => year !== undefined);
+
+export const filterProjectsByYear = (projects: ProjectEntry[], year: string) =>
+  projects.filter((project) => getProjectYear(project) === year);
+
+export const getProjectsByYear = async (year: string) =>
+  sortProjectsByOrder(filterProjectsByYear(await getCollection("projects"), year));
+
 export const getProjectPath = (id: string) => `/projects/${id}/`;
 
 export const getProjectCategoryPath = (category: string) =>

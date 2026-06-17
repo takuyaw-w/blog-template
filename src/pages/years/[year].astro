@@ -1,9 +1,9 @@
 ---
 import BlogTaxonomyPage from '../../components/BlogTaxonomyPage.astro';
-import { getBlogTaxonomyStaticPaths } from '../../utils/blog';
+import { getYearStaticPaths } from '../../utils/yearly';
 
 export async function getStaticPaths() {
-	return getBlogTaxonomyStaticPaths('year');
+	return getYearStaticPaths();
 }
 
 const value = Astro.props.value ?? Astro.params.year ?? '';

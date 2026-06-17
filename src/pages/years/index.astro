@@ -2,18 +2,15 @@
 import TaxonomyList from '../../components/TaxonomyList.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { countValues, getBlogPosts, getPostYear } from '../../utils/blog';
 import {
 	getBlogMonthPopularTags,
 	getBlogMonthReadingTimeMinutes,
 	getBlogMonths,
 	getBlogMonthSummary,
 } from '../../utils/monthly';
+import { getYearActivityCounts } from '../../utils/yearly';
 
-const posts = await getBlogPosts();
-const years = countValues(posts.map((post) => getPostYear(post.data.pubDate))).sort(
-	([a], [b]) => Number(b) - Number(a),
-);
+const years = await getYearActivityCounts();
 const months = await getBlogMonths();
 const monthCards = months.map((month) => ({
 	month,
