@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+formatter="./node_modules/.bin/oxfmt"
+if [[ ! -x "$formatter" ]]; then
+  echo "pre-commit: oxfmt is not installed. Run pnpm install first." >&2
+  exit 1
+fi
+
+mapfile -d "" staged_files < <(
+  git diff --cached --name-only --diff-filter=ACMR -z -- \
+    "*.astro" \
+    "*.css" \
+    "*.js" \
+    "*.jsx" \
+    "*.json" \
+    "*.jsonc" \
+    "*.mjs" \
+    "*.cjs" \
+    "*.ts" \
+    "*.tsx"
+)
+
+if (( ${#staged_files[@]} == 0 )); then
+  exit 0
+fi
+
+format_files=()
+files_with_unstaged_changes=()
+
+for file in "${staged_files[@]}"; do
+  [[ -f "$file" ]] || continue
+
+  if ! git diff --quiet -- "$file"; then
+    files_with_unstaged_changes+=("$file")
+    continue
+  fi
+
+  format_files+=("$file")
+done
+
+if (( ${#files_with_unstaged_changes[@]} > 0 )); then
+  echo "pre-commit: refusing to format files that also have unstaged changes:" >&2
+  printf "  %s\n" "${files_with_unstaged_changes[@]}" >&2
+  echo "Stage or stash those changes, then commit again." >&2
+  exit 1
+fi
+
+if (( ${#format_files[@]} == 0 )); then
+  exit 0
+fi
+
+"$formatter" --write "${format_files[@]}"
+git add -- "${format_files[@]}"

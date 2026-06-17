@@ -115,15 +115,15 @@ const createTagNode = (tag: string) => ({
   type: "div",
   props: {
     style: {
-      border: "2px solid rgba(38, 139, 210, 0.34)",
+      border: "2px solid rgba(211, 203, 179, 0.9)",
       borderRadius: 999,
       padding: "10px 18px",
-      color: "#268bd2",
+      color: "#073642",
       fontSize: 26,
       fontWeight: 700,
       lineHeight: 1,
     },
-    children: `#${truncateText(tag, 18)}`,
+    children: truncateText(tag, 18),
   },
 });
 
