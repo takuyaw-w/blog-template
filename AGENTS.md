@@ -9,7 +9,7 @@ Keep changes small, text-first, and consistent with the existing quiet blog UI.
 - In the primary maintainer environment, shell commands are run through `rtk`.
 - If `rtk` is unavailable, use the equivalent raw command and mention that fallback.
 - Prefer `pnpm` scripts over direct package binaries unless a targeted binary command is clearly narrower.
-- Repo-local skill guidance lives at `skills/blog-template/SKILL.md`.
+- Repo-local skill guidance lives at `.agents/skills/blog-template/SKILL.md`.
 - Do not introduce SSR, an Astro Cloudflare adapter, a Worker script entrypoint, `main`, or `assets.binding`.
 - Deployment is Cloudflare Workers Static Assets only. `wrangler.jsonc` should keep `assets.directory = "./dist"` and `not_found_handling = "404-page"`.
 - Keep `.codegraph/`, `dist/`, `.astro/`, `.content/`, and secrets out of git.
