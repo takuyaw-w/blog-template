@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { SOCIAL_LINKS } from '../utils/social-links';
 ---
 
 <footer class="site-footer">
@@ -28,14 +29,14 @@ import Icon from './Icon.astro';
 			</div>
 		</nav>
 		<div class="social-links">
-			<a href="https://x.com/takuyaw_w_x" target="_blank">
-				<span class="sr-only">Follow Takuya on X</span>
-				<Icon name="brand-x" size={32} />
-			</a>
-			<a href="https://github.com/takuyaw-w" target="_blank">
-				<span class="sr-only">Go to Takuya's GitHub profile</span>
-				<Icon name="brand-github" size={32} />
-			</a>
+			{
+				SOCIAL_LINKS.map((link) => (
+					<a href={link.href} target="_blank" rel="noopener noreferrer">
+						<span class="sr-only">{link.label}</span>
+						<Icon name={link.icon} size={32} />
+					</a>
+				))
+			}
 			<a href="/rss.xml">
 				<span class="sr-only">Subscribe to the RSS feed</span>
 				<Icon name="rss" size={32} />

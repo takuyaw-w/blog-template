@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { SITE_TITLE } from '../consts';
 import Icon from '../components/Icon.astro';
 import PageLayout from '../layouts/PageLayout.astro';
+import { SOCIAL_ICON_NAMES } from '../utils/social-links';
 
 const [about] = await getCollection('about');
 
@@ -27,10 +28,6 @@ const {
 	socials,
 } = about.data;
 
-const socialIcons = {
-	github: 'brand-github',
-	x: 'brand-x',
-} as const;
 ---
 
 <PageLayout title={`${title} | ${SITE_TITLE}`} description={description} image={heroImage}>
@@ -415,8 +412,8 @@ const socialIcons = {
 							<ul class="sns-list">
 								{socials.map((social) => (
 									<li>
-										<a href={social.url} aria-label={social.label}>
-											<Icon name={socialIcons[social.icon]} size={22} />
+										<a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+											<Icon name={SOCIAL_ICON_NAMES[social.icon]} size={22} />
 										</a>
 									</li>
 								))}
