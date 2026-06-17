@@ -1,37 +1,12 @@
 ---
-import Pagination from '../../components/Pagination.astro';
-import PostList from '../../components/PostList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
-import PageLayout from '../../layouts/PageLayout.astro';
-import { getBlogPosts, getPageItems, getPageNumbers, getTotalPages, sortPostsByDate } from '../../utils/blog';
+import BlogListingPage from '../../components/BlogListingPage.astro';
+import { getBlogListingStaticPaths } from '../../utils/blog';
 
 export async function getStaticPaths() {
-	const posts = await getBlogPosts();
-	const totalPages = getTotalPages(posts.length);
-
-	return getPageNumbers(totalPages)
-		.filter((page) => page > 1)
-		.map((page) => ({
-			params: { page: String(page) },
-			props: { page },
-		}));
+	return getBlogListingStaticPaths();
 }
 
 const currentPage = Number(Astro.props.page);
-const posts = sortPostsByDate(await getBlogPosts());
-const totalPages = getTotalPages(posts.length);
-const currentPosts = getPageItems(posts, currentPage);
 ---
 
-<PageLayout title={`${SITE_TITLE} | Page ${currentPage}`} description={SITE_DESCRIPTION}>
-	<main class="listing-main">
-		<section>
-			<PostList
-				posts={currentPosts}
-				emptyTitle="No blog posts yet."
-				emptyDescription="Published blog entries will appear here."
-			/>
-			<Pagination currentPage={currentPage} totalPages={totalPages} basePath="/" />
-		</section>
-	</main>
-</PageLayout>
+<BlogListingPage currentPage={currentPage} basePath="/" />

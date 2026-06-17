@@ -1,11 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { toTaxonomySlug } from '../utils/blog';
+import { getProjectPath, getProjectTagPath, type ProjectEntry } from '../utils/projects';
 import EmptyState from './EmptyState.astro';
 import ProjectActionLink from './ProjectActionLink.astro';
-
-type ProjectEntry = CollectionEntry<'projects'>;
 
 type Props = {
 	projects: ProjectEntry[];
@@ -18,8 +15,6 @@ const {
 	emptyTitle = 'No projects yet.',
 	emptyDescription = 'Published projects will appear here.',
 } = Astro.props;
-const getProjectPath = (id: string) => `/projects/${id}/`;
-const getProjectTagPath = (tag: string) => `/projects/tags/${toTaxonomySlug(tag)}/`;
 ---
 
 {

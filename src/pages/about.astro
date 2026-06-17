@@ -25,6 +25,7 @@ const {
 	highlights,
 	skillGroups,
 	career,
+	uses,
 	socials,
 } = about.data;
 
@@ -220,6 +221,63 @@ const {
 				margin: 0.75rem 0 0;
 				color: rgb(var(--gray-dark));
 			}
+			.uses-groups {
+				display: grid;
+				gap: 1.35rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.uses-group {
+				display: grid;
+				grid-template-columns: 180px minmax(0, 1fr);
+				gap: 1.5rem;
+				padding-top: 1.35rem;
+				border-top: 1px solid rgba(var(--border), 0.8);
+			}
+			.uses-group:first-child {
+				padding-top: 0;
+				border-top: 0;
+			}
+			.uses-category {
+				margin: 0;
+				color: rgb(var(--black));
+				font-size: 1rem;
+				font-weight: 700;
+				line-height: 1.35;
+			}
+			.uses-list {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 0.85rem;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.uses-list li {
+				min-width: 0;
+				padding: 0.9rem 1rem;
+				border: 1px solid rgba(var(--border), 0.86);
+				border-radius: 8px;
+				background: rgba(var(--surface-strong), 0.55);
+			}
+			.uses-name {
+				display: inline-flex;
+				color: rgb(var(--black));
+				font-weight: 700;
+				line-height: 1.35;
+				text-decoration-color: rgba(var(--gray), 0.35);
+				text-underline-offset: 0.18em;
+			}
+			.uses-name:hover {
+				color: var(--accent);
+			}
+			.uses-description {
+				margin: 0.45rem 0 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				line-height: 1.6;
+			}
 			.sns-list {
 				display: flex;
 				flex-wrap: wrap;
@@ -293,6 +351,13 @@ const {
 					grid-template-columns: 1fr;
 					margin-top: 0.85rem;
 				}
+				.uses-group {
+					display: block;
+				}
+				.uses-list {
+					grid-template-columns: 1fr;
+					margin-top: 0.85rem;
+				}
 				.highlights li + li,
 				.career-item + .career-item {
 					margin-top: 1rem;
@@ -350,7 +415,7 @@ const {
 				{
 					highlights.length > 0 && (
 						<section class="resume-section" aria-labelledby="profile-heading">
-							<h2 id="profile-heading" class="section-title">プロフィール</h2>
+							<h2 id="profile-heading" class="section-title">Profile</h2>
 							<ul class="highlights">
 								{highlights.map((highlight) => (
 									<li>{highlight}</li>
@@ -363,7 +428,7 @@ const {
 				{
 					skillGroups.length > 0 && (
 						<section class="resume-section" aria-labelledby="skills-heading">
-							<h2 id="skills-heading" class="section-title">スキル</h2>
+							<h2 id="skills-heading" class="section-title">Skills</h2>
 							<ul class="skill-groups">
 								{skillGroups.map((group) => (
 									<li class="skill-group">
@@ -388,7 +453,7 @@ const {
 				{
 					career.length > 0 && (
 						<section class="resume-section" aria-labelledby="career-heading">
-							<h2 id="career-heading" class="section-title">職務経歴</h2>
+							<h2 id="career-heading" class="section-title">Career</h2>
 							<div class="career-list">
 								{career.map((item) => (
 									<section class="career-item">
@@ -403,12 +468,43 @@ const {
 							</div>
 						</section>
 					)
-				}
+					}
 
-				{
-					socials.length > 0 && (
-						<section class="resume-section" aria-labelledby="details-heading">
-							<h2 id="details-heading" class="section-title">SNS</h2>
+					{
+						uses.length > 0 && (
+							<section class="resume-section" aria-labelledby="uses-heading">
+								<h2 id="uses-heading" class="section-title">Uses</h2>
+								<ul class="uses-groups">
+									{uses.map((group) => (
+										<li class="uses-group">
+											<h3 class="uses-category">{group.category}</h3>
+											<ul class="uses-list">
+												{group.items.map((item) => (
+													<li>
+														{
+															item.url ? (
+																<a class="uses-name" href={item.url} target="_blank" rel="noopener noreferrer">
+																	{item.name}
+																</a>
+															) : (
+																<span class="uses-name">{item.name}</span>
+															)
+														}
+														<p class="uses-description">{item.description}</p>
+													</li>
+												))}
+											</ul>
+										</li>
+									))}
+								</ul>
+							</section>
+						)
+					}
+
+					{
+						socials.length > 0 && (
+							<section class="resume-section" aria-labelledby="details-heading">
+								<h2 id="details-heading" class="section-title">Socials</h2>
 							<ul class="sns-list">
 								{socials.map((social) => (
 									<li>

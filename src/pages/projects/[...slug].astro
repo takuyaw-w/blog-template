@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BackLink from '../../components/BackLink.astro';
 import ProjectActionLink from '../../components/ProjectActionLink.astro';
 import { SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { toTaxonomySlug } from '../../utils/blog';
+import { getProjectCategoryPath, getProjectTagPath } from '../../utils/projects';
 
 export async function getStaticPaths() {
 	const projects = await getCollection('projects');
@@ -20,13 +21,16 @@ const project = Astro.props;
 const { Content } = await render(project);
 const { heroImage, heroImageAlt, gallery } = project.data;
 const hasHeroImage = Boolean(heroImage);
-const getProjectTagPath = (tag: string) => `/projects/tags/${toTaxonomySlug(tag)}/`;
-const getProjectCategoryPath = (category: string) => `/projects/categories/${toTaxonomySlug(category)}/`;
+const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.url);
 ---
 
-<PageLayout title={`${project.data.title} | Projects | ${SITE_TITLE}`} description={project.data.description}>
+<PageLayout
+	title={`${project.data.title} | Projects | ${SITE_TITLE}`}
+	description={project.data.description}
+	image={ogImage}
+>
 	<main class="project-detail-main">
-		<a class="back-link" href="/projects/" data-history-back>Back</a>
+		<BackLink href="/projects/" spacing="loose" />
 		<article class="project-detail">
 			<header class:list={['project-header', { 'project-header--without-hero': !hasHeroImage }]}>
 				<h1 class="project-title">{project.data.title}</h1>
@@ -89,17 +93,6 @@ const getProjectCategoryPath = (category: string) => `/projects/categories/${toT
 	.project-detail-main {
 		width: 1400px;
 		max-width: calc(100% - 2em);
-	}
-	.back-link {
-		display: inline-flex;
-		margin-bottom: 2rem;
-		color: rgb(var(--gray));
-		font-size: 0.95rem;
-		text-decoration: none;
-	}
-	.back-link:focus-visible {
-		outline: 2px solid rgba(var(--accent-rgb), 0.45);
-		outline-offset: 3px;
 	}
 	.project-header {
 		padding-bottom: 2rem;
@@ -221,9 +214,4 @@ const getProjectCategoryPath = (category: string) => `/projects/categories/${toT
 		}
 	}
 </style>
-<script>
-	import { bindHistoryBackLinks } from '../../utils/history-back';
-
-	bindHistoryBackLinks();
-</script>
 </PageLayout>

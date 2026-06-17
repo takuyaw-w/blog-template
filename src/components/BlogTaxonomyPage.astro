@@ -1,0 +1,35 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import PageLayout from '../layouts/PageLayout.astro';
+import {
+	getBlogTaxonomyBasePath,
+	getBlogTaxonomyCopy,
+	getBlogTaxonomyIndexPath,
+	getBlogTaxonomyPage,
+	type BlogTaxonomyType,
+} from '../utils/blog';
+import BackLink from './BackLink.astro';
+import Pagination from './Pagination.astro';
+import PostList from './PostList.astro';
+
+interface Props {
+	type: BlogTaxonomyType;
+	value: string;
+	currentPage?: number;
+}
+
+const { type, value, currentPage = 1 } = Astro.props;
+const { currentPosts, totalPages } = await getBlogTaxonomyPage(type, value, currentPage);
+const copy = getBlogTaxonomyCopy(type, value);
+const pageTitle =
+	currentPage === 1 ? `${value} | ${SITE_TITLE}` : `${value} | Page ${currentPage} | ${SITE_TITLE}`;
+---
+
+<PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<BackLink href={getBlogTaxonomyIndexPath(type)} />
+		<h1 class="taxonomy-title">{value}</h1>
+		<PostList posts={currentPosts} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
+		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={getBlogTaxonomyBasePath(type, value)} />
+	</main>
+</PageLayout>

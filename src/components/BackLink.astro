@@ -1,0 +1,33 @@
+---
+interface Props {
+	href: string;
+	label?: string;
+	spacing?: 'normal' | 'loose';
+}
+
+const { href, label = 'Back', spacing = 'normal' } = Astro.props;
+---
+
+<a class:list={['back-link', `back-link--${spacing}`]} href={href} data-history-back>{label}</a>
+
+<style>
+	.back-link {
+		display: inline-flex;
+		margin-bottom: 1.5rem;
+		color: rgb(var(--gray));
+		font-size: 0.95rem;
+		text-decoration: none;
+	}
+	.back-link--loose {
+		margin-bottom: 2rem;
+	}
+	.back-link:focus-visible {
+		outline: 2px solid rgba(var(--accent-rgb), 0.45);
+		outline-offset: 3px;
+	}
+</style>
+<script>
+	import { bindHistoryBackLinks } from '../utils/history-back';
+
+	bindHistoryBackLinks();
+</script>

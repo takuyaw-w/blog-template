@@ -20,7 +20,22 @@ type OgImageInput = {
   title: string;
   description?: string;
   tags?: string[];
+  kind?: "blog" | "project";
+  meta?: string;
 };
+
+const kindStyles = {
+  blog: {
+    label: "Blog",
+    accent: "#2aa198",
+    wash: "rgba(42, 161, 152, 0.1)",
+  },
+  project: {
+    label: "Project",
+    accent: "#268bd2",
+    wash: "rgba(38, 139, 210, 0.1)",
+  },
+} as const;
 
 const truncateText = (text: string | undefined, maxLength: number) => {
   if (!text) {
@@ -111,11 +126,11 @@ const loadFonts = () => {
   return fontCache;
 };
 
-const createTagNode = (tag: string) => ({
+const createTagNode = (tag: string, accent = "#268bd2") => ({
   type: "div",
   props: {
     style: {
-      border: "2px solid rgba(211, 203, 179, 0.9)",
+      border: `2px solid ${accent}`,
       borderRadius: 999,
       padding: "10px 18px",
       color: "#073642",
@@ -127,105 +142,167 @@ const createTagNode = (tag: string) => ({
   },
 });
 
-const createOgNode = ({ title, description, tags = [] }: OgImageInput) => ({
-  type: "div",
-  props: {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      width: WIDTH,
-      height: HEIGHT,
-      padding: 64,
-      background: "#fdf6e3",
-      color: "#073642",
-      fontFamily: FONT_FAMILY,
-      position: "relative",
-    },
-    children: [
-      {
-        type: "div",
-        props: {
-          style: {
-            display: "flex",
-            flexDirection: "column",
-            gap: 26,
-            maxWidth: 980,
+const createOgNode = ({ title, description, tags = [], kind = "blog", meta }: OgImageInput) => {
+  const style = kindStyles[kind];
+
+  return {
+    type: "div",
+    props: {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        width: WIDTH,
+        height: HEIGHT,
+        padding: 64,
+        background: `linear-gradient(135deg, ${style.wash}, transparent 38%), #fdf6e3`,
+        color: "#073642",
+        fontFamily: FONT_FAMILY,
+        position: "relative",
+      },
+      children: [
+        {
+          type: "div",
+          props: {
+            style: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: 18,
+              height: HEIGHT,
+              background: style.accent,
+            },
           },
-          children: [
-            {
-              type: "div",
-              props: {
-                style: {
-                  display: "flex",
-                  color: "#586e75",
-                  fontSize: 30,
-                  fontWeight: 700,
-                  letterSpacing: 0,
-                },
-                children: SITE_TITLE,
-              },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 32,
             },
-            {
-              type: "div",
-              props: {
-                style: {
-                  display: "flex",
-                  color: "#073642",
-                  fontSize: 66,
-                  fontWeight: 700,
-                  lineHeight: 1.14,
-                  letterSpacing: 0,
-                },
-                children: truncateText(title, 52),
-              },
-            },
-            description
-              ? {
-                  type: "div",
-                  props: {
-                    style: {
-                      display: "flex",
-                      color: "#586e75",
-                      fontSize: 31,
-                      fontWeight: 400,
-                      lineHeight: 1.45,
-                      letterSpacing: 0,
-                    },
-                    children: truncateText(description, 92),
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    color: "#586e75",
+                    fontSize: 30,
+                    fontWeight: 700,
+                    letterSpacing: 0,
                   },
-                }
-              : null,
-          ].filter(Boolean),
-        },
-      },
-      {
-        type: "div",
-        props: {
-          style: {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 24,
-          },
-          children: [
-            {
-              type: "div",
-              props: {
-                style: {
-                  display: "flex",
-                  gap: 14,
-                  flexWrap: "wrap",
+                  children: SITE_TITLE,
                 },
-                children: tags.slice(0, 3).map(createTagNode),
               },
-            },
-          ],
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    border: `2px solid ${style.accent}`,
+                    borderRadius: 999,
+                    padding: "10px 20px",
+                    color: "#073642",
+                    fontSize: 27,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    letterSpacing: 0,
+                  },
+                  children: style.label,
+                },
+              },
+            ],
+          },
         },
-      },
-    ],
-  },
-});
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+              maxWidth: 980,
+            },
+            children: [
+              meta
+                ? {
+                    type: "div",
+                    props: {
+                      style: {
+                        display: "flex",
+                        color: style.accent,
+                        fontSize: 28,
+                        fontWeight: 700,
+                        letterSpacing: 0,
+                      },
+                      children: truncateText(meta, 48),
+                    },
+                  }
+                : null,
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    color: "#073642",
+                    fontSize: 64,
+                    fontWeight: 700,
+                    lineHeight: 1.14,
+                    letterSpacing: 0,
+                  },
+                  children: truncateText(title, 54),
+                },
+              },
+              description
+                ? {
+                    type: "div",
+                    props: {
+                      style: {
+                        display: "flex",
+                        color: "#586e75",
+                        fontSize: 31,
+                        fontWeight: 400,
+                        lineHeight: 1.45,
+                        letterSpacing: 0,
+                      },
+                      children: truncateText(description, 92),
+                    },
+                  }
+                : null,
+            ].filter(Boolean),
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 24,
+            },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    gap: 14,
+                    flexWrap: "wrap",
+                  },
+                  children: tags.slice(0, 3).map((tag) => createTagNode(tag, style.accent)),
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+};
 
 export const renderOgImage = async (input: OgImageInput) => {
   const svg = await satori(createOgNode(input), {

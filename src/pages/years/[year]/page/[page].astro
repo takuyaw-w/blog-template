@@ -1,60 +1,13 @@
 ---
-import Pagination from '../../../../components/Pagination.astro';
-import PostList from '../../../../components/PostList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../../../consts';
-import PageLayout from '../../../../layouts/PageLayout.astro';
-import { getBlogPosts, getPageItems, getPageNumbers, getPostYear, getTotalPages, sortPostsByDate } from '../../../../utils/blog';
+import BlogTaxonomyPage from '../../../../components/BlogTaxonomyPage.astro';
+import { getBlogTaxonomyStaticPaths } from '../../../../utils/blog';
 
 export async function getStaticPaths() {
-	const posts = await getBlogPosts();
-	const years = [...new Set(posts.map((post) => getPostYear(post.data.pubDate)))];
-
-	return years.flatMap((year) => {
-		const totalPages = getTotalPages(posts.filter((post) => getPostYear(post.data.pubDate) === year).length);
-
-		return getPageNumbers(totalPages)
-			.filter((page) => page > 1)
-			.map((page) => ({
-				params: { year, page: String(page) },
-				props: { year, page },
-			}));
-	});
+	return getBlogTaxonomyStaticPaths('year', true);
 }
 
+const value = Astro.props.value ?? Astro.params.year ?? '';
 const currentPage = Number(Astro.props.page);
-const yearName = Astro.props.year ?? Astro.params.year ?? '';
-const posts = sortPostsByDate((await getBlogPosts()).filter((post) => getPostYear(post.data.pubDate) === yearName));
-const totalPages = getTotalPages(posts.length);
-const currentPosts = getPageItems(posts, currentPage);
 ---
 
-<PageLayout title={`${yearName} | Page ${currentPage} | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="listing-main">
-		<a class="back-link" href="/years/" data-history-back>Back</a>
-		<h1 class="taxonomy-title">{yearName}</h1>
-		<PostList
-			posts={currentPosts}
-			emptyTitle={`No blog posts from ${yearName} yet.`}
-			emptyDescription="Published blog entries from this year will appear here."
-		/>
-		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/years/${yearName}`} />
-	</main>
-	<style>
-		.back-link {
-			display: inline-flex;
-			margin-bottom: 1.5rem;
-			color: rgb(var(--gray));
-			font-size: 0.95rem;
-			text-decoration: none;
-		}
-		.back-link:focus-visible {
-			outline: 2px solid rgba(var(--accent-rgb), 0.45);
-			outline-offset: 3px;
-		}
-	</style>
-	<script>
-		import { bindHistoryBackLinks } from '../../../../utils/history-back';
-
-		bindHistoryBackLinks();
-	</script>
-</PageLayout>
+<BlogTaxonomyPage type="year" value={value} currentPage={currentPage} />

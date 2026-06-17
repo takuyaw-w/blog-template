@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# code intelligence index
+.codegraph/
+
 # dependencies
 node_modules/
 

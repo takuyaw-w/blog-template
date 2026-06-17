@@ -1,7 +1,7 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { renderOgImage } from "../../og/image";
-import { getBlogPosts } from "../../utils/blog";
+import { formatPostDate, getBlogPosts } from "../../utils/blog";
 
 type BlogPost = CollectionEntry<"blog">;
 
@@ -20,6 +20,8 @@ export const GET: APIRoute<{ post: BlogPost }> = async ({ props }) =>
       title: props.post.data.title,
       description: props.post.data.description,
       tags: props.post.data.tags,
+      kind: "blog",
+      meta: `${props.post.data.category} / ${formatPostDate(props.post.data.pubDate)}`,
     }),
     {
       headers: {

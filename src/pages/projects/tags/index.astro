@@ -1,12 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import TaxonomyList from '../../../components/TaxonomyList.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import { countValues } from '../../../utils/blog';
+import { getProjects, getProjectTaxonomyValues } from '../../../utils/projects';
 
-const projects = await getCollection('projects');
-const tags = countValues(projects.flatMap((project) => project.data.tags));
+const tags = getProjectTaxonomyValues(await getProjects(), 'tag');
 ---
 
 <PageLayout title={`Project Tags | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>

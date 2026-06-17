@@ -1,0 +1,199 @@
+---
+import PostList from '../../../../components/PostList.astro';
+import ProjectList from '../../../../components/ProjectList.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../../consts';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import { getReadingTimeMinutes } from '../../../../utils/blog';
+import { getBlogMonth, getBlogMonths } from '../../../../utils/monthly';
+
+export async function getStaticPaths() {
+	const months = await getBlogMonths();
+
+	return months.map((month) => ({
+		params: { year: month.year, month: month.month },
+		props: { month },
+	}));
+}
+
+const month =
+	Astro.props.month ?? (await getBlogMonth(Astro.params.year ?? '', Astro.params.month ?? ''));
+
+if (month === undefined) {
+	return Astro.redirect('/blog/');
+}
+
+const totalReadingTime = month.posts.reduce(
+	(total, post) => total + getReadingTimeMinutes(post.body),
+	0,
+);
+const tagCounts = new Map<string, number>();
+
+for (const post of month.posts) {
+	for (const tag of post.data.tags) {
+		tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+	}
+}
+
+const popularTags = [...tagCounts.entries()]
+	.sort(([, countA], [, countB]) => countB - countA)
+	.slice(0, 6);
+const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
+---
+
+<PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
+	<main class="listing-main monthly-log">
+		<a class="back-link" href="/years/">Years</a>
+		<header class="monthly-header">
+			<p class="eyebrow">Monthly Log</p>
+			<h1>{month.label}</h1>
+			<div class="monthly-stats" aria-label={`${month.label} summary`}>
+				<div>
+					<strong>{month.posts.length}</strong>
+					<span>Blog</span>
+				</div>
+				<div>
+					<strong>{month.projects.length}</strong>
+					<span>Projects</span>
+				</div>
+				<div>
+					<strong>{totalReadingTime}</strong>
+					<span>Min</span>
+				</div>
+			</div>
+			{
+				popularTags.length > 0 && (
+					<ul class="monthly-tags" aria-label={`${month.label} frequent tags`}>
+						{popularTags.map(([tag, count]) => (
+							<li>
+								<a href={`/tags/${encodeURIComponent(tag)}/`}>
+									{tag}
+									<span>{count}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</header>
+
+		<section class="monthly-section" aria-labelledby="monthly-blog">
+			<h2 id="monthly-blog">Blog</h2>
+			<PostList
+				posts={month.posts}
+				emptyTitle="No blog posts this month."
+				emptyDescription="Published blog entries for this month will appear here."
+			/>
+		</section>
+
+		<section class="monthly-section" aria-labelledby="monthly-projects">
+			<h2 id="monthly-projects">Projects</h2>
+			<ProjectList
+				projects={month.projects}
+				emptyTitle="No project updates this month."
+				emptyDescription="Projects with this month in their path or period will appear here."
+			/>
+		</section>
+	</main>
+</PageLayout>
+
+<style>
+	.monthly-log {
+		width: 920px;
+	}
+	.back-link {
+		display: inline-flex;
+		margin-bottom: 1.5rem;
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		text-decoration: none;
+	}
+	.back-link:hover,
+	.back-link:focus-visible {
+		color: var(--accent);
+	}
+	.monthly-header {
+		margin-bottom: 2.5rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid rgb(var(--border));
+	}
+	.eyebrow {
+		margin: 0 0 0.35rem;
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: uppercase;
+	}
+	.monthly-header h1 {
+		margin: 0;
+		font-size: clamp(2.15rem, 9vw, 3.052rem);
+	}
+	.monthly-stats {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.75rem;
+		margin-top: 1.5rem;
+	}
+	.monthly-stats div {
+		padding: 0.85rem;
+		border: 1px solid rgba(var(--border), 0.9);
+		border-radius: 6px;
+		background: rgba(var(--surface-strong), 0.46);
+	}
+	.monthly-stats strong,
+	.monthly-stats span {
+		display: block;
+	}
+	.monthly-stats strong {
+		color: rgb(var(--black));
+		font-size: 1.35rem;
+		line-height: 1.1;
+	}
+	.monthly-stats span {
+		margin-top: 0.2rem;
+		color: rgb(var(--gray));
+		font-size: 0.78rem;
+		line-height: 1.3;
+	}
+	.monthly-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 1rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.monthly-tags a {
+		display: inline-flex;
+		gap: 0.35rem;
+		align-items: center;
+		padding: 0.1rem 0.55rem;
+		border: 1px solid rgba(var(--border), 0.9);
+		border-radius: 999px;
+		color: rgb(var(--gray));
+		font-size: 0.82rem;
+		line-height: 1.7;
+		text-decoration: none;
+	}
+	.monthly-tags a:hover,
+	.monthly-tags a:focus-visible {
+		border-color: rgba(var(--accent-rgb), 0.32);
+		color: rgb(var(--gray-dark));
+	}
+	.monthly-tags span {
+		color: rgb(var(--gray));
+		font-size: 0.75rem;
+	}
+	.monthly-section + .monthly-section {
+		margin-top: 3rem;
+	}
+	.monthly-section h2 {
+		margin-bottom: 0.75rem;
+		font-size: 1.25rem;
+	}
+	@media (max-width: 720px) {
+		.monthly-stats {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

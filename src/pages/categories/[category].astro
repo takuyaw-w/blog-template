@@ -1,66 +1,12 @@
 ---
-import Pagination from '../../components/Pagination.astro';
-import PostList from '../../components/PostList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
-import PageLayout from '../../layouts/PageLayout.astro';
-import {
-	fromTaxonomySlug,
-	getBlogPosts,
-	getPageItems,
-	getTotalPages,
-	sortPostsByDate,
-	toTaxonomySlug,
-} from '../../utils/blog';
+import BlogTaxonomyPage from '../../components/BlogTaxonomyPage.astro';
+import { fromTaxonomySlug, getBlogTaxonomyStaticPaths } from '../../utils/blog';
 
 export async function getStaticPaths() {
-	const posts = await getBlogPosts();
-	const categories = [...new Set(posts.map((post) => post.data.category))];
-
-	return categories.map((category) => ({
-		params: { category },
-		props: { category },
-	}));
+	return getBlogTaxonomyStaticPaths('category');
 }
 
-const { category } = Astro.props;
-const categoryName = category ?? fromTaxonomySlug(Astro.params.category ?? '');
-const posts = sortPostsByDate((await getBlogPosts()).filter((post) => post.data.category === categoryName));
-const currentPage = 1;
-const totalPages = getTotalPages(posts.length);
-const currentPosts = getPageItems(posts, currentPage);
+const value = Astro.props.value ?? fromTaxonomySlug(Astro.params.category ?? '');
 ---
 
-<PageLayout title={`${categoryName} | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="listing-main">
-		<a class="back-link" href="/categories/" data-history-back>Back</a>
-		<h1 class="taxonomy-title">{categoryName}</h1>
-		<PostList
-			posts={currentPosts}
-			emptyTitle={`No blog posts in ${categoryName} yet.`}
-			emptyDescription="Published blog entries for this category will appear here."
-		/>
-		<Pagination
-			currentPage={currentPage}
-			totalPages={totalPages}
-			basePath={`/categories/${toTaxonomySlug(categoryName)}`}
-		/>
-	</main>
-	<style>
-		.back-link {
-			display: inline-flex;
-			margin-bottom: 1.5rem;
-			color: rgb(var(--gray));
-			font-size: 0.95rem;
-			text-decoration: none;
-		}
-		.back-link:focus-visible {
-			outline: 2px solid rgba(var(--accent-rgb), 0.45);
-			outline-offset: 3px;
-		}
-	</style>
-	<script>
-		import { bindHistoryBackLinks } from '../../utils/history-back';
-
-		bindHistoryBackLinks();
-	</script>
-</PageLayout>
+<BlogTaxonomyPage type="category" value={value} />

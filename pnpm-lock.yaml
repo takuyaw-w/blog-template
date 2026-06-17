@@ -57,6 +57,9 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
     devDependencies:
+      '@colbymchenry/codegraph':
+        specifier: ^1.0.1
+        version: 1.0.1
       oxfmt:
         specifier: ^0.54.0
         version: 0.54.0
@@ -182,6 +185,40 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
+
+  '@colbymchenry/codegraph-darwin-arm64@1.0.1':
+    resolution: {integrity: sha512-4z3aNzR3Ml31MBVzAvFQm+bk83erdHkjnaJ0PoeM6I9T7xuTIcdAGV36i3qYwgBE4tdrghRdR0mP5MNM+OrGFA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@colbymchenry/codegraph-darwin-x64@1.0.1':
+    resolution: {integrity: sha512-KBSKl+tLCSIgV4iyi21SqYlpXL0P8DPqAnVHvvStdyYsCmkc2Heqf4oQIko+TYyFmuo65m4VpX989JkYZVGIVQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@colbymchenry/codegraph-linux-arm64@1.0.1':
+    resolution: {integrity: sha512-2TOeL/Lx3kME+dmv2Q9hbIQFBvT6uKLdZONDRaYto+1Bcl3GrJuIu6bsu3jiJuifPhnYIL2xwUV6y+TZQ8MbTw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@colbymchenry/codegraph-linux-x64@1.0.1':
+    resolution: {integrity: sha512-UENXSURJJUhcvdKoYsB5Wj6Z6O9C2afhYfG0LnL13KFWJhGXugqYKjF4KwkaeE8Po8TFul9k3f+8eXjmJwwwaQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@colbymchenry/codegraph-win32-arm64@1.0.1':
+    resolution: {integrity: sha512-ZEG+HOakHiAe1AWMa2LgD52HyIEbWsY2FyNvDmon4Ss2889OghqUyA8BOLu5hNW+EI42JwwSXijVevn2Zn0hlg==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@colbymchenry/codegraph-win32-x64@1.0.1':
+    resolution: {integrity: sha512-qU6jjyma635qKJ0aaL8XU8QtYUGkWly0Mu4Wm2cSWRcNDL1v6sVoHMElgfUY7E9tK0gnU+/LbZW3MfmtqLG1GA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@colbymchenry/codegraph@1.0.1':
+    resolution: {integrity: sha512-Y4ZMk7wxSRI9g2wQTcW21TfLr+fw7td1Dadkll6Udl9Ll8wX3H6qtov7K/VGtHG2AFX2j1e5Lm48PTHi74mImg==}
+    hasBin: true
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3171,6 +3208,33 @@ snapshots:
 
   '@cloudflare/workerd-windows-64@1.20260611.1':
     optional: true
+
+  '@colbymchenry/codegraph-darwin-arm64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph-darwin-x64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph-linux-arm64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph-linux-x64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph-win32-arm64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph-win32-x64@1.0.1':
+    optional: true
+
+  '@colbymchenry/codegraph@1.0.1':
+    optionalDependencies:
+      '@colbymchenry/codegraph-darwin-arm64': 1.0.1
+      '@colbymchenry/codegraph-darwin-x64': 1.0.1
+      '@colbymchenry/codegraph-linux-arm64': 1.0.1
+      '@colbymchenry/codegraph-linux-x64': 1.0.1
+      '@colbymchenry/codegraph-win32-arm64': 1.0.1
+      '@colbymchenry/codegraph-win32-x64': 1.0.1
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:

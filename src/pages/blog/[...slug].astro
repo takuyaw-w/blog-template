@@ -2,6 +2,7 @@
 import { type CollectionEntry, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { getBlogPosts, getReadingTimeMinutes, getRelatedPosts } from '../../utils/blog';
+import { getGitFileHistory } from '../../utils/git-history';
 
 export async function getStaticPaths() {
 	const posts = await getBlogPosts();
@@ -17,6 +18,7 @@ const posts = await getBlogPosts();
 const { Content, headings } = await render(post);
 const readingTimeMinutes = getReadingTimeMinutes(post.body);
 const relatedPosts = getRelatedPosts(post, posts);
+const gitHistory = getGitFileHistory(post.filePath);
 const slugCounts = new Map<string, number>();
 const toHeadingSlug = (text: string) => {
 	const baseSlug = text
@@ -57,6 +59,7 @@ const tableOfContents = headings.length > 0 ? headings : fallbackHeadings;
 	headings={tableOfContents}
 	readingTimeMinutes={readingTimeMinutes}
 	relatedPosts={relatedPosts}
+	gitHistory={gitHistory}
 >
 	<Content />
 </BlogPost>

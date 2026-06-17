@@ -1,0 +1,29 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import PageLayout from '../layouts/PageLayout.astro';
+import { getBlogListingPage } from '../utils/blog';
+import Pagination from './Pagination.astro';
+import PostList from './PostList.astro';
+
+interface Props {
+	basePath: string;
+	currentPage?: number;
+}
+
+const { basePath, currentPage = 1 } = Astro.props;
+const { currentPosts, totalPages } = await getBlogListingPage(currentPage);
+const pageTitle = currentPage === 1 ? SITE_TITLE : `${SITE_TITLE} | Page ${currentPage}`;
+---
+
+<PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
+	<main class="listing-main">
+		<section>
+			<PostList
+				posts={currentPosts}
+				emptyTitle="No blog posts yet."
+				emptyDescription="Published blog entries will appear here."
+			/>
+			<Pagination currentPage={currentPage} totalPages={totalPages} basePath={basePath} />
+		</section>
+	</main>
+</PageLayout>

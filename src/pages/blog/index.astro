@@ -1,25 +1,5 @@
 ---
-import Pagination from '../../components/Pagination.astro';
-import PostList from '../../components/PostList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
-import PageLayout from '../../layouts/PageLayout.astro';
-import { getBlogPosts, getPageItems, getTotalPages, sortPostsByDate } from '../../utils/blog';
-
-const posts = sortPostsByDate(await getBlogPosts());
-const currentPage = 1;
-const totalPages = getTotalPages(posts.length);
-const currentPosts = getPageItems(posts, currentPage);
+import BlogListingPage from '../../components/BlogListingPage.astro';
 ---
 
-<PageLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<main class="listing-main">
-		<section>
-			<PostList
-				posts={currentPosts}
-				emptyTitle="No blog posts yet."
-				emptyDescription="Published blog entries will appear here."
-			/>
-			<Pagination currentPage={currentPage} totalPages={totalPages} basePath="/blog" />
-		</section>
-	</main>
-</PageLayout>
+<BlogListingPage basePath="/blog" />

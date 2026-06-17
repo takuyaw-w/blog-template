@@ -1,80 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectList from '../../../components/ProjectList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts';
-import PageLayout from '../../../layouts/PageLayout.astro';
+import ProjectTaxonomyPage from '../../../components/ProjectTaxonomyPage.astro';
 import { fromTaxonomySlug } from '../../../utils/blog';
+import { getProjectTaxonomyStaticPaths } from '../../../utils/projects';
 
 export async function getStaticPaths() {
-	const projects = await getCollection('projects');
-	const categories = [...new Set(projects.map((project) => project.data.category))];
-
-	return categories.map((category) => ({
-		params: { category },
-		props: { category },
-	}));
+	return getProjectTaxonomyStaticPaths('category');
 }
 
-const { category } = Astro.props;
-const categoryName = category ?? fromTaxonomySlug(Astro.params.category ?? '');
-const projects = (await getCollection('projects'))
-	.filter((project) => project.data.category === categoryName)
-	.sort((a, b) => a.data.order - b.data.order);
+const value = Astro.props.value ?? fromTaxonomySlug(Astro.params.category ?? '');
 ---
 
-<PageLayout title={`${categoryName} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="projects-main">
-		<a class="back-link" href="/projects/categories/" data-history-back>Back</a>
-		<section class="page-header">
-			<p class="eyebrow">Project Category</p>
-			<h1>{categoryName}</h1>
-			<p class="lead">{projects.length} project{projects.length === 1 ? '' : 's'} in this category.</p>
-		</section>
-		<ProjectList
-			projects={projects}
-			emptyTitle={`No projects in ${categoryName} yet.`}
-			emptyDescription="Published projects for this category will appear here."
-		/>
-	</main>
-<style>
-	.projects-main {
-		width: 1400px;
-	}
-	.back-link {
-		display: inline-flex;
-		margin-bottom: 1.5rem;
-		color: rgb(var(--gray));
-		font-size: 0.95rem;
-		text-decoration: none;
-	}
-	.back-link:focus-visible {
-		outline: 2px solid rgba(var(--accent-rgb), 0.45);
-		outline-offset: 3px;
-	}
-	.page-header {
-		margin-bottom: 2rem;
-	}
-	.eyebrow {
-		margin: 0 0 0.35rem;
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		text-transform: uppercase;
-	}
-	h1 {
-		margin: 0 0 0.5rem;
-		font-size: 2rem;
-	}
-	.lead {
-		max-width: 640px;
-		margin: 0;
-		color: rgb(var(--gray));
-	}
-</style>
-<script>
-	import { bindHistoryBackLinks } from '../../../utils/history-back';
-
-	bindHistoryBackLinks();
-</script>
-</PageLayout>
+<ProjectTaxonomyPage type="category" value={value} />

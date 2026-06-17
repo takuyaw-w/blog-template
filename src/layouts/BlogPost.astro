@@ -2,8 +2,10 @@
 import { Image } from 'astro:assets';
 import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
+import BackLink from '../components/BackLink.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug, type BlogPostEntry } from '../utils/blog';
+import type { GitFileHistory } from '../utils/git-history';
 import PageLayout from './PageLayout.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
@@ -11,7 +13,11 @@ type Props = CollectionEntry<'blog'>['data'] & {
 	headings?: MarkdownHeading[];
 	readingTimeMinutes?: number;
 	relatedPosts?: BlogPostEntry[];
+	gitHistory?: GitFileHistory;
 };
+
+const MIN_TOC_HEADINGS = 3;
+const MIN_TOC_READING_TIME_MINUTES = 5;
 
 const {
 	title,
@@ -25,24 +31,32 @@ const {
 	headings = [],
 	readingTimeMinutes,
 	relatedPosts = [],
+	gitHistory = {},
 } = Astro.props;
 const tocHeadings = headings.filter(
 	(heading) => heading.depth >= 2 && heading.depth <= 3 && heading.slug !== 'footnote-label',
 );
+const shouldShowTableOfContents =
+	tocHeadings.length >= MIN_TOC_HEADINGS ||
+	(readingTimeMinutes !== undefined && readingTimeMinutes >= MIN_TOC_READING_TIME_MINUTES);
 const markdownUrl = postId ? `/blog/${postId}.md` : undefined;
 const hasArticleInfo = tags.length > 0 || readingTimeMinutes !== undefined || category !== undefined;
-const hasSidebar = hasArticleInfo || tocHeadings.length > 0;
+const hasSidebar = hasArticleInfo || shouldShowTableOfContents;
 const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) : heroImage;
+const publishedAt = gitHistory.publishedAt ?? pubDate;
+const updatedAt = gitHistory.updatedAt ?? updatedDate;
+const shouldShowUpdatedAt =
+	updatedAt !== undefined && formatPostDate(updatedAt) !== formatPostDate(publishedAt);
 ---
 
 <PageLayout title={title} description={description} image={ogImage}>
 		<main class="blog-post-main">
-			<a class="back-link" href="/blog/" data-history-back>Back</a>
+			<BackLink href="/blog/" spacing="loose" />
 			<article>
 				<div class:list={['article-body', { 'no-sidebar': !hasSidebar }]}>
 					{heroImage && <Image class="hero-image" width={1200} height={630} src={heroImage} alt="" />}
 					{
-						tocHeadings.length > 0 && (
+						shouldShowTableOfContents && (
 							<details class="table-of-contents mobile-toc">
 								<summary>INDEX</summary>
 								<ol>
@@ -107,16 +121,16 @@ const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) :
 										<h2 id="article-info-heading">INFO</h2>
 										<dl>
 											<div>
-												<dt>PubDate</dt>
+												<dt>Published</dt>
 												<dd>
-													<FormattedDate date={pubDate} />
+													<FormattedDate date={publishedAt} />
 												</dd>
 											</div>
-											{updatedDate !== undefined && (
+											{shouldShowUpdatedAt && (
 												<div>
-													<dt>UpdatedDate</dt>
+													<dt>Updated</dt>
 													<dd>
-														<FormattedDate date={updatedDate} />
+														<FormattedDate date={updatedAt} />
 													</dd>
 												</div>
 											)}
@@ -153,7 +167,7 @@ const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) :
 										</dl>
 									</section>
 								)}
-								{tocHeadings.length > 0 && (
+								{shouldShowTableOfContents && (
 									<details class="table-of-contents desktop-toc" aria-label="Table of contents" open>
 										<summary>INDEX</summary>
 										<ol>
@@ -177,17 +191,6 @@ const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) :
 			.blog-post-main {
 				width: 1400px;
 				max-width: calc(100% - 2em);
-			}
-			.back-link {
-				display: inline-flex;
-				margin-bottom: 2rem;
-				color: rgb(var(--gray));
-				font-size: 0.95rem;
-				text-decoration: none;
-			}
-			.back-link:focus-visible {
-				outline: 2px solid rgba(var(--accent-rgb), 0.45);
-				outline-offset: 3px;
 			}
 			.hero-image {
 				grid-column: 1 / -1;
@@ -621,10 +624,5 @@ const ogImage = postId ? new URL(`/og/${postId}.png`, Astro.site ?? Astro.url) :
 					document.addEventListener('astro:before-swap', () => window[controllerKey]?.abort?.());
 				}
 			})();
-		</script>
-		<script>
-			import { bindHistoryBackLinks } from '../utils/history-back';
-
-			bindHistoryBackLinks();
 		</script>
 </PageLayout>

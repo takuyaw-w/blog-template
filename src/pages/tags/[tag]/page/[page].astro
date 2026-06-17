@@ -1,68 +1,13 @@
 ---
-import Pagination from '../../../../components/Pagination.astro';
-import PostList from '../../../../components/PostList.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../../../consts';
-import PageLayout from '../../../../layouts/PageLayout.astro';
-import {
-	fromTaxonomySlug,
-	getBlogPosts,
-	getPageItems,
-	getPageNumbers,
-	getTotalPages,
-	sortPostsByDate,
-	toTaxonomySlug,
-} from '../../../../utils/blog';
+import BlogTaxonomyPage from '../../../../components/BlogTaxonomyPage.astro';
+import { fromTaxonomySlug, getBlogTaxonomyStaticPaths } from '../../../../utils/blog';
 
 export async function getStaticPaths() {
-	const posts = await getBlogPosts();
-	const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
-
-	return tags.flatMap((tag) => {
-		const totalPages = getTotalPages(posts.filter((post) => post.data.tags.includes(tag)).length);
-
-		return getPageNumbers(totalPages)
-			.filter((page) => page > 1)
-			.map((page) => ({
-				params: { tag, page: String(page) },
-				props: { tag, page },
-			}));
-	});
+	return getBlogTaxonomyStaticPaths('tag', true);
 }
 
+const value = Astro.props.value ?? fromTaxonomySlug(Astro.params.tag ?? '');
 const currentPage = Number(Astro.props.page);
-const tagName = Astro.props.tag ?? fromTaxonomySlug(Astro.params.tag ?? '');
-const posts = sortPostsByDate((await getBlogPosts()).filter((post) => post.data.tags.includes(tagName)));
-const totalPages = getTotalPages(posts.length);
-const currentPosts = getPageItems(posts, currentPage);
 ---
 
-<PageLayout title={`${tagName} | Page ${currentPage} | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="listing-main">
-		<a class="back-link" href="/tags/" data-history-back>Back</a>
-		<h1 class="taxonomy-title">{tagName}</h1>
-		<PostList
-			posts={currentPosts}
-			emptyTitle={`No blog posts tagged ${tagName} yet.`}
-			emptyDescription="Published blog entries with this tag will appear here."
-		/>
-		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/tags/${toTaxonomySlug(tagName)}`} />
-	</main>
-	<style>
-		.back-link {
-			display: inline-flex;
-			margin-bottom: 1.5rem;
-			color: rgb(var(--gray));
-			font-size: 0.95rem;
-			text-decoration: none;
-		}
-		.back-link:focus-visible {
-			outline: 2px solid rgba(var(--accent-rgb), 0.45);
-			outline-offset: 3px;
-		}
-	</style>
-	<script>
-		import { bindHistoryBackLinks } from '../../../../utils/history-back';
-
-		bindHistoryBackLinks();
-	</script>
-</PageLayout>
+<BlogTaxonomyPage type="tag" value={value} currentPage={currentPage} />

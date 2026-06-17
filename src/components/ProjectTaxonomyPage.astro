@@ -1,0 +1,58 @@
+---
+import ProjectList from './ProjectList.astro';
+import BackLink from './BackLink.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import PageLayout from '../layouts/PageLayout.astro';
+import {
+	getProjectTaxonomyCopy,
+	getProjectTaxonomyIndexPath,
+	getProjectTaxonomyPage,
+	type ProjectTaxonomyType,
+} from '../utils/projects';
+
+interface Props {
+	type: ProjectTaxonomyType;
+	value: string;
+}
+
+const { type, value } = Astro.props;
+const projects = await getProjectTaxonomyPage(type, value);
+const copy = getProjectTaxonomyCopy(type, value, projects.length);
+---
+
+<PageLayout title={`${value} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="projects-main">
+		<BackLink href={getProjectTaxonomyIndexPath(type)} />
+		<section class="page-header">
+			<p class="eyebrow">{copy.eyebrow}</p>
+			<h1>{value}</h1>
+			<p class="lead">{copy.lead}</p>
+		</section>
+		<ProjectList projects={projects} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
+	</main>
+</PageLayout>
+<style>
+	.projects-main {
+		width: 1400px;
+	}
+	.page-header {
+		margin-bottom: 2rem;
+	}
+	.eyebrow {
+		margin: 0 0 0.35rem;
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: uppercase;
+	}
+	h1 {
+		margin: 0 0 0.5rem;
+		font-size: 2rem;
+	}
+	.lead {
+		max-width: 640px;
+		margin: 0;
+		color: rgb(var(--gray));
+	}
+</style>

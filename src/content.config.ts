@@ -84,6 +84,20 @@ const about = defineCollection({
           }),
         )
         .default([]),
+      uses: z
+        .array(
+          z.object({
+            category: z.string(),
+            items: z.array(
+              z.object({
+                name: z.string(),
+                description: z.string(),
+                url: z.string().url().optional(),
+              }),
+            ),
+          }),
+        )
+        .default([]),
       socials: z
         .array(
           z.object({

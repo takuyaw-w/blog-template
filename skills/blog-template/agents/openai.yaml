@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blog Template"
+  short_description: "Astro blog template workflow"
+  default_prompt: "Use $blog-template to update the Astro blog template safely."
