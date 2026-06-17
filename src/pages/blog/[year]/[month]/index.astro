@@ -3,8 +3,13 @@ import PostList from '../../../../components/PostList.astro';
 import ProjectList from '../../../../components/ProjectList.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../../../consts';
 import PageLayout from '../../../../layouts/PageLayout.astro';
-import { getReadingTimeMinutes } from '../../../../utils/blog';
-import { getBlogMonth, getBlogMonths } from '../../../../utils/monthly';
+import {
+	getBlogMonth,
+	getBlogMonthPopularTags,
+	getBlogMonthReadingTimeMinutes,
+	getBlogMonths,
+	getBlogMonthSummary,
+} from '../../../../utils/monthly';
 
 export async function getStaticPaths() {
 	const months = await getBlogMonths();
@@ -22,21 +27,9 @@ if (month === undefined) {
 	return Astro.redirect('/blog/');
 }
 
-const totalReadingTime = month.posts.reduce(
-	(total, post) => total + getReadingTimeMinutes(post.body),
-	0,
-);
-const tagCounts = new Map<string, number>();
-
-for (const post of month.posts) {
-	for (const tag of post.data.tags) {
-		tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
-	}
-}
-
-const popularTags = [...tagCounts.entries()]
-	.sort(([, countA], [, countB]) => countB - countA)
-	.slice(0, 6);
+const totalReadingTime = getBlogMonthReadingTimeMinutes(month);
+const popularTags = getBlogMonthPopularTags(month);
+const monthlySummary = getBlogMonthSummary(month);
 const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 ---
 
@@ -46,6 +39,7 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 		<header class="monthly-header">
 			<p class="eyebrow">Monthly Log</p>
 			<h1>{month.label}</h1>
+			<p class="monthly-lead">{monthlySummary}</p>
 			<div class="monthly-stats" aria-label={`${month.label} summary`}>
 				<div>
 					<strong>{month.posts.length}</strong>
@@ -124,11 +118,18 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 		letter-spacing: 0;
 		text-transform: uppercase;
 	}
-	.monthly-header h1 {
-		margin: 0;
-		font-size: clamp(2.15rem, 9vw, 3.052rem);
-	}
-	.monthly-stats {
+		.monthly-header h1 {
+			margin: 0;
+			font-size: clamp(2.15rem, 9vw, 3.052rem);
+		}
+		.monthly-lead {
+			max-width: 680px;
+			margin: 0.75rem 0 0;
+			color: rgb(var(--gray-dark));
+			font-size: 1rem;
+			line-height: 1.65;
+		}
+		.monthly-stats {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 0.75rem;
