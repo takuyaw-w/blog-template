@@ -67,13 +67,13 @@ const loadFontsourceFont = async (weight: 400 | 700) => {
   const fontPaths =
     weight === 700
       ? [
-        join(fontsourceDirectory, "noto-sans-jp-japanese-700-normal.woff"),
-        join(fontsourceDirectory, "noto-sans-jp-latin-700-normal.woff"),
-      ]
+          join(fontsourceDirectory, "noto-sans-jp-japanese-700-normal.woff"),
+          join(fontsourceDirectory, "noto-sans-jp-latin-700-normal.woff"),
+        ]
       : [
-        join(fontsourceDirectory, "noto-sans-jp-japanese-400-normal.woff"),
-        join(fontsourceDirectory, "noto-sans-jp-latin-400-normal.woff"),
-      ];
+          join(fontsourceDirectory, "noto-sans-jp-japanese-400-normal.woff"),
+          join(fontsourceDirectory, "noto-sans-jp-latin-400-normal.woff"),
+        ];
 
   return readFirstExistingFile(fontPaths);
 };
@@ -182,19 +182,19 @@ const createOgNode = ({ title, description, tags = [] }: OgImageInput) => ({
             },
             description
               ? {
-                type: "div",
-                props: {
-                  style: {
-                    display: "flex",
-                    color: "#586e75",
-                    fontSize: 31,
-                    fontWeight: 400,
-                    lineHeight: 1.45,
-                    letterSpacing: 0,
+                  type: "div",
+                  props: {
+                    style: {
+                      display: "flex",
+                      color: "#586e75",
+                      fontSize: 31,
+                      fontWeight: 400,
+                      lineHeight: 1.45,
+                      letterSpacing: 0,
+                    },
+                    children: truncateText(description, 92),
                   },
-                  children: truncateText(description, 92),
-                },
-              }
+                }
               : null,
           ].filter(Boolean),
         },
