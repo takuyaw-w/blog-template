@@ -13,6 +13,7 @@
     "format:check": "oxfmt --check .",
     "lint": "oxlint .",
     "preview": "astro preview",
+    "test:blog-title": "pnpm run build && playwright test tests/blog-title-responsive.spec.ts",
     "astro": "astro",
     "sync:content": "bash scripts/sync-content.sh",
     "build:with-content": "pnpm run clean && pnpm run sync:content && pnpm run build"
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@colbymchenry/codegraph": "^1.0.1",
+    "@playwright/test": "^1.61.0",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
     "wrangler": "^4.100.0"
