@@ -50,157 +50,157 @@ const shouldShowUpdatedAt =
 ---
 
 <PageLayout title={title} description={description} image={ogImage}>
-		<main class="blog-post-main">
-			<BackLink href="/blog/" spacing="loose" />
-			<article>
-				<div class:list={['article-body', { 'no-sidebar': !hasSidebar }]}>
-					{
-						heroImage && (
-							<Image
-								class="hero-image"
-								width={1200}
-								height={630}
-								src={heroImage}
-								alt=""
-								loading="eager"
-								decoding="sync"
-								fetchpriority="high"
-							/>
-						)
-					}
-					{
-						shouldShowTableOfContents && (
-							<details class="table-of-contents mobile-toc">
-								<summary>INDEX</summary>
-								<ol>
-									{tocHeadings.map((heading) => (
-										<li>
-											<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
-												{heading.text}
-											</a>
-										</li>
-									))}
-								</ol>
-							</details>
-						)
-					}
-					<div class="article-content">
-						<div class="title">
-							<h1>{title}</h1>
-							<hr />
-						</div>
-						<div class="prose prose-lg prose-blog">
-							<slot />
-							{
-								markdownUrl && (
-									<p class="source-link">
-										Markdown source:{' '}
-										<a href={markdownUrl} rel="alternate" type="text/markdown">
-											{markdownUrl}
+	<main class="blog-post-main">
+		<BackLink href="/blog/" spacing="loose" />
+		<article>
+			<div class:list={['article-body', { 'no-sidebar': !hasSidebar }]}>
+				<div class="title">
+					<h1>{title}</h1>
+					<hr />
+				</div>
+				{
+					heroImage && (
+						<Image
+							class="hero-image"
+							width={1200}
+							height={630}
+							src={heroImage}
+							alt=""
+							loading="eager"
+							decoding="sync"
+							fetchpriority="high"
+						/>
+					)
+				}
+				{
+					shouldShowTableOfContents && (
+						<details class="table-of-contents mobile-toc">
+							<summary>INDEX</summary>
+							<ol>
+								{tocHeadings.map((heading) => (
+									<li>
+										<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
+											{heading.text}
 										</a>
-									</p>
-								)
-							}
-							{
-								relatedPosts.length > 0 && (
-									<section class="related-posts" aria-labelledby="related-posts-heading">
-										<h2 id="related-posts-heading">Related Posts</h2>
-										<ul>
-											{relatedPosts.map((relatedPost) => (
-												<li>
-													<a class="related-post-link" href={`/blog/${relatedPost.id}/`}>
-														<span class="related-post-body">
-															<span class="related-post-eyebrow">
-																{relatedPost.data.category} / {formatPostDate(relatedPost.data.pubDate)}
-															</span>
-															<span class="related-post-title">{relatedPost.data.title}</span>
-															<span class="related-post-description">{relatedPost.data.description}</span>
+									</li>
+								))}
+							</ol>
+						</details>
+					)
+				}
+				<div class="article-content">
+					<div class="prose prose-lg prose-blog">
+						<slot />
+						{
+							markdownUrl && (
+								<p class="source-link">
+									Markdown source:{' '}
+									<a href={markdownUrl} rel="alternate" type="text/markdown">
+										{markdownUrl}
+									</a>
+								</p>
+							)
+						}
+						{
+							relatedPosts.length > 0 && (
+								<section class="related-posts" aria-labelledby="related-posts-heading">
+									<h2 id="related-posts-heading">Related Posts</h2>
+									<ul>
+										{relatedPosts.map((relatedPost) => (
+											<li>
+												<a class="related-post-link" href={`/blog/${relatedPost.id}/`}>
+													<span class="related-post-body">
+														<span class="related-post-eyebrow">
+															{relatedPost.data.category} / {formatPostDate(relatedPost.data.pubDate)}
 														</span>
-														<span class="related-post-meta">約{getReadingTimeMinutes(relatedPost.body)}分</span>
-													</a>
-												</li>
-											))}
-										</ul>
-									</section>
-								)
-							}
-						</div>
+														<span class="related-post-title">{relatedPost.data.title}</span>
+														<span class="related-post-description">{relatedPost.data.description}</span>
+													</span>
+													<span class="related-post-meta">約{getReadingTimeMinutes(relatedPost.body)}分</span>
+												</a>
+											</li>
+										))}
+									</ul>
+								</section>
+							)
+						}
 					</div>
-					{
-						hasSidebar && (
-							<aside class="article-sidebar" aria-label="Article sidebar">
-								{hasArticleInfo && (
-									<section class="article-info" aria-labelledby="article-info-heading">
-										<h2 id="article-info-heading">INFO</h2>
-										<dl>
+				</div>
+				{
+					hasSidebar && (
+						<aside class="article-sidebar" aria-label="Article sidebar">
+							{hasArticleInfo && (
+								<section class="article-info" aria-labelledby="article-info-heading">
+									<h2 id="article-info-heading">INFO</h2>
+									<dl>
+										<div>
+											<dt>Published</dt>
+											<dd>
+												<FormattedDate date={publishedAt} />
+											</dd>
+										</div>
+										{shouldShowUpdatedAt && (
 											<div>
-												<dt>Published</dt>
+												<dt>Updated</dt>
 												<dd>
-													<FormattedDate date={publishedAt} />
+													<FormattedDate date={updatedAt} />
 												</dd>
 											</div>
-											{shouldShowUpdatedAt && (
-												<div>
-													<dt>Updated</dt>
-													<dd>
-														<FormattedDate date={updatedAt} />
-													</dd>
-												</div>
-											)}
-											{readingTimeMinutes !== undefined && (
-												<div>
-													<dt>Read time</dt>
-													<dd>約{readingTimeMinutes}分</dd>
-												</div>
-											)}
-											{category !== undefined && (
-												<div>
-													<dt>Category</dt>
-													<dd>
-														<a class="article-category" href={`/categories/${toTaxonomySlug(category)}/`}>
-															{category}
-														</a>
-													</dd>
-												</div>
-											)}
-											{tags.length > 0 && (
-												<div>
-													<dt>Tags</dt>
-													<dd>
-														<ul class="article-tags">
-															{tags.map((tag) => (
-																<li>
-																	<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
-																</li>
-															))}
-														</ul>
-													</dd>
-												</div>
-											)}
-										</dl>
-									</section>
-								)}
-								{shouldShowTableOfContents && (
-									<details class="table-of-contents desktop-toc" aria-label="Table of contents" open>
-										<summary>INDEX</summary>
-										<ol>
-											{tocHeadings.map((heading) => (
-												<li>
-													<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
-														{heading.text}
+										)}
+										{readingTimeMinutes !== undefined && (
+											<div>
+												<dt>Read time</dt>
+												<dd>約{readingTimeMinutes}分</dd>
+											</div>
+										)}
+										{category !== undefined && (
+											<div>
+												<dt>Category</dt>
+												<dd>
+													<a class="article-category" href={`/categories/${toTaxonomySlug(category)}/`}>
+														{category}
 													</a>
-												</li>
-											))}
-										</ol>
-									</details>
-								)}
-							</aside>
-						)
-					}
-				</div>
-			</article>
-		</main>
-		<style>
+												</dd>
+											</div>
+										)}
+										{tags.length > 0 && (
+											<div>
+												<dt>Tags</dt>
+												<dd>
+													<ul class="article-tags">
+														{tags.map((tag) => (
+															<li>
+																<a href={`/tags/${toTaxonomySlug(tag)}/`}>{tag}</a>
+															</li>
+														))}
+													</ul>
+												</dd>
+											</div>
+										)}
+									</dl>
+								</section>
+							)}
+							{shouldShowTableOfContents && (
+								<details class="table-of-contents desktop-toc" aria-label="Table of contents" open>
+									<summary>INDEX</summary>
+									<ol>
+										{tocHeadings.map((heading) => (
+											<li>
+												<a class={`depth-${heading.depth}`} href={`#${heading.slug}`}>
+													{heading.text}
+												</a>
+											</li>
+										))}
+									</ol>
+								</details>
+							)}
+						</aside>
+					)
+				}
+			</div>
+		</article>
+	</main>
+	<style>
 			.blog-post-main {
 				width: 1400px;
 				max-width: calc(100% - 2em);
@@ -353,19 +353,22 @@ const shouldShowUpdatedAt =
 				color: rgb(var(--gray-dark));
 				text-decoration: none;
 			}
-			.article-tags a:hover {
-				border-color: rgba(var(--accent-rgb), 0.45);
-				color: var(--accent);
-			}
-			.mobile-toc {
-				display: none;
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
+				.article-tags a:hover {
+					border-color: rgba(var(--accent-rgb), 0.45);
+					color: var(--accent);
+				}
+				.mobile-toc {
+					display: none;
+				}
+				.title {
+					grid-column: 1 / -1;
+					width: 1040px;
+					max-width: 100%;
+					margin: 0 auto 1.25rem;
+					padding: 1em 1em 0;
+					text-align: center;
+					line-height: 1;
+				}
 			.title h1 {
 				margin: 0 0 0.5em 0;
 				font-size: clamp(2rem, 4vw, 3rem);
