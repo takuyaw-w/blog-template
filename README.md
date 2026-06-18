@@ -97,6 +97,20 @@ pnpm exec codegraph install --target codex --location global
 | `pnpm run deploy:dry-run` | Cloudflare deploy の dry-run を実行します。         |
 | `pnpm run deploy`         | Cloudflare Workers Static Assets へ deploy します。 |
 
+## 環境変数
+
+この repo の build-time 設定は `.env.example` を契約として管理します。実際の値は Cloudflare の build variables、ローカルの ignored `.env`、または shell env に置いてください。
+
+| Name                     | 用途                                                       |
+| ------------------------ | ---------------------------------------------------------- |
+| `SITE_URL`               | canonical URL、sitemap、RSS、OGP の絶対URL生成に使います。 |
+| `SITE_TITLE`             | Header、RSS、OGP、各ページの `<title>` に使います。        |
+| `SITE_DESCRIPTION`       | meta description、RSS、一覧系ページの説明に使います。      |
+| `PUBLIC_GTM_ID`          | Google Tag Manager を有効にする場合に設定します。          |
+| `CONTENT_REPO`           | 外部 content repository を同期する場合の `owner/repo`。    |
+| `CONTENT_BRANCH`         | 外部 content repository の branch。省略時は `main` です。  |
+| `CONTENT_DEPLOY_KEY_B64` | content sync 用の秘密鍵。実値は repo に commit しません。  |
+
 ## コンテンツ構成
 
 ```text

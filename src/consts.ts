@@ -1,6 +1,5 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
+const DEFAULT_SITE_TITLE = "Site Title";
+const DEFAULT_SITE_DESCRIPTION = "Site description.";
 
-export const SITE_TITLE = "/var/log/takuya.log";
-export const SITE_DESCRIPTION =
-  "Web開発と日々の学びを、あとから読み返せるログとして残す個人ブログです。";
+export const SITE_TITLE = import.meta.env.SITE_TITLE || DEFAULT_SITE_TITLE;
+export const SITE_DESCRIPTION = import.meta.env.SITE_DESCRIPTION || DEFAULT_SITE_DESCRIPTION;
