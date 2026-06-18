@@ -1,33 +1,19 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
-import {
-	getBlogMonthPopularTags,
-	getBlogMonthReadingTimeMinutes,
-	getBlogMonths,
-	getBlogMonthSummary,
-} from '../../utils/monthly';
 import { getYearActivitySummaries } from '../../utils/yearly';
 
 const years = await getYearActivitySummaries();
-const months = await getBlogMonths();
-const monthCards = months.map((month) => ({
-	month,
-	popularTags: getBlogMonthPopularTags(month, 4),
-	readingTime: getBlogMonthReadingTimeMinutes(month),
-	summary: getBlogMonthSummary(month),
-}));
 ---
 
-<PageLayout title={`Monthly Logs | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="listing-main monthly-index">
-		<header class="monthly-index-header">
+<PageLayout title={`Years | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main class="listing-main year-index-page">
+		<header class="year-index-header">
 			<p class="eyebrow">Archive</p>
-			<h1>Monthly Logs</h1>
-			<p class="lead">Blog and project activity, grouped by year and month.</p>
+			<h1>Years</h1>
+			<p class="lead">Blog and project activity, grouped by year.</p>
 		</header>
-		<section class="year-index" aria-labelledby="year-index-title">
-			<h2 id="year-index-title">Years</h2>
+		<section class="year-index" aria-label="Years">
 			{
 				years.length > 0 ? (
 					<ul class="year-list">
@@ -58,57 +44,14 @@ const monthCards = months.map((month) => ({
 				)
 			}
 		</section>
-		{
-			monthCards.length > 0 && (
-				<section class="month-index" aria-labelledby="month-index-title">
-					<h2 id="month-index-title">Monthly Logs</h2>
-					<ul class="month-list">
-						{monthCards.map(({ month, popularTags, readingTime, summary }) => (
-							<li>
-								<a class="month-card" href={month.path}>
-									<span class="month-card-main">
-										<span class="month-label">{month.label}</span>
-										<span class="month-summary">{summary}</span>
-										{popularTags.length > 0 && (
-											<span class="month-tags" aria-label={`${month.label} frequent tags`}>
-												{popularTags.map(([tag, count]) => (
-													<span>
-														{tag}
-														<span>{count}</span>
-													</span>
-												))}
-											</span>
-										)}
-									</span>
-									<span class="month-metrics" aria-label={`${month.label} activity counts`}>
-										<span>
-											<strong>{month.posts.length}</strong>
-											Blog
-										</span>
-										<span>
-											<strong>{month.projects.length}</strong>
-											Projects
-										</span>
-										<span>
-											<strong>{readingTime}</strong>
-											Min
-										</span>
-									</span>
-								</a>
-							</li>
-						))}
-					</ul>
-				</section>
-			)
-		}
 	</main>
 </PageLayout>
 
 <style>
-	.monthly-index {
+	.year-index-page {
 		width: 920px;
 	}
-	.monthly-index-header {
+	.year-index-header {
 		margin-bottom: 2.5rem;
 		padding-bottom: 1.5rem;
 		border-bottom: 1px solid rgb(var(--border));
@@ -121,7 +64,7 @@ const monthCards = months.map((month) => ({
 		letter-spacing: 0;
 		text-transform: uppercase;
 	}
-	.monthly-index-header h1 {
+	.year-index-header h1 {
 		margin: 0;
 		font-size: clamp(2.15rem, 9vw, 3.052rem);
 	}
@@ -131,17 +74,6 @@ const monthCards = months.map((month) => ({
 		color: rgb(var(--gray-dark));
 		font-size: 1rem;
 		line-height: 1.65;
-	}
-	.year-index {
-		margin-bottom: 3rem;
-	}
-	.month-index {
-		margin-top: 0;
-	}
-	.year-index h2,
-	.month-index h2 {
-		margin-bottom: 0.75rem;
-		font-size: 1.25rem;
 	}
 	.year-list {
 		margin: 0;
@@ -200,88 +132,6 @@ const monthCards = months.map((month) => ({
 		border-bottom: 1px solid rgb(var(--gray-light));
 		color: rgb(var(--gray));
 	}
-	.month-list {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-	.month-index li {
-		border-bottom: 1px solid rgb(var(--gray-light));
-	}
-	.month-card {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: 1rem;
-		align-items: center;
-		justify-content: space-between;
-		padding: 1rem 0.75rem;
-		border-radius: 6px;
-		color: rgb(var(--black));
-		text-decoration: none;
-	}
-	.month-card:hover,
-	.month-card:focus-visible {
-		background-color: rgba(var(--gray-light), 45%);
-	}
-	.month-card-main,
-	.month-label,
-	.month-summary {
-		display: block;
-		min-width: 0;
-	}
-	.month-label {
-		font-weight: 700;
-		line-height: 1.35;
-	}
-	.month-summary {
-		margin-top: 0.25rem;
-		color: rgb(var(--gray-dark));
-		font-size: 0.92rem;
-		line-height: 1.55;
-	}
-	.month-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.4rem;
-		margin-top: 0.65rem;
-	}
-	.month-tags > span {
-		display: inline-flex;
-		gap: 0.3rem;
-		align-items: center;
-		padding: 0.05rem 0.45rem;
-		border: 1px solid rgba(var(--border), 0.9);
-		border-radius: 999px;
-		color: rgb(var(--gray));
-		font-size: 0.78rem;
-		line-height: 1.6;
-	}
-	.month-tags > span > span {
-		font-size: 0.72rem;
-	}
-	.month-metrics {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(4.6rem, 1fr));
-		gap: 0.5rem;
-		min-width: 0;
-	}
-	.month-metrics > span {
-		display: block;
-		padding: 0.55rem 0.65rem;
-		border: 1px solid rgba(var(--border), 0.9);
-		border-radius: 6px;
-		background: rgba(var(--surface-strong), 0.42);
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-		line-height: 1.35;
-		text-align: right;
-	}
-	.month-metrics strong {
-		display: block;
-		color: rgb(var(--black));
-		font-size: 1rem;
-		line-height: 1.15;
-	}
 	@media (max-width: 720px) {
 		.year-list a {
 			grid-template-columns: 1fr;
@@ -290,15 +140,6 @@ const monthCards = months.map((month) => ({
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 		.year-metrics > span {
-			text-align: left;
-		}
-		.month-card {
-			grid-template-columns: 1fr;
-		}
-		.month-metrics {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-		.month-metrics > span {
 			text-align: left;
 		}
 	}
