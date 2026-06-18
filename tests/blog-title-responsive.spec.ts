@@ -19,6 +19,10 @@ type TitleMetrics = {
   overflowX: number;
 };
 
+type PageMetrics = {
+  horizontalOverflow: number;
+};
+
 const getTitleMetrics = async (page: Page): Promise<TitleMetrics> => {
   return page.locator(".title h1").evaluate((element) => {
     const styles = window.getComputedStyle(element);
@@ -28,6 +32,15 @@ const getTitleMetrics = async (page: Page): Promise<TitleMetrics> => {
       lineHeight: Number.parseFloat(styles.lineHeight),
       lineHeightRatio: Number.parseFloat(styles.lineHeight) / Number.parseFloat(styles.fontSize),
       overflowX: element.scrollWidth - element.clientWidth,
+    };
+  });
+};
+
+const getPageMetrics = async (page: Page): Promise<PageMetrics> => {
+  return page.evaluate(() => {
+    return {
+      horizontalOverflow:
+        document.documentElement.scrollWidth - document.documentElement.clientWidth,
     };
   });
 };
@@ -45,6 +58,8 @@ test.describe("blog post title responsive typography", () => {
       expect(metaDescription?.trim().length).toBeGreaterThan(0);
 
       const metrics = await getTitleMetrics(page);
+      const pageMetrics = await getPageMetrics(page);
+      expect(pageMetrics.horizontalOverflow).toBeLessThanOrEqual(1);
       expect(metrics.overflowX).toBeLessThanOrEqual(1);
 
       if (viewport.width <= 480) {
@@ -61,6 +76,8 @@ test.describe("blog post title responsive typography", () => {
       }, longJapaneseTitle);
 
       const longTitleMetrics = await getTitleMetrics(page);
+      const longTitlePageMetrics = await getPageMetrics(page);
+      expect(longTitlePageMetrics.horizontalOverflow).toBeLessThanOrEqual(1);
       expect(longTitleMetrics.overflowX).toBeLessThanOrEqual(1);
 
       const layout = await page.evaluate(() => {
