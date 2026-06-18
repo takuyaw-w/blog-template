@@ -106,7 +106,6 @@ pnpm exec codegraph install --target codex --location global
 | `SITE_URL`               | canonical URL、sitemap、RSS、OGP の絶対URL生成に使います。 |
 | `SITE_TITLE`             | Header、RSS、OGP、各ページの `<title>` に使います。        |
 | `SITE_DESCRIPTION`       | meta description、RSS、一覧系ページの説明に使います。      |
-| `PUBLIC_GTM_ID`          | Google Tag Manager を有効にする場合に設定します。          |
 | `CONTENT_REPO`           | 外部 content repository を同期する場合の `owner/repo`。    |
 | `CONTENT_BRANCH`         | 外部 content repository の branch。省略時は `main` です。  |
 | `CONTENT_DEPLOY_KEY_B64` | content sync 用の秘密鍵。実値は repo に commit しません。  |
