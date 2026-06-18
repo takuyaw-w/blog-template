@@ -374,7 +374,16 @@ const {
 						<div class="identity">
 							{
 								heroImage && (
-									<Image class="profile-photo" src={heroImage} alt={`${name} profile photo`} width={176} height={176} />
+									<Image
+										class="profile-photo"
+										src={heroImage}
+										alt={`${name} profile photo`}
+										width={176}
+										height={176}
+										loading="eager"
+										decoding="sync"
+										fetchpriority="high"
+									/>
 								)
 							}
 							<div>

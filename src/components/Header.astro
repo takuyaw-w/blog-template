@@ -223,7 +223,7 @@ import { SOCIAL_LINKS } from '../utils/social-links';
 		}
 	}
 </style>
-<script is:inline>
+<script>
 	(() => {
 		const initNavigationMenu = () => {
 			document.querySelectorAll('.site-header').forEach((header) => {
@@ -272,10 +272,5 @@ import { SOCIAL_LINKS } from '../utils/social-links';
 
 		initNavigationMenu();
 		initThemeToggle();
-		if (!window.__themeToggleInitialized) {
-			window.__themeToggleInitialized = true;
-			document.addEventListener('astro:page-load', initNavigationMenu);
-			document.addEventListener('astro:page-load', initThemeToggle);
-		}
 	})();
 </script>

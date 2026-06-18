@@ -17,6 +17,9 @@ const site = process.env.SITE_URL ?? "http://localhost:4321";
 // https://astro.build/config
 export default defineConfig({
   site,
+  build: {
+    inlineStylesheets: "always",
+  },
   integrations: [mdx(), sitemap()],
   markdown: {
     processor: unified({

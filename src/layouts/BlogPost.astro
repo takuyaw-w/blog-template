@@ -54,7 +54,20 @@ const shouldShowUpdatedAt =
 			<BackLink href="/blog/" spacing="loose" />
 			<article>
 				<div class:list={['article-body', { 'no-sidebar': !hasSidebar }]}>
-					{heroImage && <Image class="hero-image" width={1200} height={630} src={heroImage} alt="" />}
+					{
+						heroImage && (
+							<Image
+								class="hero-image"
+								width={1200}
+								height={630}
+								src={heroImage}
+								alt=""
+								loading="eager"
+								decoding="sync"
+								fetchpriority="high"
+							/>
+						)
+					}
 					{
 						shouldShowTableOfContents && (
 							<details class="table-of-contents mobile-toc">
@@ -506,16 +519,9 @@ const shouldShowUpdatedAt =
 				}
 			}
 		</style>
-		<script is:inline>
+		<script>
 			(() => {
-				const controllerKey = '__blogTocActiveController';
-				const initKey = '__blogInitActiveToc';
-				const initializedKey = '__blogTocActiveInitialized';
 				const initActiveToc = () => {
-					window[controllerKey]?.abort?.();
-
-					const controller = new AbortController();
-					window[controllerKey] = controller;
 					const tocLinks = Array.from(
 						document.querySelectorAll('.table-of-contents a[href^="#"]'),
 					);
@@ -549,14 +555,6 @@ const shouldShowUpdatedAt =
 						return;
 					}
 
-					const headingById = new Map();
-					tocItems.forEach(({ id, target }) => {
-						if (!headingById.has(id)) {
-							headingById.set(id, target);
-						}
-					});
-					const headings = Array.from(headingById.values());
-
 					const setActiveHeading = (activeId) => {
 						tocItems.forEach(({ id, link }) => {
 							const isActive = id === activeId;
@@ -570,59 +568,33 @@ const shouldShowUpdatedAt =
 						});
 					};
 
-					let ticking = false;
-					const updateActiveHeading = () => {
-						ticking = false;
+					setActiveHeading(tocItems[0].id);
 
-						const activationLine = Math.max(window.innerHeight * 0.28, 96);
-						let activeHeading = headings[0];
+					const targetByElement = new Map(tocItems.map((item) => [item.target, item]));
+					const observer = new IntersectionObserver(
+						(entries) => {
+							const activeEntry = entries
+								.filter((entry) => entry.isIntersecting)
+								.map((entry) => targetByElement.get(entry.target))
+								.filter(Boolean)
+								.at(-1);
 
-						for (const heading of headings) {
-							if (heading.getBoundingClientRect().top <= activationLine) {
-								activeHeading = heading;
-							} else {
-								break;
+							if (activeEntry) {
+								setActiveHeading(activeEntry.id);
 							}
-						}
+						},
+						{
+							rootMargin: '-28% 0px -64% 0px',
+							threshold: 0,
+						},
+					);
 
-						const bottomReached =
-							window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
-
-						if (bottomReached) {
-							activeHeading = headings[headings.length - 1];
-						}
-
-						setActiveHeading(activeHeading.id);
-					};
-
-					const requestUpdate = () => {
-						if (ticking) {
-							return;
-						}
-
-						ticking = true;
-						window.requestAnimationFrame(updateActiveHeading);
-					};
-
-					window.addEventListener('scroll', requestUpdate, {
-						passive: true,
-						signal: controller.signal,
+					tocItems.forEach(({ target }) => {
+						observer.observe(target);
 					});
-					window.addEventListener('resize', requestUpdate, {
-						passive: true,
-						signal: controller.signal,
-					});
-					updateActiveHeading();
 				};
 
-				window[initKey] = initActiveToc;
 				initActiveToc();
-
-				if (!window[initializedKey]) {
-					window[initializedKey] = true;
-					document.addEventListener('astro:page-load', () => window[initKey]?.());
-					document.addEventListener('astro:before-swap', () => window[controllerKey]?.abort?.());
-				}
 			})();
 		</script>
 </PageLayout>

@@ -1,9 +1,3 @@
-declare global {
-  interface Window {
-    __historyBackPageLoadBound?: boolean;
-  }
-}
-
 export const initHistoryBackLinks = () => {
   document.querySelectorAll<HTMLAnchorElement>("[data-history-back]").forEach((link) => {
     if (link.dataset.historyBackInitialized === "true") {
@@ -35,11 +29,4 @@ export const initHistoryBackLinks = () => {
 
 export const bindHistoryBackLinks = () => {
   initHistoryBackLinks();
-
-  if (window.__historyBackPageLoadBound) {
-    return;
-  }
-
-  window.__historyBackPageLoadBound = true;
-  document.addEventListener("astro:page-load", initHistoryBackLinks);
 };

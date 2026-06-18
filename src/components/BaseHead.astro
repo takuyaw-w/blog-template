@@ -25,8 +25,8 @@ const imageURL =
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="/favicon.ico" />
-<link rel="alternate icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.ico" sizes="any" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
@@ -70,16 +70,6 @@ const imageURL =
 		window.__setTheme = (theme) => applyTheme(theme, true);
 		window.__getTheme = getCurrentTheme;
 		applyTheme(getCurrentTheme());
-
-		if (!window.__themeInitialized) {
-			window.__themeInitialized = true;
-			document.addEventListener('astro:before-swap', (event) => {
-				event.newDocument.documentElement.dataset.theme = getCurrentTheme();
-			});
-			document.addEventListener('astro:page-load', () => {
-				applyTheme(getCurrentTheme());
-			});
-		}
 	})();
 </script>
 <!-- Canonical URL -->

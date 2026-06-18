@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="/var/log/takuya.log">
+  <rect width="64" height="64" rx="12" fill="#fdf6e3"/>
+  <path d="M15 18h34v28H15z" fill="#073642"/>
+  <path d="M19 23h10v4H19zm0 8h20v4H19zm0 8h15v4H19z" fill="#2aa198"/>
+  <path d="M42 37l5 3-5 3z" fill="#b58900"/>
+</svg>

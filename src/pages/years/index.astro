@@ -1,5 +1,4 @@
 ---
-import TaxonomyList from '../../components/TaxonomyList.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
 import {
@@ -8,9 +7,9 @@ import {
 	getBlogMonths,
 	getBlogMonthSummary,
 } from '../../utils/monthly';
-import { getYearActivityCounts } from '../../utils/yearly';
+import { getYearActivitySummaries } from '../../utils/yearly';
 
-const years = await getYearActivityCounts();
+const years = await getYearActivitySummaries();
 const months = await getBlogMonths();
 const monthCards = months.map((month) => ({
 	month,
@@ -25,16 +24,39 @@ const monthCards = months.map((month) => ({
 		<header class="monthly-index-header">
 			<p class="eyebrow">Archive</p>
 			<h1>Monthly Logs</h1>
-			<p class="lead">Blog and project activity, grouped by the month it landed.</p>
+			<p class="lead">Blog and project activity, grouped by year and month.</p>
 		</header>
 		<section class="year-index" aria-labelledby="year-index-title">
 			<h2 id="year-index-title">Years</h2>
-			<TaxonomyList
-				items={years}
-				basePath="/years"
-				emptyTitle="No years yet."
-				emptyDescription="Years will appear here once blog entries are published."
-			/>
+			{
+				years.length > 0 ? (
+					<ul class="year-list">
+						{years.map((year) => (
+							<li>
+								<a href={`/years/${year.year}/`}>
+									<span class="year-label">{year.year}</span>
+									<span class="year-metrics" aria-label={`${year.year} activity counts`}>
+										<span>
+											<strong>{year.blogCount}</strong>
+											Blog
+										</span>
+										<span>
+											<strong>{year.projectCount}</strong>
+											Projects
+										</span>
+										<span>
+											<strong>{year.totalCount}</strong>
+											Total
+										</span>
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p class="empty-copy">Years will appear here once blog entries or projects are published.</p>
+				)
+			}
 		</section>
 		{
 			monthCards.length > 0 && (
@@ -121,6 +143,63 @@ const monthCards = months.map((month) => ({
 		margin-bottom: 0.75rem;
 		font-size: 1.25rem;
 	}
+	.year-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.year-list li {
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.year-list a {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 1rem;
+		align-items: center;
+		padding: 1rem 0.75rem;
+		border-radius: 6px;
+		color: rgb(var(--black));
+		text-decoration: none;
+		transition: background-color 0.2s ease;
+	}
+	.year-list a:hover,
+	.year-list a:focus-visible {
+		background-color: rgba(var(--gray-light), 45%);
+	}
+	.year-label {
+		font-weight: 700;
+		line-height: 1.35;
+	}
+	.year-metrics {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(4.6rem, 1fr));
+		gap: 0.5rem;
+		min-width: 0;
+	}
+	.year-metrics > span {
+		display: block;
+		padding: 0.55rem 0.65rem;
+		border: 1px solid rgba(var(--border), 0.9);
+		border-radius: 6px;
+		background: rgba(var(--surface-strong), 0.42);
+		color: rgb(var(--gray));
+		font-size: 0.85rem;
+		line-height: 1.35;
+		text-align: right;
+	}
+	.year-metrics strong {
+		display: block;
+		color: rgb(var(--black));
+		font-size: 1rem;
+		line-height: 1.15;
+	}
+	.empty-copy {
+		margin: 0;
+		padding: 1rem 0.75rem;
+		border-top: 1px solid rgb(var(--gray-light));
+		border-bottom: 1px solid rgb(var(--gray-light));
+		color: rgb(var(--gray));
+	}
 	.month-list {
 		margin: 0;
 		padding: 0;
@@ -204,6 +283,15 @@ const monthCards = months.map((month) => ({
 		line-height: 1.15;
 	}
 	@media (max-width: 720px) {
+		.year-list a {
+			grid-template-columns: 1fr;
+		}
+		.year-metrics {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+		.year-metrics > span {
+			text-align: left;
+		}
 		.month-card {
 			grid-template-columns: 1fr;
 		}

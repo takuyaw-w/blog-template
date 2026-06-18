@@ -9,21 +9,44 @@ export const sortProjectsByOrder = (projects: ProjectEntry[]) =>
 
 export const getProjects = async () => sortProjectsByOrder(await getCollection("projects"));
 
-export const getProjectYear = (project: ProjectEntry) => {
+const getYearRange = (start: number, end: number) =>
+  Array.from({ length: end - start + 1 }, (_, index) => String(start + index));
+
+export const getProjectActivityYears = (project: ProjectEntry) => {
   const idMatch = /^(?<year>\d{4})(?:\/|$)/.exec(project.id);
+  const years = [...project.data.period.matchAll(/\d{4}/g)].map((match) => Number(match[0]));
+  const activityYears = new Set<string>();
 
   if (idMatch?.groups) {
-    return idMatch.groups.year;
+    activityYears.add(idMatch.groups.year);
   }
 
-  return /(?<year>\d{4})/.exec(project.data.period)?.groups?.year;
+  if (years.length >= 2) {
+    const [start, end] = [Math.min(...years), Math.max(...years)];
+    getYearRange(start, end).forEach((year) => activityYears.add(year));
+  } else if (years.length === 1) {
+    const [start] = years;
+    const currentYear = new Date().getFullYear();
+    const isOpenEnded =
+      project.data.status === "Active" &&
+      start < currentYear &&
+      /(?:-|–|—|present|current|ongoing|now|現在|継続|進行中)/i.test(project.data.period);
+
+    getYearRange(start, isOpenEnded ? currentYear : start).forEach((year) =>
+      activityYears.add(year),
+    );
+  }
+
+  return [...activityYears];
 };
 
+export const getProjectYear = (project: ProjectEntry) => getProjectActivityYears(project)[0];
+
 export const getProjectYears = (projects: ProjectEntry[]) =>
-  projects.map(getProjectYear).filter((year) => year !== undefined);
+  projects.flatMap(getProjectActivityYears);
 
 export const filterProjectsByYear = (projects: ProjectEntry[], year: string) =>
-  projects.filter((project) => getProjectYear(project) === year);
+  projects.filter((project) => getProjectActivityYears(project).includes(year));
 
 export const getProjectsByYear = async (year: string) =>
   sortProjectsByOrder(filterProjectsByYear(await getCollection("projects"), year));

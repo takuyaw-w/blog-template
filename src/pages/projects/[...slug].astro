@@ -66,6 +66,9 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 						alt={heroImageAlt ?? `${project.data.title} preview`}
 						width={1200}
 						height={630}
+						loading="eager"
+						decoding="sync"
+						fetchpriority="high"
 					/>
 				)
 			}
@@ -79,7 +82,14 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 						<div class="gallery-grid">
 							{gallery.map((item) => (
 								<figure>
-									<Image src={item.image} alt={item.alt} width={960} height={540} />
+									<Image
+										src={item.image}
+										alt={item.alt}
+										width={960}
+										height={540}
+										loading="lazy"
+										decoding="async"
+									/>
 									{item.caption && <figcaption>{item.caption}</figcaption>}
 								</figure>
 							))}
