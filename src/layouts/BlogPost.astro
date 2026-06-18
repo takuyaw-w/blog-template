@@ -202,8 +202,8 @@ const shouldShowUpdatedAt =
 	</main>
 	<style>
 			.blog-post-main {
-				width: 1400px;
-				max-width: calc(100% - 2em);
+				width: calc(1400px + 2em);
+				max-width: 100%;
 			}
 			.hero-image {
 				grid-column: 1 / -1;
@@ -362,7 +362,6 @@ const shouldShowUpdatedAt =
 				}
 				.title {
 					grid-column: 1 / -1;
-					box-sizing: border-box;
 					width: 1040px;
 					max-width: 100%;
 					margin: 0 auto 1.25rem;

@@ -101,8 +101,8 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 	</main>
 <style>
 	.project-detail-main {
-		width: 1400px;
-		max-width: calc(100% - 2em);
+		width: calc(1400px + 2em);
+		max-width: 100%;
 	}
 	.project-header {
 		padding-bottom: 2rem;
@@ -212,7 +212,7 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 	}
 	@media (max-width: 980px) {
 		.project-detail-main {
-			width: 1040px;
+			width: calc(1040px + 2em);
 		}
 	}
 	@media (max-width: 720px) {

@@ -14,6 +14,7 @@
     "lint": "oxlint .",
     "preview": "astro preview",
     "test:blog-title": "pnpm run build && playwright test tests/blog-title-responsive.spec.ts",
+    "test:responsive": "pnpm run build && playwright test tests/blog-title-responsive.spec.ts tests/layout-responsive.spec.ts",
     "astro": "astro",
     "sync:content": "bash scripts/sync-content.sh",
     "build:with-content": "pnpm run clean && pnpm run sync:content && pnpm run build"

@@ -8,6 +8,15 @@
 @import "tailwindcss/utilities.css";
 @plugin "@tailwindcss/typography";
 
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 :root {
   color-scheme: light;
   --font-sans:
@@ -80,8 +89,8 @@ body {
     color 0.2s ease;
 }
 main {
-  width: 720px;
-  max-width: calc(100% - 2em);
+  width: calc(720px + 2em);
+  max-width: 100%;
   margin: auto;
   padding: 3em 1em;
 }
@@ -341,7 +350,7 @@ html[data-theme="dark"]
 
 /* Layout utilities */
 .listing-main {
-  width: 1400px;
+  width: calc(1400px + 2em);
 }
 .taxonomy-title {
   font-size: 2rem;
