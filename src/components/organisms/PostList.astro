@@ -1,7 +1,7 @@
 ---
-import EmptyState from './EmptyState.astro';
-import type { BlogPostEntry } from '../utils/blog';
-import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug } from '../utils/blog';
+import EmptyState from '../molecules/EmptyState.astro';
+import type { BlogPostEntry } from '../../utils/blog';
+import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug } from '../../utils/blog';
 
 interface Props {
 	posts: BlogPostEntry[];

@@ -1,14 +1,14 @@
 ---
-import ProjectList from './ProjectList.astro';
-import BackLink from './BackLink.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import PageLayout from '../layouts/PageLayout.astro';
+import ProjectList from '../organisms/ProjectList.astro';
+import BackLink from '../molecules/BackLink.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
 import {
 	getProjectTaxonomyCopy,
 	getProjectTaxonomyIndexPath,
 	getProjectTaxonomyPage,
 	type ProjectTaxonomyType,
-} from '../utils/projects';
+} from '../../utils/projects';
 
 interface Props {
 	type: ProjectTaxonomyType;

@@ -24,17 +24,17 @@ Use this skill with `AGENTS.md`; keep `AGENTS.md` as the repo-level contract and
 
 - Keep route files thin.
 - Put shared blog behavior in `src/utils/blog.ts`.
-- Use `BlogListingPage.astro` for root/blog listing pages.
-- Use `BlogTaxonomyPage.astro` for blog categories, tags, and years.
-- Use `Pagination.astro` with helper-generated base paths.
+- Use `src/components/templates/BlogListingPage.astro` for root/blog listing pages.
+- Use `src/components/templates/BlogTaxonomyPage.astro` for blog categories, tags, and years.
+- Use `src/components/molecules/Pagination.astro` with helper-generated base paths.
 - Keep draft filtering inside `getBlogPosts()` / `isPublicBlogPost()`.
 - Preserve Japanese/Tokyo date formatting through `Intl.DateTimeFormat` with `Asia/Tokyo` and ISO calendar behavior.
 
 ### Project Routes
 
 - Put shared project behavior in `src/utils/projects.ts`.
-- Use `ProjectList.astro` for repeated project cards.
-- Use `ProjectTaxonomyPage.astro` for project categories and tags.
+- Use `src/components/organisms/ProjectList.astro` for repeated project cards.
+- Use `src/components/templates/ProjectTaxonomyPage.astro` for project categories and tags.
 - Preserve `order`-based sorting through `getProjects()` / `sortProjectsByOrder()`.
 
 ### Markdown And Content
@@ -48,7 +48,7 @@ Use this skill with `AGENTS.md`; keep `AGENTS.md` as the repo-level contract and
 
 - Site title and description live in `src/consts.ts`.
 - `astro.config.mjs` sets `site` from `SITE_URL`, falling back to `http://localhost:4321`.
-- `BaseHead.astro` owns canonical, RSS, OGP, Twitter cards, and global CSS.
+- `src/components/templates/BaseHead.astro` owns canonical, RSS, OGP, Twitter cards, and global CSS.
 - `src/pages/og/[...slug].png.ts` must stay static and use public blog posts only.
 - `src/og/image.ts` owns OGP layout, tag rendering, and Japanese font loading.
 - Keep OGP tag labels free of a leading `#`.
@@ -60,7 +60,7 @@ Use this skill with `AGENTS.md`; keep `AGENTS.md` as the repo-level contract and
 - Preserve the existing Solarized-influenced theme tokens in `src/styles/global.css`.
 - Keep navigation labels as `Blog`, `Projects`, and `About`; do not rename Blog to Posts.
 - Use existing components before adding new ones.
-- Use `BackLink.astro` for history-aware back links.
+- Use `src/components/molecules/BackLink.astro` for history-aware back links.
 - Do not reintroduce Astro View Transitions or a global Mermaid client loader.
 
 ### Deployment

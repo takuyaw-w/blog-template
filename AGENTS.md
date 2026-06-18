@@ -19,8 +19,9 @@ Keep changes small, text-first, and consistent with the existing quiet blog UI.
 - `src/content.config.ts` defines the `blog`, `projects`, and `about` collections.
 - `src/utils/blog.ts` owns blog filtering, date formatting, pagination, taxonomy helpers, reading time, and related posts.
 - `src/utils/projects.ts` owns project ordering, project paths, and project taxonomy helpers.
-- Shared listing/taxonomy behavior belongs in `src/components/BlogListingPage.astro`, `src/components/BlogTaxonomyPage.astro`, and `src/components/ProjectTaxonomyPage.astro`.
-- `src/components/BaseHead.astro` owns metadata, canonical URLs, RSS, OGP, Twitter cards, global CSS import, and theme bootstrap.
+- Components follow Atomic Design under `src/components/atoms`, `src/components/molecules`, `src/components/organisms`, and `src/components/templates`.
+- Shared listing/taxonomy behavior belongs in `src/components/templates/BlogListingPage.astro`, `src/components/templates/BlogTaxonomyPage.astro`, and `src/components/templates/ProjectTaxonomyPage.astro`.
+- `src/components/templates/BaseHead.astro` owns metadata, canonical URLs, RSS, OGP, Twitter cards, global CSS import, and theme bootstrap.
 - `src/pages/og/[...slug].png.ts` statically prerenders OGP PNGs; `src/og/image.ts` owns OGP rendering.
 - `src/utils/remark-mermaid.mjs` renders Mermaid diagrams at build time.
 - `scripts/sync-content.sh` syncs external content through `CONTENT_REPO`, `CONTENT_DEPLOY_KEY_B64`, and optional `CONTENT_BRANCH`.

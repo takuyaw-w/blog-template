@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
-import BackLink from '../components/BackLink.astro';
-import FormattedDate from '../components/FormattedDate.astro';
+import BackLink from '../components/molecules/BackLink.astro';
+import FormattedDate from '../components/atoms/FormattedDate.astro';
 import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug, type BlogPostEntry } from '../utils/blog';
 import type { GitFileHistory } from '../utils/git-history';
 import PageLayout from './PageLayout.astro';

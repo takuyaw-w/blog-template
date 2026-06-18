@@ -1,18 +1,18 @@
 ---
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import PageLayout from '../layouts/PageLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from '../../layouts/PageLayout.astro';
 import {
 	getBlogTaxonomyBasePath,
 	getBlogTaxonomyCopy,
 	getBlogTaxonomyIndexPath,
 	getBlogTaxonomyPage,
 	type BlogTaxonomyType,
-} from '../utils/blog';
-import { getProjectsByYear } from '../utils/projects';
-import BackLink from './BackLink.astro';
-import Pagination from './Pagination.astro';
-import PostList from './PostList.astro';
-import ProjectList from './ProjectList.astro';
+} from '../../utils/blog';
+import { getProjectsByYear } from '../../utils/projects';
+import BackLink from '../molecules/BackLink.astro';
+import Pagination from '../molecules/Pagination.astro';
+import PostList from '../organisms/PostList.astro';
+import ProjectList from '../organisms/ProjectList.astro';
 
 interface Props {
 	type: BlogTaxonomyType;
