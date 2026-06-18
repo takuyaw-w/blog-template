@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const postPath = process.env.BLOG_TITLE_CHECK_PATH ?? "/blog/sample-post/";
+const bookReviewTitle = "『フェイク・マッスル』を読んだ";
 const longJapaneseTitle =
   "これはとても長い日本語の記事タイトルでスマートフォン表示でも不自然に巨大化せず本文冒頭まで読み進めやすいかを確認するためのテストです";
 
@@ -45,6 +46,42 @@ const getPageMetrics = async (page: Page): Promise<PageMetrics> => {
   });
 };
 
+const getTitleLines = async (page: Page): Promise<string[]> => {
+  return page.locator(".title h1").evaluate((element) => {
+    const textNode = element.firstChild;
+    const range = document.createRange();
+    const fragments: Array<{ character: string; top: number }> = [];
+
+    if (!textNode?.textContent) {
+      return [];
+    }
+
+    for (let index = 0; index < textNode.textContent.length; index++) {
+      range.setStart(textNode, index);
+      range.setEnd(textNode, index + 1);
+      const rect = range.getBoundingClientRect();
+      fragments.push({
+        character: textNode.textContent[index],
+        top: Math.round(rect.top),
+      });
+    }
+
+    const lines: Array<{ top: number; text: string }> = [];
+
+    for (const fragment of fragments) {
+      const line = lines.find((item) => Math.abs(item.top - fragment.top) < 2);
+
+      if (line) {
+        line.text += fragment.character;
+      } else {
+        lines.push({ top: fragment.top, text: fragment.character });
+      }
+    }
+
+    return lines.map((line) => line.text);
+  });
+};
+
 test.describe("blog post title responsive typography", () => {
   for (const viewport of viewports) {
     test(`${viewport.width}px keeps the article title readable`, async ({ page }) => {
@@ -63,12 +100,27 @@ test.describe("blog post title responsive typography", () => {
       expect(metrics.overflowX).toBeLessThanOrEqual(1);
 
       if (viewport.width <= 480) {
-        expect(metrics.fontSize).toBeGreaterThanOrEqual(28);
-        expect(metrics.fontSize).toBeLessThanOrEqual(32);
-        expect(metrics.lineHeightRatio).toBeGreaterThanOrEqual(1.2);
+        expect(metrics.fontSize).toBeGreaterThanOrEqual(22);
+        expect(metrics.fontSize).toBeLessThanOrEqual(24);
+        expect(metrics.lineHeightRatio).toBeGreaterThanOrEqual(1.28);
       } else {
         expect(metrics.fontSize).toBeLessThanOrEqual(40);
         expect(metrics.lineHeightRatio).toBeGreaterThanOrEqual(1.18);
+      }
+
+      await page.locator(".title h1").evaluate((element, title) => {
+        element.textContent = title;
+      }, bookReviewTitle);
+
+      const bookTitleMetrics = await getTitleMetrics(page);
+      const bookTitlePageMetrics = await getPageMetrics(page);
+      expect(bookTitlePageMetrics.horizontalOverflow).toBeLessThanOrEqual(1);
+      expect(bookTitleMetrics.overflowX).toBeLessThanOrEqual(1);
+
+      if (viewport.width <= 480) {
+        await expect(async () => {
+          expect(await getTitleLines(page)).toEqual([bookReviewTitle]);
+        }).toPass();
       }
 
       await page.locator(".title h1").evaluate((element, title) => {
