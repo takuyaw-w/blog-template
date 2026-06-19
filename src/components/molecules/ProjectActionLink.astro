@@ -11,37 +11,12 @@ const isExternal = /^https?:\/\//.test(href);
 ---
 
 <a
-	class="project-action-link"
+	class="inline-flex min-h-7 items-center gap-[0.3rem] border-b border-[rgba(var(--gray),0.28)] py-[0.15rem] text-[0.9rem] leading-[1.2] font-bold text-site-text no-underline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[rgba(var(--accent-rgb),0.45)]"
 	href={href}
 	target={isExternal ? '_blank' : undefined}
 	rel={isExternal ? 'noopener noreferrer' : undefined}
 >
 	<span>{label}</span>
-	<Icon name="external-link" size="0.85rem" />
+	<Icon name="external-link" size="0.85rem" class="opacity-72" />
 	{isExternal && <span class="sr-only">opens in a new tab</span>}
 </a>
-<style>
-	.project-action-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3rem;
-		min-height: 1.75rem;
-		padding: 0.15rem 0;
-		border-bottom: 1px solid rgba(var(--gray), 0.28);
-		color: rgb(var(--gray-dark));
-		font-size: 0.9rem;
-		font-weight: 700;
-		line-height: 1.2;
-		text-decoration: none;
-	}
-	.project-action-link:focus-visible {
-		outline: 2px solid rgba(var(--accent-rgb), 0.45);
-		outline-offset: 3px;
-	}
-	.project-action-link svg {
-		flex: 0 0 auto;
-		width: 0.85rem;
-		height: 0.85rem;
-		opacity: 0.72;
-	}
-</style>

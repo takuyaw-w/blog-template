@@ -29,29 +29,35 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 	description={project.data.description}
 	image={ogImage}
 >
-	<main class="project-detail-main">
+	<main class="w-[calc(var(--spacing-site-wide)+2em)] max-w-full max-[980px]:w-[calc(var(--spacing-site-content)+2em)]">
 		<BackLink href="/projects/" spacing="loose" />
 		<article class="project-detail">
-			<header class:list={['project-header', { 'project-header--without-hero': !hasHeroImage }]}>
-				<h1 class="project-title">{project.data.title}</h1>
-				<p class="description">{project.data.description}</p>
-				<ul class="meta">
-					<li class="category-item">
-						<a href={getProjectCategoryPath(project.data.category)}>{project.data.category}</a>
+			<header class:list={[hasHeroImage && 'border-b border-site-border pb-8']}>
+				<h1 class="m-0 text-[2.6rem] leading-[1.08] max-[720px]:text-4xl">{project.data.title}</h1>
+				<p class="mt-4 mb-0 max-w-[820px] text-site-text">{project.data.description}</p>
+				<ul class="mt-5 flex list-none flex-wrap gap-3 p-0">
+					<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-[rgba(var(--accent-rgb),0.45)]">
+						<a class="text-inherit no-underline" href={getProjectCategoryPath(project.data.category)}>
+							{project.data.category}
+						</a>
 					</li>
-					<li>{project.data.status}</li>
-					<li>{project.data.period}</li>
+					<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted">
+						{project.data.status}
+					</li>
+					<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted">
+						{project.data.period}
+					</li>
 					{
 						project.data.tags.map((tag) => (
-							<li class="tag-item">
-								<a href={getProjectTagPath(tag)}>{tag}</a>
+							<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-[rgba(var(--accent-rgb),0.45)]">
+								<a class="text-inherit no-underline" href={getProjectTagPath(tag)}>{tag}</a>
 							</li>
 						))
 					}
 				</ul>
 				{
 					(project.data.url || project.data.repository) && (
-						<div class="actions">
+						<div class="mt-6 flex flex-wrap gap-[0.9rem]">
 							{project.data.url && <ProjectActionLink href={project.data.url} label="View project" />}
 							{project.data.repository && <ProjectActionLink href={project.data.repository} label="Repository" />}
 						</div>
@@ -61,7 +67,7 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 			{
 				heroImage && (
 					<Image
-						class="project-hero-image"
+						class="mx-auto mt-8 block aspect-[1200/630] w-full max-w-[1200px] rounded-xl border border-site-border-soft object-cover"
 						src={heroImage}
 						alt={heroImageAlt ?? `${project.data.title} preview`}
 						width={1200}
@@ -72,17 +78,18 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 					/>
 				)
 			}
-			<div class="project-content prose prose-lg prose-blog">
+			<div class="prose prose-lg prose-blog mt-10 text-site-text [&_h2]:mt-9 [&_h2]:text-2xl [&_h3]:mt-7 [&_h3]:text-[1.2rem] [&_ol]:max-w-[var(--spacing-site-content)] [&_p]:max-w-[var(--spacing-site-content)] [&_ul]:max-w-[var(--spacing-site-content)]">
 				<Content />
 			</div>
 			{
 				gallery.length > 0 && (
-					<section class="project-gallery" aria-labelledby="project-gallery-heading">
-						<h2 id="project-gallery-heading">Gallery</h2>
-						<div class="gallery-grid">
+					<section class="mt-12 border-t border-site-border pt-8" aria-labelledby="project-gallery-heading">
+						<h2 class="mt-0 mb-4 text-[1.35rem]" id="project-gallery-heading">Gallery</h2>
+						<div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
 							{gallery.map((item) => (
-								<figure>
+								<figure class="m-0">
 									<Image
+										class="block h-auto w-full rounded-[10px] border border-site-border-soft object-cover"
 										src={item.image}
 										alt={item.alt}
 										width={960}
@@ -90,7 +97,7 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 										loading="lazy"
 										decoding="async"
 									/>
-									{item.caption && <figcaption>{item.caption}</figcaption>}
+									{item.caption && <figcaption class="mt-[0.45rem] text-[0.85rem] leading-[1.5] text-site-muted">{item.caption}</figcaption>}
 								</figure>
 							))}
 						</div>
@@ -99,129 +106,4 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 			}
 		</article>
 	</main>
-<style>
-	.project-detail-main {
-		width: calc(1400px + 2em);
-		max-width: 100%;
-	}
-	.project-header {
-		padding-bottom: 2rem;
-		border-bottom: 1px solid rgb(var(--border));
-	}
-	.project-header--without-hero {
-		padding-bottom: 0;
-		border-bottom: 0;
-	}
-	.project-title {
-		margin: 0;
-		font-size: 2.6rem;
-		line-height: 1.08;
-	}
-	.description {
-		max-width: 820px;
-		margin: 1rem 0 0;
-		color: rgb(var(--gray-dark));
-	}
-	.meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin: 1.25rem 0 0;
-		padding: 0;
-		list-style: none;
-	}
-	.meta li {
-		padding: 0.2rem 0.65rem;
-		border: 1px solid rgb(var(--border));
-		border-radius: 999px;
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-	}
-	.meta a {
-		color: inherit;
-		text-decoration: none;
-	}
-	.meta .category-item:focus-within,
-	.meta .tag-item:focus-within {
-		outline: 2px solid rgba(var(--accent-rgb), 0.45);
-		outline-offset: 3px;
-	}
-	.actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.9rem;
-		margin-top: 1.5rem;
-	}
-	.project-hero-image {
-		display: block;
-		width: 100%;
-		max-width: 1200px;
-		aspect-ratio: 1200 / 630;
-		margin: 2rem auto 0;
-		border: 1px solid rgba(var(--border), 0.8);
-		border-radius: 12px;
-		object-fit: cover;
-	}
-	.project-content {
-		margin-top: 2.5rem;
-		color: rgb(var(--gray-dark));
-	}
-	.project-content :global(h2) {
-		margin-top: 2.25rem;
-		font-size: 1.5rem;
-	}
-	.project-content :global(h3) {
-		margin-top: 1.75rem;
-		font-size: 1.2rem;
-	}
-	.project-content :global(p),
-	.project-content :global(ul),
-	.project-content :global(ol) {
-		max-width: 1040px;
-	}
-	.project-gallery {
-		margin-top: 3rem;
-		padding-top: 2rem;
-		border-top: 1px solid rgb(var(--border));
-	}
-	.project-gallery h2 {
-		margin: 0 0 1rem;
-		font-size: 1.35rem;
-	}
-	.gallery-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1rem;
-	}
-	.gallery-grid figure {
-		margin: 0;
-	}
-	.gallery-grid img {
-		display: block;
-		width: 100%;
-		height: auto;
-		border: 1px solid rgba(var(--border), 0.8);
-		border-radius: 10px;
-		object-fit: cover;
-	}
-	.gallery-grid figcaption {
-		margin-top: 0.45rem;
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-		line-height: 1.5;
-	}
-	@media (max-width: 980px) {
-		.project-detail-main {
-			width: calc(1040px + 2em);
-		}
-	}
-	@media (max-width: 720px) {
-		.project-title {
-			font-size: 2rem;
-		}
-		.gallery-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>
 </PageLayout>

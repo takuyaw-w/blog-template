@@ -3,107 +3,49 @@ import Icon from '../atoms/Icon.astro';
 import { SOCIAL_LINKS } from '../../utils/social-links';
 ---
 
-<footer class="site-footer">
-	<div class="footer-inner">
-		<nav class="footer-sitemap" aria-label="Footer navigation">
+<footer class="site-footer bg-site-surface px-4 pt-9 pb-20 text-center text-site-muted">
+	<div class="mx-auto w-site-footer max-w-full border-t border-site-border-soft pt-6">
+		<nav
+			class="grid grid-cols-[minmax(160px,auto)_repeat(2,auto)] items-start justify-between gap-y-5 gap-x-10 text-left max-[520px]:grid-cols-3 max-[520px]:gap-3 max-[520px]:text-[0.85rem]"
+			aria-label="Footer navigation"
+		>
 			<div class="footer-group">
-				<a class="footer-group-title" href="/blog/">Blog</a>
-				<ul>
-					<li><a href="/categories/">Categories</a></li>
-					<li><a href="/tags/">Tags</a></li>
-					<li><a href="/years/">Years</a></li>
+				<a class="font-bold text-site-text no-underline hover:text-site-text" href="/blog/">Blog</a>
+				<ul class="mt-[0.35rem] grid list-none gap-1 p-0">
+					<li><a class="text-site-muted no-underline hover:text-site-text" href="/categories/">Categories</a></li>
+					<li><a class="text-site-muted no-underline hover:text-site-text" href="/tags/">Tags</a></li>
+					<li><a class="text-site-muted no-underline hover:text-site-text" href="/years/">Years</a></li>
 				</ul>
 			</div>
 			<div class="footer-group">
-				<a class="footer-group-title" href="/projects/">Projects</a>
-				<ul>
-					<li><a href="/projects/categories/">Categories</a></li>
-					<li><a href="/projects/tags/">Tags</a></li>
+				<a class="font-bold text-site-text no-underline hover:text-site-text" href="/projects/">Projects</a>
+				<ul class="mt-[0.35rem] grid list-none gap-1 p-0">
+					<li>
+						<a class="text-site-muted no-underline hover:text-site-text" href="/projects/categories/">Categories</a>
+					</li>
+					<li><a class="text-site-muted no-underline hover:text-site-text" href="/projects/tags/">Tags</a></li>
 				</ul>
 			</div>
 			<div class="footer-group">
-				<a class="footer-group-title" href="/about/">Site</a>
-				<ul>
-					<li><a href="/about/">About</a></li>
+				<a class="font-bold text-site-text no-underline hover:text-site-text" href="/about/">Site</a>
+				<ul class="mt-[0.35rem] grid list-none gap-1 p-0">
+					<li><a class="text-site-muted no-underline hover:text-site-text" href="/about/">About</a></li>
 				</ul>
 			</div>
 		</nav>
-		<div class="social-links">
+		<div class="mt-4 flex justify-center gap-4">
 			{
 				SOCIAL_LINKS.map((link) => (
-					<a href={link.href} target="_blank" rel="noopener noreferrer">
+					<a class="text-site-muted no-underline hover:text-site-text" href={link.href} target="_blank" rel="noopener noreferrer">
 						<span class="sr-only">{link.label}</span>
 						<Icon name={link.icon} size={32} />
 					</a>
 				))
 			}
-			<a href="/rss.xml">
+			<a class="text-site-muted no-underline hover:text-site-text" href="/rss.xml">
 				<span class="sr-only">Subscribe to the RSS feed</span>
 				<Icon name="rss" size={32} />
 			</a>
 		</div>
 	</div>
 </footer>
-<style>
-	.site-footer {
-		padding: 2.25em 1em 5em;
-		background-color: rgb(var(--surface));
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	.footer-inner {
-		width: 960px;
-		max-width: 100%;
-		margin: 0 auto;
-		padding-top: 1.5em;
-		border-top: 1px solid rgba(var(--border), 0.8);
-	}
-	.footer-sitemap {
-		display: grid;
-		grid-template-columns: minmax(160px, auto) repeat(2, auto);
-		gap: 1.25rem 2.5rem;
-		justify-content: space-between;
-		align-items: start;
-		text-align: left;
-	}
-	.footer-sitemap a {
-		color: rgb(var(--gray));
-		text-decoration: none;
-	}
-	.footer-sitemap a:hover {
-		color: rgb(var(--gray-dark));
-	}
-	.footer-group-title {
-		color: rgb(var(--gray-dark));
-		font-weight: 700;
-	}
-	.footer-group ul {
-		display: grid;
-		gap: 0.25rem;
-		margin: 0.35rem 0 0;
-		padding: 0;
-		list-style: none;
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		color: rgb(var(--gray));
-		text-decoration: none;
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
-	}
-	@media (max-width: 520px) {
-		.footer-sitemap {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 0.75rem;
-			justify-content: stretch;
-			font-size: 0.85rem;
-			text-align: left;
-		}
-	}
-</style>

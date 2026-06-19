@@ -16,18 +16,24 @@ const pages = getPageNumbers(totalPages);
 
 {
 	totalPages > 1 && (
-		<nav class="pagination" aria-label="Pagination">
+		<nav class="mt-8 flex items-center justify-between gap-4 max-[720px]:block" aria-label="Pagination">
 			<a
-				class:list={['pagination-link', { disabled: currentPage === 1 }]}
+				class:list={[
+					'inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-site-border px-[0.65rem] py-[0.35rem] text-[0.9rem] text-site-text no-underline transition-colors duration-200 hover:border-[rgba(var(--accent-rgb),0.45)] hover:bg-[rgba(var(--accent-rgb),0.08)] hover:text-site-heading max-[720px]:w-full',
+					currentPage === 1 && 'pointer-events-none opacity-45',
+				]}
 				href={currentPage === 1 ? undefined : getPageUrl(currentPage - 1)}
 				aria-disabled={currentPage === 1 ? 'true' : undefined}
 			>
 				Prev
 			</a>
-			<div class="pagination-pages">
+			<div class="flex flex-wrap justify-center gap-[0.4rem] max-[720px]:my-3">
 				{pages.map((page) => (
 					<a
-						class:list={['pagination-link', 'page-number', { current: page === currentPage }]}
+						class:list={[
+							'inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-site-border px-[0.65rem] py-[0.35rem] text-[0.9rem] text-site-text no-underline transition-colors duration-200 hover:border-[rgba(var(--accent-rgb),0.45)] hover:bg-[rgba(var(--accent-rgb),0.08)] hover:text-site-heading',
+							page === currentPage && 'border-site-accent bg-[rgba(var(--accent-rgb),0.12)] text-site-heading',
+						]}
 						href={getPageUrl(page)}
 						aria-current={page === currentPage ? 'page' : undefined}
 					>
@@ -36,7 +42,10 @@ const pages = getPageNumbers(totalPages);
 				))}
 			</div>
 			<a
-				class:list={['pagination-link', { disabled: currentPage === totalPages }]}
+				class:list={[
+					'inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border border-site-border px-[0.65rem] py-[0.35rem] text-[0.9rem] text-site-text no-underline transition-colors duration-200 hover:border-[rgba(var(--accent-rgb),0.45)] hover:bg-[rgba(var(--accent-rgb),0.08)] hover:text-site-heading max-[720px]:w-full',
+					currentPage === totalPages && 'pointer-events-none opacity-45',
+				]}
 				href={currentPage === totalPages ? undefined : getPageUrl(currentPage + 1)}
 				aria-disabled={currentPage === totalPages ? 'true' : undefined}
 			>
@@ -45,60 +54,3 @@ const pages = getPageNumbers(totalPages);
 		</nav>
 	)
 }
-<style>
-	.pagination {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		margin-top: 2rem;
-	}
-	.pagination-pages {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.4rem;
-	}
-	.pagination-link {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 2.25rem;
-		min-height: 2.25rem;
-		padding: 0.35rem 0.65rem;
-		border: 1px solid rgb(var(--border));
-		border-radius: 6px;
-		color: rgb(var(--gray-dark));
-		font-size: 0.9rem;
-		text-decoration: none;
-		transition:
-			background-color 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
-	}
-	.pagination-link:hover {
-		border-color: rgba(var(--accent-rgb), 0.45);
-		background-color: rgba(var(--accent-rgb), 0.08);
-		color: rgb(var(--black));
-	}
-	.pagination-link.current {
-		border-color: var(--accent);
-		background-color: rgba(var(--accent-rgb), 0.12);
-		color: rgb(var(--black));
-	}
-	.pagination-link.disabled {
-		pointer-events: none;
-		opacity: 0.45;
-	}
-	@media (max-width: 720px) {
-		.pagination {
-			display: block;
-		}
-		.pagination-pages {
-			margin: 0.75rem 0;
-		}
-		.pagination > .pagination-link {
-			width: 100%;
-		}
-	}
-</style>

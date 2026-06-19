@@ -21,38 +21,13 @@ const copy = getProjectTaxonomyCopy(type, value, projects.length);
 ---
 
 <PageLayout title={`${value} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="projects-main">
+	<main class="w-[calc(var(--spacing-site-wide)+2em)]">
 		<BackLink href={getProjectTaxonomyIndexPath(type)} />
-		<section class="page-header">
-			<p class="eyebrow">{copy.eyebrow}</p>
-			<h1>{value}</h1>
-			<p class="lead">{copy.lead}</p>
+		<section class="mb-8">
+			<p class="mt-0 mb-[0.35rem] text-[0.85rem] font-bold tracking-normal text-site-muted uppercase">{copy.eyebrow}</p>
+			<h1 class="mt-0 mb-2 text-4xl">{value}</h1>
+			<p class="m-0 max-w-160 text-site-muted">{copy.lead}</p>
 		</section>
 		<ProjectList projects={projects} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
 	</main>
 </PageLayout>
-<style>
-	.projects-main {
-		width: calc(1400px + 2em);
-	}
-	.page-header {
-		margin-bottom: 2rem;
-	}
-	.eyebrow {
-		margin: 0 0 0.35rem;
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		text-transform: uppercase;
-	}
-	h1 {
-		margin: 0 0 0.5rem;
-		font-size: 2rem;
-	}
-	.lead {
-		max-width: 640px;
-		margin: 0;
-		color: rgb(var(--gray));
-	}
-</style>

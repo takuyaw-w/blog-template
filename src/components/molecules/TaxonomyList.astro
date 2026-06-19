@@ -18,12 +18,15 @@ const {
 
 {
 	items.length > 0 ? (
-		<ul class="taxonomy-list">
+		<ul class="m-0 list-none p-0">
 			{items.map(([name, count]) => (
-				<li>
-					<a href={`${basePath}/${encodeURIComponent(name)}/`}>
+				<li class="border-b border-site-rule">
+					<a
+						class="flex items-baseline justify-between rounded-md px-3 py-4 text-site-heading no-underline transition-colors duration-200 hover:bg-[rgba(var(--gray-light),0.45)]"
+						href={`${basePath}/${encodeURIComponent(name)}/`}
+					>
 						<span>{name}</span>
-						<span class="count">{count}</span>
+						<span class="text-[0.9rem] text-site-muted">{count}</span>
 					</a>
 				</li>
 			))}
@@ -32,30 +35,3 @@ const {
 		<EmptyState title={emptyTitle} description={emptyDescription} ariaLabel="No taxonomy items" />
 	)
 }
-<style>
-	.taxonomy-list {
-		margin: 0;
-		padding: 0;
-		list-style-type: none;
-	}
-	.taxonomy-list li {
-		border-bottom: 1px solid rgb(var(--gray-light));
-	}
-	.taxonomy-list a {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		padding: 1rem 0.75rem;
-		border-radius: 6px;
-		color: rgb(var(--black));
-		text-decoration: none;
-		transition: background-color 0.2s ease;
-	}
-	.taxonomy-list a:hover {
-		background-color: rgba(var(--gray-light), 45%);
-	}
-	.count {
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
-	}
-</style>

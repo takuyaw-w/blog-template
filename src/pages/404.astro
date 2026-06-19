@@ -7,161 +7,43 @@ const pageDescription = '指定されたページは見つかりませんでし�
 ---
 
 <PageLayout title={pageTitle} description={pageDescription}>
-	<main class="not-found-main">
-		<section class="not-found" aria-labelledby="not-found-title">
-			<div class="not-found-copy">
-				<p class="eyebrow">HTTP 404 / missing log entry</p>
-				<h1 id="not-found-title">このログは見つかりませんでした</h1>
-				<p class="lead">
+	<main class="grid min-h-[60vh] w-[1100px] items-center max-[820px]:min-h-0 max-[820px]:pt-10">
+		<section
+			class="grid grid-cols-[minmax(0,1fr)_minmax(18rem,26rem)] items-center gap-[clamp(2rem,6vw,4rem)] max-[820px]:grid-cols-1"
+			aria-labelledby="not-found-title"
+		>
+			<div class="max-w-[43rem]">
+				<p class="mt-0 mb-[0.65rem] font-site-mono text-[0.95rem] tracking-normal text-site-muted">
+					HTTP 404 / missing log entry
+				</p>
+				<h1 class="mb-3 max-w-[9em] text-[clamp(2.25rem,8vw,4.3rem)] leading-[1.08] max-[820px]:max-w-[11em]" id="not-found-title">
+					このログは見つかりませんでした
+				</h1>
+				<p class="m-0 leading-[1.85] text-site-muted">
 					URLが変わったか、まだ書かれていないページのようです。Blogの一覧かProjectsから、近いエントリを探せます。
 				</p>
-				<nav class="not-found-links" aria-label="404 navigation">
-					<a href="/">Blogへ戻る</a>
-					<a href="/projects/">Projectsを見る</a>
+				<nav class="mt-[1.8rem] flex flex-wrap gap-y-[0.35rem] gap-x-[1.15rem] max-[520px]:flex-col max-[520px]:items-start" aria-label="404 navigation">
+					<a class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent" href="/">Blogへ戻る</a>
+					<a class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent" href="/projects/">Projectsを見る</a>
 				</nav>
 			</div>
-			<aside class="log-panel" aria-label="Request trace">
-				<div class="log-panel-header">
-					<span></span>
-					<span></span>
-					<span></span>
+			<aside
+				class="overflow-hidden rounded-lg border border-site-border bg-site-surface-soft bg-[linear-gradient(180deg,rgba(var(--surface-strong),0.98),rgba(var(--surface-soft),0.72))] shadow-[0_22px_55px_rgba(var(--solarized-base03),0.08)] max-[820px]:order-first"
+				aria-label="Request trace"
+			>
+				<div class="flex gap-[0.45rem] border-b border-[rgba(var(--border),0.78)] px-[0.9rem] py-3">
+					<span class="size-[0.65rem] rounded-full border border-[rgba(var(--gray),0.24)] bg-[rgba(var(--surface),0.88)]"></span>
+					<span class="size-[0.65rem] rounded-full border border-[rgba(var(--gray),0.24)] bg-[rgba(var(--surface),0.88)]"></span>
+					<span class="size-[0.65rem] rounded-full border border-[rgba(var(--gray),0.24)] bg-[rgba(var(--surface),0.88)]"></span>
 				</div>
-				<div class="log-lines">
-					<p><span>06:37:12</span> GET requested path</p>
-					<p><span>06:37:12</span> lookup content index</p>
-					<p class="warning"><span>06:37:12</span> entry not found</p>
-					<p><span>06:37:13</span> route fallback to /404.html</p>
-					<p><span>06:37:13</span> suggest Blog / Projects</p>
+				<div class="grid gap-[0.8rem] px-4 pt-[1.1rem] pb-[1.2rem] font-site-mono text-[0.76rem] leading-[1.5] max-[520px]:text-[0.68rem]">
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> GET requested path</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> lookup content index</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-[rgb(var(--solarized-red))] max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> entry not found</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:13</span> route fallback to /404.html</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:13</span> suggest Blog / Projects</p>
 				</div>
 			</aside>
 		</section>
 	</main>
 </PageLayout>
-
-<style>
-	.not-found-main {
-		display: grid;
-		width: 1100px;
-		min-height: 60vh;
-		align-items: center;
-	}
-	.not-found {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
-		gap: clamp(2rem, 6vw, 4rem);
-		align-items: center;
-	}
-	.not-found-copy {
-		max-width: 43rem;
-	}
-	.eyebrow {
-		margin: 0 0 0.65rem;
-		color: rgb(var(--gray));
-		font-family: var(--font-mono);
-		font-size: 0.95rem;
-		letter-spacing: 0;
-	}
-	h1 {
-		max-width: 9em;
-		margin-bottom: 0.75rem;
-		font-size: clamp(2.25rem, 8vw, 4.3rem);
-		line-height: 1.08;
-	}
-	.lead {
-		margin: 0;
-		color: rgb(var(--gray));
-		line-height: 1.85;
-	}
-	.not-found-links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem 1.15rem;
-		margin-top: 1.8rem;
-	}
-	.not-found-links a {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2rem;
-		color: rgb(var(--gray-dark));
-		font-size: 0.95rem;
-		font-weight: 700;
-		text-decoration-color: rgba(var(--gray), 0.32);
-		text-decoration-thickness: 0.08em;
-		text-underline-offset: 0.18em;
-	}
-	.not-found-links a:hover {
-		color: var(--accent);
-		text-decoration-color: var(--accent);
-	}
-	.log-panel {
-		overflow: hidden;
-		border: 1px solid rgb(var(--border));
-		border-radius: 8px;
-		background:
-			linear-gradient(180deg, rgba(var(--surface-strong), 0.98), rgba(var(--surface-soft), 0.72)),
-			rgb(var(--surface-soft));
-		box-shadow: 0 22px 55px rgba(var(--solarized-base03), 0.08);
-	}
-	.log-panel-header {
-		display: flex;
-		gap: 0.45rem;
-		padding: 0.75rem 0.9rem;
-		border-bottom: 1px solid rgba(var(--border), 0.78);
-	}
-	.log-panel-header span {
-		width: 0.65rem;
-		height: 0.65rem;
-		border: 1px solid rgba(var(--gray), 0.24);
-		border-radius: 999px;
-		background: rgba(var(--surface), 0.88);
-	}
-	.log-lines {
-		display: grid;
-		gap: 0.8rem;
-		padding: 1.1rem 1rem 1.2rem;
-		font-family: var(--font-mono);
-		font-size: 0.76rem;
-		line-height: 1.5;
-	}
-	.log-lines p {
-		display: grid;
-		grid-template-columns: 4.7rem minmax(0, 1fr);
-		gap: 0.75rem;
-		margin: 0;
-		color: rgb(var(--gray-dark));
-	}
-	.log-lines span {
-		color: rgb(var(--gray));
-	}
-	.log-lines .warning {
-		color: rgb(var(--solarized-red));
-	}
-	@media (max-width: 820px) {
-		.not-found-main {
-			min-height: auto;
-			padding-top: 2.5rem;
-		}
-		.not-found {
-			grid-template-columns: 1fr;
-		}
-		.log-panel {
-			order: -1;
-		}
-		h1 {
-			max-width: 11em;
-		}
-	}
-	@media (max-width: 520px) {
-		.not-found-links {
-			flex-direction: column;
-			align-items: flex-start;
-		}
-		.log-lines {
-			font-size: 0.68rem;
-		}
-		.log-lines p {
-			grid-template-columns: 4.25rem minmax(0, 1fr);
-			gap: 0.55rem;
-		}
-	}
-</style>

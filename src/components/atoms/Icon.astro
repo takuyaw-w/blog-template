@@ -29,22 +29,7 @@ const iconStyle = [`--icon-size: ${iconSize}`, style].filter(Boolean).join('; ')
 <span
 	{...attrs}
 	aria-hidden="true"
-	class:list={['site-icon', className]}
+	class:list={['inline-flex size-(--icon-size) flex-none leading-none [&_svg]:block [&_svg]:size-full', className]}
 	style={iconStyle}
 	set:html={icons[name]}
 />
-
-<style>
-	.site-icon {
-		display: inline-flex;
-		flex: 0 0 auto;
-		width: var(--icon-size);
-		height: var(--icon-size);
-		line-height: 0;
-	}
-	.site-icon :global(svg) {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-</style>

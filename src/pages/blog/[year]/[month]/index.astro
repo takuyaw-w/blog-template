@@ -34,34 +34,37 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 ---
 
 <PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
-	<main class="listing-main monthly-log">
-		<a class="back-link" href="/years/">Years</a>
-		<header class="monthly-header">
-			<p class="eyebrow">Monthly Log</p>
-			<h1>{month.label}</h1>
-			<p class="monthly-lead">{monthlySummary}</p>
-			<div class="monthly-stats" aria-label={`${month.label} summary`}>
-				<div>
-					<strong>{month.posts.length}</strong>
-					<span>Blog</span>
+	<main class="w-[920px]">
+		<a class="mb-6 inline-flex text-[0.9rem] text-site-muted no-underline hover:text-site-accent focus-visible:text-site-accent" href="/years/">Years</a>
+		<header class="mb-10 border-b border-site-border pb-6">
+			<p class="mt-0 mb-[0.35rem] text-[0.85rem] font-bold tracking-normal text-site-muted uppercase">Monthly Log</p>
+			<h1 class="m-0 text-[clamp(2.15rem,9vw,3.052rem)]">{month.label}</h1>
+			<p class="mt-3 mb-0 max-w-[680px] text-base leading-[1.65] text-site-text">{monthlySummary}</p>
+			<div class="mt-6 grid grid-cols-3 gap-3 max-[720px]:grid-cols-1" aria-label={`${month.label} summary`}>
+				<div class="rounded-md border border-[rgba(var(--border),0.9)] bg-[rgba(var(--surface-strong),0.46)] p-[0.85rem]">
+					<strong class="block text-[1.35rem] leading-[1.1] text-site-heading">{month.posts.length}</strong>
+					<span class="mt-[0.2rem] block text-[0.78rem] leading-[1.3] text-site-muted">Blog</span>
 				</div>
-				<div>
-					<strong>{month.projects.length}</strong>
-					<span>Projects</span>
+				<div class="rounded-md border border-[rgba(var(--border),0.9)] bg-[rgba(var(--surface-strong),0.46)] p-[0.85rem]">
+					<strong class="block text-[1.35rem] leading-[1.1] text-site-heading">{month.projects.length}</strong>
+					<span class="mt-[0.2rem] block text-[0.78rem] leading-[1.3] text-site-muted">Projects</span>
 				</div>
-				<div>
-					<strong>{totalReadingTime}</strong>
-					<span>Min</span>
+				<div class="rounded-md border border-[rgba(var(--border),0.9)] bg-[rgba(var(--surface-strong),0.46)] p-[0.85rem]">
+					<strong class="block text-[1.35rem] leading-[1.1] text-site-heading">{totalReadingTime}</strong>
+					<span class="mt-[0.2rem] block text-[0.78rem] leading-[1.3] text-site-muted">Min</span>
 				</div>
 			</div>
 			{
 				popularTags.length > 0 && (
-					<ul class="monthly-tags" aria-label={`${month.label} frequent tags`}>
+					<ul class="mt-4 flex list-none flex-wrap gap-2 p-0" aria-label={`${month.label} frequent tags`}>
 						{popularTags.map(([tag, count]) => (
 							<li>
-								<a href={`/tags/${encodeURIComponent(tag)}/`}>
+								<a
+									class="inline-flex items-center gap-[0.35rem] rounded-full border border-[rgba(var(--border),0.9)] px-[0.55rem] py-[0.1rem] text-[0.82rem] leading-[1.7] text-site-muted no-underline hover:border-[rgba(var(--accent-rgb),0.32)] hover:text-site-text focus-visible:border-[rgba(var(--accent-rgb),0.32)] focus-visible:text-site-text"
+									href={`/tags/${encodeURIComponent(tag)}/`}
+								>
 									{tag}
-									<span>{count}</span>
+									<span class="text-[0.75rem] text-site-muted">{count}</span>
 								</a>
 							</li>
 						))}
@@ -70,8 +73,8 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 			}
 		</header>
 
-		<section class="monthly-section" aria-labelledby="monthly-blog">
-			<h2 id="monthly-blog">Blog</h2>
+		<section aria-labelledby="monthly-blog">
+			<h2 class="mb-3 text-xl" id="monthly-blog">Blog</h2>
 			<PostList
 				posts={month.posts}
 				emptyTitle="No blog posts this month."
@@ -79,8 +82,8 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 			/>
 		</section>
 
-		<section class="monthly-section" aria-labelledby="monthly-projects">
-			<h2 id="monthly-projects">Projects</h2>
+		<section class="mt-12" aria-labelledby="monthly-projects">
+			<h2 class="mb-3 text-xl" id="monthly-projects">Projects</h2>
 			<ProjectList
 				projects={month.projects}
 				emptyTitle="No project updates this month."
@@ -89,112 +92,3 @@ const pageTitle = `${month.label} | Monthly Log | ${SITE_TITLE}`;
 		</section>
 	</main>
 </PageLayout>
-
-<style>
-	.monthly-log {
-		width: 920px;
-	}
-	.back-link {
-		display: inline-flex;
-		margin-bottom: 1.5rem;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
-		text-decoration: none;
-	}
-	.back-link:hover,
-	.back-link:focus-visible {
-		color: var(--accent);
-	}
-	.monthly-header {
-		margin-bottom: 2.5rem;
-		padding-bottom: 1.5rem;
-		border-bottom: 1px solid rgb(var(--border));
-	}
-	.eyebrow {
-		margin: 0 0 0.35rem;
-		color: rgb(var(--gray));
-		font-size: 0.85rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		text-transform: uppercase;
-	}
-		.monthly-header h1 {
-			margin: 0;
-			font-size: clamp(2.15rem, 9vw, 3.052rem);
-		}
-		.monthly-lead {
-			max-width: 680px;
-			margin: 0.75rem 0 0;
-			color: rgb(var(--gray-dark));
-			font-size: 1rem;
-			line-height: 1.65;
-		}
-		.monthly-stats {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0.75rem;
-		margin-top: 1.5rem;
-	}
-	.monthly-stats div {
-		padding: 0.85rem;
-		border: 1px solid rgba(var(--border), 0.9);
-		border-radius: 6px;
-		background: rgba(var(--surface-strong), 0.46);
-	}
-	.monthly-stats strong,
-	.monthly-stats span {
-		display: block;
-	}
-	.monthly-stats strong {
-		color: rgb(var(--black));
-		font-size: 1.35rem;
-		line-height: 1.1;
-	}
-	.monthly-stats span {
-		margin-top: 0.2rem;
-		color: rgb(var(--gray));
-		font-size: 0.78rem;
-		line-height: 1.3;
-	}
-	.monthly-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin: 1rem 0 0;
-		padding: 0;
-		list-style: none;
-	}
-	.monthly-tags a {
-		display: inline-flex;
-		gap: 0.35rem;
-		align-items: center;
-		padding: 0.1rem 0.55rem;
-		border: 1px solid rgba(var(--border), 0.9);
-		border-radius: 999px;
-		color: rgb(var(--gray));
-		font-size: 0.82rem;
-		line-height: 1.7;
-		text-decoration: none;
-	}
-	.monthly-tags a:hover,
-	.monthly-tags a:focus-visible {
-		border-color: rgba(var(--accent-rgb), 0.32);
-		color: rgb(var(--gray-dark));
-	}
-	.monthly-tags span {
-		color: rgb(var(--gray));
-		font-size: 0.75rem;
-	}
-	.monthly-section + .monthly-section {
-		margin-top: 3rem;
-	}
-	.monthly-section h2 {
-		margin-bottom: 0.75rem;
-		font-size: 1.25rem;
-	}
-	@media (max-width: 720px) {
-		.monthly-stats {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>

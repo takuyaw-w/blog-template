@@ -19,43 +19,15 @@ const isActive =
 	normalizedHref === `/${primarySection ?? ''}`;
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a
+	href={href}
+	class:list={[
+		className,
+		'inline-block border-b-4 border-transparent px-2 py-4 text-site-heading no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[rgba(var(--accent-rgb),0.45)] max-[720px]:flex max-[720px]:min-h-11 max-[720px]:w-full max-[720px]:items-center max-[720px]:box-border max-[720px]:rounded-none max-[720px]:border-b max-[720px]:border-[rgba(var(--border),0.68)] max-[720px]:px-1 max-[720px]:py-[0.55rem] max-[720px]:focus-visible:outline-offset-2',
+		isActive &&
+			'border-site-accent font-bold no-underline max-[720px]:border-[rgba(var(--border),0.68)] max-[720px]:text-site-accent',
+	]}
+	{...props}
+>
 	<slot />
 </a>
-<style>
-	a {
-		display: inline-block;
-		padding: 1em 0.5em;
-		border-bottom: 4px solid transparent;
-		color: rgb(var(--black));
-		text-decoration: none;
-	}
-	a:focus-visible {
-		outline: 2px solid rgba(var(--accent-rgb), 0.45);
-		outline-offset: 4px;
-	}
-	a.active {
-		border-bottom-color: var(--accent);
-		font-weight: bolder;
-		text-decoration: none;
-	}
-	@media (max-width: 720px) {
-		a {
-			display: flex;
-			align-items: center;
-			box-sizing: border-box;
-			width: 100%;
-			min-height: 2.75rem;
-			padding: 0.55rem 0.25rem;
-			border-bottom: 1px solid rgba(var(--border), 0.68);
-			border-radius: 0;
-		}
-		a:focus-visible {
-			outline-offset: 2px;
-		}
-		a.active {
-			border-bottom-color: rgba(var(--border), 0.68);
-			color: var(--accent);
-		}
-	}
-</style>

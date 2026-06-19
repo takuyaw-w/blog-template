@@ -35,8 +35,8 @@ const pageTitle =
 		{
 			type === 'year' ? (
 				<>
-					<section class="taxonomy-section" aria-labelledby="year-blog-heading">
-						<h2 id="year-blog-heading">Blog</h2>
+					<section aria-labelledby="year-blog-heading">
+						<h2 class="mb-3 text-xl" id="year-blog-heading">Blog</h2>
 						<PostList
 							posts={currentPosts}
 							emptyTitle={copy.emptyTitle}
@@ -44,9 +44,10 @@ const pageTitle =
 						/>
 					</section>
 					{currentPage === 1 && (
-						<section class="taxonomy-section year-projects" aria-labelledby="year-projects-heading">
-							<h2 id="year-projects-heading">Projects</h2>
+						<section class="mt-12" aria-labelledby="year-projects-heading">
+							<h2 class="mb-3 text-xl" id="year-projects-heading">Projects</h2>
 							<ProjectList
+								variant="grid"
 								projects={projects}
 								emptyTitle={`No projects from ${value} yet.`}
 								emptyDescription="Published projects from this year will appear here."
@@ -61,32 +62,3 @@ const pageTitle =
 		<Pagination currentPage={currentPage} totalPages={totalPages} basePath={getBlogTaxonomyBasePath(type, value)} />
 	</main>
 </PageLayout>
-<style>
-	.taxonomy-section + .taxonomy-section {
-		margin-top: 3rem;
-	}
-	.taxonomy-section h2 {
-		margin-bottom: 0.75rem;
-		font-size: 1.25rem;
-	}
-	.year-projects :global(.project-list) {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
-		columns: unset;
-	}
-	.year-projects :global(.project) {
-		display: flex;
-		margin: 0;
-	}
-	@media (max-width: 1080px) {
-		.year-projects :global(.project-list) {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-	@media (max-width: 720px) {
-		.year-projects :global(.project-list) {
-			grid-template-columns: 1fr;
-		}
-	}
-</style>
