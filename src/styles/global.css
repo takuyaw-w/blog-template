@@ -181,24 +181,6 @@
 
 @layer components {
   .prose-blog {
-    --tw-prose-body: rgb(var(--gray-dark));
-    --tw-prose-headings: rgb(var(--black));
-    --tw-prose-lead: rgb(var(--gray));
-    --tw-prose-links: var(--accent);
-    --tw-prose-bold: rgb(var(--black));
-    --tw-prose-counters: rgb(var(--gray));
-    --tw-prose-bullets: rgba(var(--solarized-blue), 0.62);
-    --tw-prose-hr: rgb(var(--border));
-    --tw-prose-quotes: rgb(var(--black));
-    --tw-prose-quote-borders: var(--accent);
-    --tw-prose-captions: rgb(var(--gray));
-    --tw-prose-kbd: rgb(var(--black));
-    --tw-prose-kbd-shadows: var(--black);
-    --tw-prose-code: rgb(var(--black));
-    --tw-prose-pre-code: rgb(var(--gray-dark));
-    --tw-prose-pre-bg: rgba(var(--gray-light), 0.55);
-    --tw-prose-th-borders: rgb(var(--border));
-    --tw-prose-td-borders: rgba(var(--border), 0.75);
     max-width: none;
     line-height: 1.9;
     line-break: strict;
@@ -380,4 +362,40 @@
 
 @utility taxonomy-title {
   font-size: 2rem;
+}
+
+.theme-toggle [data-theme-icon="light"] {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle [data-theme-icon="dark"] {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle [data-theme-icon="light"] {
+  display: inline-flex;
+}
+
+.prose-blog {
+  --tw-prose-body: rgb(var(--gray-dark));
+  --tw-prose-headings: rgb(var(--black));
+  --tw-prose-lead: rgb(var(--gray));
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: rgb(var(--black));
+  --tw-prose-counters: rgb(var(--gray));
+  --tw-prose-bullets: rgba(var(--accent-rgb), 0.72);
+  --tw-prose-hr: rgb(var(--border));
+  --tw-prose-quotes: rgb(var(--black));
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-captions: rgb(var(--gray));
+  --tw-prose-kbd: rgb(var(--black));
+  --tw-prose-kbd-shadows: var(--black);
+  --tw-prose-code: rgb(var(--black));
+  --tw-prose-pre-code: rgb(var(--gray-dark));
+  --tw-prose-pre-bg: rgba(var(--gray-light), 0.55);
+  --tw-prose-th-borders: rgb(var(--border));
+  --tw-prose-td-borders: rgba(var(--border), 0.75);
+  max-width: none;
+  line-height: 1.9;
+  line-break: strict;
 }

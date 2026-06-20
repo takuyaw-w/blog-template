@@ -34,8 +34,8 @@ import { SOCIAL_LINKS } from '../../utils/social-links';
 					aria-label="Toggle color theme"
 					title="Toggle color theme"
 				>
-					<Icon name="sun" class="[html[data-theme='dark']_&]:hidden" size={20} />
-					<Icon name="moon" class="hidden [html[data-theme='dark']_&]:block" size={20} />
+					<Icon name="moon" data-theme-icon="dark" size={20} />
+					<Icon name="sun" data-theme-icon="light" size={20} />
 				</button>
 				{
 					SOCIAL_LINKS.map((link) => (
