@@ -23,18 +23,16 @@ const hasHeroImage = Boolean(heroImage);
 const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.url);
 ---
 
-<PageLayout
-	title={`${project.data.title} | Projects | ${SITE_TITLE}`}
-	description={project.data.description}
-	image={ogImage}
->
+<PageLayout title={`${project.data.title} | Projects | ${SITE_TITLE}`} description={project.data.description} image={ogImage}>
 	<main class="w-[calc(var(--spacing-site-wide)+2em)] max-w-full max-[980px]:w-[calc(var(--spacing-site-content)+2em)]">
 		<article class="project-detail">
 			<header class:list={[hasHeroImage && 'border-b border-site-border pb-8']}>
 				<h1 class="m-0 text-[2.6rem] leading-[1.08] max-[720px]:text-4xl">{project.data.title}</h1>
 				<p class="mt-4 mb-0 max-w-[820px] text-site-text">{project.data.description}</p>
 				<ul class="mt-5 flex list-none flex-wrap gap-3 p-0">
-					<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-[rgba(var(--accent-rgb),0.45)]">
+					<li
+						class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-[rgba(var(--accent-rgb),0.45)]"
+					>
 						<a class="text-inherit no-underline" href={getProjectCategoryPath(project.data.category)}>
 							{project.data.category}
 						</a>
@@ -48,7 +46,9 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 					{
 						project.data.tags.map((tag) => (
 							<li class="rounded-full border border-site-border px-[0.65rem] py-[0.2rem] text-[0.85rem] text-site-muted focus-within:outline-2 focus-within:outline-offset-[3px] focus-within:outline-[rgba(var(--accent-rgb),0.45)]">
-								<a class="text-inherit no-underline" href={getProjectTagPath(tag)}>{tag}</a>
+								<a class="text-inherit no-underline" href={getProjectTagPath(tag)}>
+									{tag}
+								</a>
 							</li>
 						))
 					}
@@ -76,13 +76,17 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 					/>
 				)
 			}
-			<div class="prose prose-lg prose-blog mt-10 text-site-text [&_h2]:mt-9 [&_h2]:text-2xl [&_h3]:mt-7 [&_h3]:text-[1.2rem] [&_ol]:max-w-[var(--spacing-site-content)] [&_p]:max-w-[var(--spacing-site-content)] [&_ul]:max-w-[var(--spacing-site-content)]">
+			<div
+				class="prose prose-lg prose-blog mt-10 text-site-text [&_h2]:mt-9 [&_h2]:text-2xl [&_h3]:mt-7 [&_h3]:text-[1.2rem] [&_ol]:max-w-[var(--spacing-site-content)] [&_p]:max-w-[var(--spacing-site-content)] [&_ul]:max-w-[var(--spacing-site-content)]"
+			>
 				<Content />
 			</div>
 			{
 				gallery.length > 0 && (
 					<section class="mt-12 border-t border-site-border pt-8" aria-labelledby="project-gallery-heading">
-						<h2 class="mt-0 mb-4 text-[1.35rem]" id="project-gallery-heading">Gallery</h2>
+						<h2 class="mt-0 mb-4 text-[1.35rem]" id="project-gallery-heading">
+							Gallery
+						</h2>
 						<div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
 							{gallery.map((item) => (
 								<figure class="m-0">

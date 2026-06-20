@@ -9,8 +9,8 @@
     "worker:dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "deploy:dry-run": "wrangler deploy --dry-run",
-    "format": "oxfmt --write .",
-    "format:check": "oxfmt --check .",
+    "format": "node scripts/format.mjs --write",
+    "format:check": "node scripts/format.mjs --check",
     "lint": "oxlint .",
     "preview": "astro preview",
     "test:blog-title": "pnpm run build && playwright test tests/blog-title-responsive.spec.ts",
@@ -42,6 +42,8 @@
     "@playwright/test": "^1.61.0",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
+    "prettier": "^3.8.4",
+    "prettier-plugin-astro": "^0.14.1",
     "wrangler": "^4.100.0"
   },
   "engines": {

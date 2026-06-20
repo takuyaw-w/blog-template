@@ -13,9 +13,7 @@ const pageDescription = '指定されたページは見つかりませんでし�
 			aria-labelledby="not-found-title"
 		>
 			<div class="max-w-[43rem]">
-				<p class="mt-0 mb-[0.65rem] font-site-mono text-[0.95rem] tracking-normal text-site-muted">
-					HTTP 404 / missing log entry
-				</p>
+				<p class="mt-0 mb-[0.65rem] font-site-mono text-[0.95rem] tracking-normal text-site-muted">HTTP 404 / missing log entry</p>
 				<h1 class="mb-3 max-w-[9em] text-[clamp(2.25rem,8vw,4.3rem)] leading-[1.08] max-[820px]:max-w-[11em]" id="not-found-title">
 					このログは見つかりませんでした
 				</h1>
@@ -23,8 +21,14 @@ const pageDescription = '指定されたページは見つかりませんでし�
 					URLが変わったか、まだ書かれていないページのようです。Blogの一覧かProjectsから、近いエントリを探せます。
 				</p>
 				<nav class="mt-[1.8rem] flex flex-wrap gap-y-[0.35rem] gap-x-[1.15rem] max-[520px]:flex-col max-[520px]:items-start" aria-label="404 navigation">
-					<a class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent" href="/">Blogへ戻る</a>
-					<a class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent" href="/projects/">Projectsを見る</a>
+					<a
+						class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent"
+						href="/">Blogへ戻る</a
+					>
+					<a
+						class="inline-flex min-h-8 items-center text-[0.95rem] font-bold text-site-text underline decoration-[rgba(var(--gray),0.32)] decoration-[0.08em] underline-offset-[0.18em] hover:text-site-accent hover:decoration-site-accent"
+						href="/projects/">Projectsを見る</a
+					>
 				</nav>
 			</div>
 			<aside
@@ -37,11 +41,23 @@ const pageDescription = '指定されたページは見つかりませんでし�
 					<span class="size-[0.65rem] rounded-full border border-[rgba(var(--gray),0.24)] bg-[rgba(var(--surface),0.88)]"></span>
 				</div>
 				<div class="grid gap-[0.8rem] px-4 pt-[1.1rem] pb-[1.2rem] font-site-mono text-[0.76rem] leading-[1.5] max-[520px]:text-[0.68rem]">
-					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> GET requested path</p>
-					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> lookup content index</p>
-					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-[rgb(var(--solarized-red))] max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:12</span> entry not found</p>
-					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:13</span> route fallback to /404.html</p>
-					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"><span class="text-site-muted">06:37:13</span> suggest Blog / Projects</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]">
+						<span class="text-site-muted">06:37:12</span> GET requested path
+					</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]">
+						<span class="text-site-muted">06:37:12</span> lookup content index
+					</p>
+					<p
+						class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-[rgb(var(--solarized-red))] max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]"
+					>
+						<span class="text-site-muted">06:37:12</span> entry not found
+					</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]">
+						<span class="text-site-muted">06:37:13</span> route fallback to /404.html
+					</p>
+					<p class="m-0 grid grid-cols-[4.7rem_minmax(0,1fr)] gap-3 text-site-text max-[520px]:grid-cols-[4.25rem_minmax(0,1fr)] max-[520px]:gap-[0.55rem]">
+						<span class="text-site-muted">06:37:13</span> suggest Blog / Projects
+					</p>
 				</div>
 			</aside>
 		</section>

@@ -56,15 +56,11 @@ const mobileArticleMetaItems = [
 <PageLayout title={title} description={description} image={ogImage}>
 	<main class="w-[calc(var(--spacing-site-wide)+2em)] max-w-full">
 		<article>
-			<div
-				class:list={[
-					hasSidebar
-						? 'grid w-full max-w-full grid-cols-[minmax(0,1040px)_300px] items-start gap-12 max-[980px]:block'
-						: 'block w-full',
-				]}
-			>
+			<div class:list={[hasSidebar ? 'grid w-full max-w-full grid-cols-[minmax(0,1040px)_300px] items-start gap-12 max-[980px]:block' : 'block w-full']}>
 				<div class="title col-span-full mx-auto mb-5 w-[1040px] max-w-full px-4 pt-4 text-center leading-none max-[720px]:px-2">
-					<h1 class="mb-[0.5em] text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.18] break-anywhere max-[480px]:text-[clamp(1.375rem,6vw,1.5rem)] max-[480px]:leading-[1.3]">
+					<h1
+						class="mb-[0.5em] text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.18] break-anywhere max-[480px]:text-[clamp(1.375rem,6vw,1.5rem)] max-[480px]:leading-[1.3]"
+					>
 						{title}
 					</h1>
 					{
@@ -141,7 +137,9 @@ const mobileArticleMetaItems = [
 						{
 							relatedPosts.length > 0 && (
 								<section class="mt-12 border-t border-site-border pt-6" aria-labelledby="related-posts-heading">
-									<h2 class="mt-0 mb-4 text-[1.1rem] tracking-normal" id="related-posts-heading">Related Posts</h2>
+									<h2 class="mt-0 mb-4 text-[1.1rem] tracking-normal" id="related-posts-heading">
+										Related Posts
+									</h2>
 									<ul class="m-0 grid list-none grid-cols-3 gap-[0.85rem] p-0 max-[980px]:grid-cols-1">
 										{relatedPosts.map((relatedPost) => (
 											<li class="min-w-0">
@@ -156,13 +154,9 @@ const mobileArticleMetaItems = [
 														<span class="block text-base leading-[1.35] font-bold text-site-heading group-hover:text-site-text group-focus-visible:text-site-text">
 															{relatedPost.data.title}
 														</span>
-														<span class="mt-1 block text-[0.8rem] leading-[1.5] text-site-muted">
-															{relatedPost.data.description}
-														</span>
+														<span class="mt-1 block text-[0.8rem] leading-[1.5] text-site-muted">{relatedPost.data.description}</span>
 													</span>
-													<span class="mt-[0.9rem] block text-[0.78rem] leading-[1.4] text-site-muted">
-														約{getReadingTimeMinutes(relatedPost.body)}分
-													</span>
+													<span class="mt-[0.9rem] block text-[0.78rem] leading-[1.4] text-site-muted">約{getReadingTimeMinutes(relatedPost.body)}分</span>
 												</a>
 											</li>
 										))}
@@ -180,7 +174,9 @@ const mobileArticleMetaItems = [
 									class="border-b border-site-border py-4 text-[0.9rem] leading-[1.4] text-site-muted max-[980px]:border-t"
 									aria-labelledby="article-info-heading"
 								>
-									<h2 class="mt-0 mb-3 text-[0.85rem] tracking-[0.04em] text-site-heading uppercase" id="article-info-heading">INFO</h2>
+									<h2 class="mt-0 mb-3 text-[0.85rem] tracking-[0.04em] text-site-heading uppercase" id="article-info-heading">
+										INFO
+									</h2>
 									<dl class="m-0 grid gap-[0.9rem]">
 										<div>
 											<dt class="mt-0 mb-[0.35rem] text-[0.8rem] font-bold text-site-heading">Published</dt>
@@ -269,82 +265,80 @@ const mobileArticleMetaItems = [
 			</div>
 		</article>
 	</main>
-		<script>
-			(() => {
-				const initActiveToc = () => {
-					const tocLinks = Array.from(
-						document.querySelectorAll('.table-of-contents a[href^="#"]'),
-					);
+	<script>
+		(() => {
+			const initActiveToc = () => {
+				const tocLinks = Array.from(document.querySelectorAll('.table-of-contents a[href^="#"]'));
 
-					if (tocLinks.length === 0) {
-						return;
-					}
+				if (tocLinks.length === 0) {
+					return;
+				}
 
-					const tocItems = tocLinks
-						.map((link) => {
-							const rawId = link.getAttribute('href')?.slice(1);
+				const tocItems = tocLinks
+					.map((link) => {
+						const rawId = link.getAttribute('href')?.slice(1);
 
-							if (!rawId) {
-								return undefined;
-							}
+						if (!rawId) {
+							return undefined;
+						}
 
-							let id = rawId;
-							try {
-								id = decodeURIComponent(rawId);
-							} catch {
-								// Keep the raw hash when it is not URI-encoded.
-							}
+						let id = rawId;
+						try {
+							id = decodeURIComponent(rawId);
+						} catch {
+							// Keep the raw hash when it is not URI-encoded.
+						}
 
-							const target = document.getElementById(id);
+						const target = document.getElementById(id);
 
-							return target ? { id, link, target } : undefined;
-						})
-						.filter(Boolean);
+						return target ? { id, link, target } : undefined;
+					})
+					.filter(Boolean);
 
-					if (tocItems.length === 0) {
-						return;
-					}
+				if (tocItems.length === 0) {
+					return;
+				}
 
-					const setActiveHeading = (activeId) => {
-						tocItems.forEach(({ id, link }) => {
-							const isActive = id === activeId;
-							link.classList.toggle('is-active', isActive);
+				const setActiveHeading = (activeId) => {
+					tocItems.forEach(({ id, link }) => {
+						const isActive = id === activeId;
+						link.classList.toggle('is-active', isActive);
 
-							if (isActive) {
-								link.setAttribute('aria-current', 'location');
-							} else {
-								link.removeAttribute('aria-current');
-							}
-						});
-					};
-
-					setActiveHeading(tocItems[0].id);
-
-					const targetByElement = new Map(tocItems.map((item) => [item.target, item]));
-					const observer = new IntersectionObserver(
-						(entries) => {
-							const activeEntry = entries
-								.filter((entry) => entry.isIntersecting)
-								.map((entry) => targetByElement.get(entry.target))
-								.filter(Boolean)
-								.at(-1);
-
-							if (activeEntry) {
-								setActiveHeading(activeEntry.id);
-							}
-						},
-						{
-							rootMargin: '-28% 0px -64% 0px',
-							threshold: 0,
-						},
-					);
-
-					tocItems.forEach(({ target }) => {
-						observer.observe(target);
+						if (isActive) {
+							link.setAttribute('aria-current', 'location');
+						} else {
+							link.removeAttribute('aria-current');
+						}
 					});
 				};
 
-				initActiveToc();
-			})();
-		</script>
+				setActiveHeading(tocItems[0].id);
+
+				const targetByElement = new Map(tocItems.map((item) => [item.target, item]));
+				const observer = new IntersectionObserver(
+					(entries) => {
+						const activeEntry = entries
+							.filter((entry) => entry.isIntersecting)
+							.map((entry) => targetByElement.get(entry.target))
+							.filter(Boolean)
+							.at(-1);
+
+						if (activeEntry) {
+							setActiveHeading(activeEntry.id);
+						}
+					},
+					{
+						rootMargin: '-28% 0px -64% 0px',
+						threshold: 0,
+					},
+				);
+
+				tocItems.forEach(({ target }) => {
+					observer.observe(target);
+				});
+			};
+
+			initActiveToc();
+		})();
+	</script>
 </PageLayout>

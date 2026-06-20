@@ -33,16 +33,16 @@ const pageTitle =
 			type === 'year' ? (
 				<>
 					<section aria-labelledby="year-blog-heading">
-						<h2 class="mb-3 text-xl" id="year-blog-heading">Blog</h2>
-						<PostList
-							posts={currentPosts}
-							emptyTitle={copy.emptyTitle}
-							emptyDescription={copy.emptyDescription}
-						/>
+						<h2 class="mb-3 text-xl" id="year-blog-heading">
+							Blog
+						</h2>
+						<PostList posts={currentPosts} emptyTitle={copy.emptyTitle} emptyDescription={copy.emptyDescription} />
 					</section>
 					{currentPage === 1 && (
 						<section class="mt-12" aria-labelledby="year-projects-heading">
-							<h2 class="mb-3 text-xl" id="year-projects-heading">Projects</h2>
+							<h2 class="mb-3 text-xl" id="year-projects-heading">
+								Projects
+							</h2>
 							<ProjectList
 								variant="grid"
 								projects={projects}

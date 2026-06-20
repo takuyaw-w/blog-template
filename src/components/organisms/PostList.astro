@@ -30,18 +30,13 @@ const {
 								<h4 class="m-0 text-xl leading-[1.2] text-site-heading group-hover:text-site-text group-focus-visible:text-site-text max-[720px]:text-[1.08rem] max-[720px]:leading-[1.28]">
 									{post.data.title}
 								</h4>
-								<p class="mt-[0.35rem] mb-0 leading-[1.5] text-site-muted max-[720px]:text-[0.92rem] max-[720px]:leading-[1.55]">
-									{post.data.description}
-								</p>
+								<p class="mt-[0.35rem] mb-0 leading-[1.5] text-site-muted max-[720px]:text-[0.92rem] max-[720px]:leading-[1.55]">{post.data.description}</p>
 							</div>
 							<span class="inline-flex flex-none items-center gap-[0.55rem] max-[720px]:mt-1">
 								<time class="m-0 whitespace-nowrap text-site-muted max-[720px]:text-[0.85rem]" datetime={post.data.pubDate.toISOString()}>
 									{post.data.category} / {formatPostDate(post.data.pubDate)}
 								</time>
-								<span
-									class="size-[0.45rem] rotate-45 border-t-2 border-r-2 border-[rgba(var(--gray),0.78)]"
-									aria-hidden="true"
-								/>
+								<span class="size-[0.45rem] rotate-45 border-t-2 border-r-2 border-[rgba(var(--gray),0.78)]" aria-hidden="true" />
 							</span>
 						</a>
 						<ul

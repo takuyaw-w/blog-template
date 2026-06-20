@@ -18,11 +18,7 @@ const pageTitle = currentPage === 1 ? SITE_TITLE : `${SITE_TITLE} | Page ${curre
 <PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
 		<section>
-			<PostList
-				posts={currentPosts}
-				emptyTitle="No blog posts yet."
-				emptyDescription="Published blog entries will appear here."
-			/>
+			<PostList posts={currentPosts} emptyTitle="No blog posts yet." emptyDescription="Published blog entries will appear here." />
 			<Pagination currentPage={currentPage} totalPages={totalPages} basePath={basePath} />
 		</section>
 	</main>

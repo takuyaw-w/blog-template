@@ -3,9 +3,9 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-formatter="./node_modules/.bin/oxfmt"
-if [[ ! -x "$formatter" ]]; then
-  echo "pre-commit: oxfmt is not installed. Run pnpm install first." >&2
+formatter_script="scripts/format.mjs"
+if [[ ! -f "$formatter_script" ]]; then
+  echo "pre-commit: formatter script is missing: $formatter_script" >&2
   exit 1
 fi
 
@@ -17,6 +17,7 @@ mapfile -d "" staged_files < <(
     "*.jsx" \
     "*.json" \
     "*.jsonc" \
+    "*.md" \
     "*.mjs" \
     "*.cjs" \
     "*.ts" \
@@ -52,5 +53,5 @@ if (( ${#format_files[@]} == 0 )); then
   exit 0
 fi
 
-"$formatter" --write "${format_files[@]}"
+node "$formatter_script" --write --files "${format_files[@]}"
 git add -- "${format_files[@]}"

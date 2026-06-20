@@ -28,12 +28,7 @@ const imageURL =
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate icon" href="/favicon.ico" sizes="any" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
-/>
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={new URL('rss.xml', Astro.site)} />
 <meta name="generator" content={Astro.generator} />
 
 <script is:inline>
@@ -46,10 +41,8 @@ const imageURL =
 				return null;
 			}
 		};
-		const getPreferredTheme = () =>
-			window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-		const getCurrentTheme = () =>
-			document.documentElement.dataset.theme || getStoredTheme() || getPreferredTheme();
+		const getPreferredTheme = () => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		const getCurrentTheme = () => document.documentElement.dataset.theme || getStoredTheme() || getPreferredTheme();
 		const updateThemeButtons = (theme) => {
 			document.querySelectorAll('.theme-toggle').forEach((button) => {
 				button.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
