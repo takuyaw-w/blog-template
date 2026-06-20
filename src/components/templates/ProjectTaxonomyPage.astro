@@ -21,7 +21,7 @@ const copy = getProjectTaxonomyCopy(type, value, projects.length);
 ---
 
 <PageLayout title={`${value} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-	<main class="w-[calc(var(--spacing-site-wide)+2em)]">
+	<main class="wide-main">
 		<BackLink href={getProjectTaxonomyIndexPath(type)} />
 		<section class="mb-8">
 			<p class="mt-0 mb-[0.35rem] text-[0.85rem] font-bold tracking-normal text-site-muted uppercase">{copy.eyebrow}</p>

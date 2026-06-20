@@ -1,12 +1,7 @@
 ---
 import EmptyState from '../molecules/EmptyState.astro';
 import type { BlogPostEntry } from '../../utils/blog';
-import {
-	formatPostDate,
-	getBlogTitleTransitionName,
-	getReadingTimeMinutes,
-	toTaxonomySlug,
-} from '../../utils/blog';
+import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug } from '../../utils/blog';
 
 interface Props {
 	posts: BlogPostEntry[];
@@ -30,13 +25,9 @@ const {
 						<a
 							class="group flex items-start justify-between gap-4 rounded-md pb-[0.35rem] no-underline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[rgba(var(--accent-rgb),0.45)] max-[720px]:block"
 							href={`/blog/${post.id}/`}
-							data-blog-title-transition-name={getBlogTitleTransitionName(post.id)}
 						>
 							<div class="min-w-0">
-								<h4
-									class="m-0 text-xl leading-[1.2] text-site-heading group-hover:text-site-text group-focus-visible:text-site-text max-[720px]:text-[1.08rem] max-[720px]:leading-[1.28]"
-									data-blog-title-transition-title
-								>
+								<h4 class="m-0 text-xl leading-[1.2] text-site-heading group-hover:text-site-text group-focus-visible:text-site-text max-[720px]:text-[1.08rem] max-[720px]:leading-[1.28]">
 									{post.data.title}
 								</h4>
 								<p class="mt-[0.35rem] mb-0 leading-[1.5] text-site-muted max-[720px]:text-[0.92rem] max-[720px]:leading-[1.55]">
@@ -77,46 +68,3 @@ const {
 		<EmptyState title={emptyTitle} description={emptyDescription} ariaLabel="No blog posts" />
 	)
 }
-
-<script>
-	(() => {
-		if (!('onpagereveal' in window)) {
-			return;
-		}
-
-		const clearActiveTitle = () => {
-			document.querySelectorAll('[data-active-title-transition]').forEach((title) => {
-				title.style.viewTransitionName = '';
-				delete title.dataset.activeTitleTransition;
-			});
-		};
-
-		document.querySelectorAll('[data-blog-title-transition-name]').forEach((link) => {
-			link.addEventListener('click', (event) => {
-				if (
-					event.defaultPrevented ||
-					event.button !== 0 ||
-					event.metaKey ||
-					event.ctrlKey ||
-					event.shiftKey ||
-					event.altKey
-				) {
-					return;
-				}
-
-				const title = link.querySelector('[data-blog-title-transition-title]');
-				const transitionName = link.dataset.blogTitleTransitionName;
-
-				if (!title || !transitionName) {
-					return;
-				}
-
-				clearActiveTitle();
-				title.style.viewTransitionName = transitionName;
-				title.dataset.activeTitleTransition = 'true';
-			});
-		});
-
-		window.addEventListener('pageshow', clearActiveTitle);
-	})();
-</script>

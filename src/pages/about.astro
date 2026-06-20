@@ -32,176 +32,176 @@ const {
 ---
 
 <PageLayout title={`${title} | ${SITE_TITLE}`} description={description} image={heroImage}>
-		<main class="about-main w-[calc(var(--spacing-site-wide)+2em)] max-w-full">
-			<article class="resume py-10 pb-4">
-				<header
-					class="profile-head grid grid-cols-[minmax(0,1fr)_var(--profile-meta-width)] items-end gap-12 border-b border-site-border pb-8 max-[960px]:block"
-					style="--profile-meta-width: clamp(25rem, calc((100vw - 2em - 3rem) * 0.382), 32rem)"
-				>
-					<div>
-						<div class="identity flex items-center gap-6 max-[820px]:items-start max-[820px]:gap-4">
-							{
-								heroImage && (
-									<Image
-										class="profile-photo block size-[88px] flex-none rounded-full border border-[rgba(var(--border),0.9)] object-cover max-[820px]:size-[72px]"
-										src={heroImage}
-										alt={`${name} profile photo`}
-										width={176}
-										height={176}
-										loading="eager"
-										decoding="sync"
-										fetchpriority="high"
-									/>
-								)
-							}
-							<div>
-								<h1 class="name m-0 text-5xl leading-[1.05] max-[820px]:text-[2.3rem]">{name}</h1>
-								<p class="role mt-3 mb-0 text-[1.1rem] text-site-muted">{role}</p>
-							</div>
+	<main class="about-main wide-main">
+		<article class="resume py-10 pb-4">
+			<header
+				class="profile-head grid grid-cols-[minmax(0,1fr)_var(--profile-meta-width)] items-end gap-12 border-b border-site-border pb-8 max-[960px]:block"
+				style="--profile-meta-width: clamp(25rem, calc((100vw - 2em - 3rem) * 0.382), 32rem)"
+			>
+				<div>
+					<div class="identity flex items-center gap-6 max-[820px]:items-start max-[820px]:gap-4">
+						{
+							heroImage && (
+								<Image
+									class="profile-photo block size-[88px] flex-none rounded-full border border-[rgba(var(--border),0.9)] object-cover max-[820px]:size-[72px]"
+									src={heroImage}
+									alt={`${name} profile photo`}
+									width={176}
+									height={176}
+									loading="eager"
+									decoding="sync"
+									fetchpriority="high"
+								/>
+							)
+						}
+						<div>
+							<h1 class="name m-0 text-5xl leading-[1.05] max-[820px]:text-[2.3rem]">{name}</h1>
+							<p class="role mt-3 mb-0 text-[1.1rem] text-site-muted">{role}</p>
 						</div>
-						<p class="summary mt-6 mb-0 max-w-[42rem] text-site-text">{description}</p>
 					</div>
-					<dl
-						class="profile-meta ml-auto grid w-(--profile-meta-width) max-w-full min-w-0 justify-self-end [grid-template-columns:4em_minmax(0,1fr)] gap-y-[0.85rem] gap-x-6 max-[960px]:mt-8 max-[960px]:ml-0 max-[960px]:w-full max-[960px]:justify-self-stretch"
-					>
-						{age && (
-							<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
-								<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">年齢</dt>
-								<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{age}</dd>
-							</div>
-						)}
-						{location && (
-							<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
-								<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">所在地</dt>
-								<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{location}</dd>
-							</div>
-						)}
-						{company && (
-							<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
-								<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">所属</dt>
-								<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{company}</dd>
-							</div>
-						)}
-						{experience && (
-							<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
-								<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">経験年数</dt>
-								<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{experience}</dd>
-							</div>
-						)}
-					</dl>
-				</header>
+					<p class="summary mt-6 mb-0 max-w-[42rem] text-site-text">{description}</p>
+				</div>
+				<dl
+					class="profile-meta ml-auto grid w-(--profile-meta-width) max-w-full min-w-0 justify-self-end [grid-template-columns:4em_minmax(0,1fr)] gap-y-[0.85rem] gap-x-6 max-[960px]:mt-8 max-[960px]:ml-0 max-[960px]:w-full max-[960px]:justify-self-stretch"
+				>
+					{age && (
+						<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
+							<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">年齢</dt>
+							<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{age}</dd>
+						</div>
+					)}
+					{location && (
+						<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
+							<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">所在地</dt>
+							<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{location}</dd>
+						</div>
+					)}
+					{company && (
+						<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
+							<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">所属</dt>
+							<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{company}</dd>
+						</div>
+					)}
+					{experience && (
+						<div class="meta-row grid min-w-0 grid-cols-subgrid items-baseline border-b border-[rgba(var(--border),0.75)] pb-[0.65rem] [grid-column:1/-1]">
+							<dt class="text-justify text-[0.85rem] text-site-muted [text-align-last:justify] [text-justify:inter-character]">経験年数</dt>
+							<dd class="m-0 whitespace-nowrap text-right font-bold text-site-heading max-[960px]:whitespace-normal">{experience}</dd>
+						</div>
+					)}
+				</dl>
+			</header>
 
-				{
-					highlights.length > 0 && (
-						<section class="resume-section border-b border-site-border py-9" aria-labelledby="profile-heading">
-							<h2 id="profile-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Profile</h2>
-							<ul class="highlights m-0 grid list-none grid-cols-2 gap-y-[0.9rem] gap-x-6 p-0 max-[820px]:block">
-								{highlights.map((highlight) => (
-									<li class="border-l-[3px] border-site-accent pl-4 text-site-text max-[820px]:mt-4 first:max-[820px]:mt-0">{highlight}</li>
-								))}
-							</ul>
-						</section>
-					)
-				}
+			{
+				highlights.length > 0 && (
+					<section class="resume-section border-b border-site-border py-9" aria-labelledby="profile-heading">
+						<h2 id="profile-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Profile</h2>
+						<ul class="highlights m-0 grid list-none grid-cols-2 gap-y-[0.9rem] gap-x-6 p-0 max-[820px]:block">
+							{highlights.map((highlight) => (
+								<li class="border-l-[3px] border-site-accent pl-4 text-site-text max-[820px]:mt-4 first:max-[820px]:mt-0">{highlight}</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
 
-				{
-					skillGroups.length > 0 && (
-						<section class="resume-section border-b border-site-border py-9" aria-labelledby="skills-heading">
-							<h2 id="skills-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Skills</h2>
-							<ul class="skill-groups m-0 grid list-none gap-0 p-0">
-								{skillGroups.map((group) => (
-									<li class="skill-group grid min-w-0 grid-cols-[220px_minmax(0,1fr)] gap-8 border-t border-site-border-soft py-[1.35rem] first:border-t-0 first:pt-0 last:pb-0 max-[820px]:block max-[820px]:py-5">
-										<div class="min-w-0">
-											<h3 class="skill-category m-0 text-base leading-[1.35] font-bold text-site-heading">{group.category}</h3>
-										</div>
-										<ul class="skill-list m-0 grid list-none grid-cols-3 gap-[0.55rem] p-0 max-[820px]:mt-[0.85rem] max-[820px]:grid-cols-1">
-											{group.items.map((skill) => (
-												<li class="inline-flex min-w-0 items-baseline justify-between gap-3 rounded-lg border border-site-border bg-[rgba(var(--surface-strong),0.55)] px-[0.7rem] py-[0.55rem] text-site-text">
-													<span class="font-bold text-site-heading">{skill.name}</span>
-													<span class="whitespace-nowrap text-[0.78rem] text-site-muted">{skill.years}</span>
-												</li>
-											))}
-										</ul>
-									</li>
-								))}
-							</ul>
-						</section>
-					)
-				}
+			{
+				skillGroups.length > 0 && (
+					<section class="resume-section border-b border-site-border py-9" aria-labelledby="skills-heading">
+						<h2 id="skills-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Skills</h2>
+						<ul class="skill-groups m-0 grid list-none gap-0 p-0">
+							{skillGroups.map((group) => (
+								<li class="skill-group grid min-w-0 grid-cols-[220px_minmax(0,1fr)] gap-8 border-t border-site-border-soft py-[1.35rem] first:border-t-0 first:pt-0 last:pb-0 max-[820px]:block max-[820px]:py-5">
+									<div class="min-w-0">
+										<h3 class="skill-category m-0 text-base leading-[1.35] font-bold text-site-heading">{group.category}</h3>
+									</div>
+									<ul class="skill-list m-0 grid list-none grid-cols-3 gap-[0.55rem] p-0 max-[820px]:mt-[0.85rem] max-[820px]:grid-cols-1">
+										{group.items.map((skill) => (
+											<li class="inline-flex min-w-0 items-baseline justify-between gap-3 rounded-lg border border-site-border bg-[rgba(var(--surface-strong),0.55)] px-[0.7rem] py-[0.55rem] text-site-text">
+												<span class="font-bold text-site-heading">{skill.name}</span>
+												<span class="whitespace-nowrap text-[0.78rem] text-site-muted">{skill.years}</span>
+											</li>
+										))}
+									</ul>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
 
-				{
-					career.length > 0 && (
-						<section class="resume-section border-b border-site-border py-9" aria-labelledby="career-heading">
-							<h2 id="career-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Career</h2>
-							<div class="grid gap-6">
-								{career.map((item) => (
-									<section class="grid grid-cols-[140px_minmax(0,1fr)] gap-6 max-[820px]:block max-[820px]:mt-4 first:max-[820px]:mt-0">
-										<div class="mb-0 text-[0.9rem] text-site-muted max-[820px]:mb-[0.3rem]">{item.period}</div>
-										<div class="career-body">
-											<h3 class="m-0 text-[1.1rem]">{item.title}</h3>
-											<p class="mt-[0.3rem] mb-0 text-[0.95rem] text-site-muted">{item.company}</p>
-											<p class="mt-3 mb-0 text-site-text">{item.description}</p>
-										</div>
-									</section>
-								))}
-							</div>
-						</section>
-					)
-					}
+			{
+				career.length > 0 && (
+					<section class="resume-section border-b border-site-border py-9" aria-labelledby="career-heading">
+						<h2 id="career-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Career</h2>
+						<div class="grid gap-6">
+							{career.map((item) => (
+								<section class="grid grid-cols-[140px_minmax(0,1fr)] gap-6 max-[820px]:block max-[820px]:mt-4 first:max-[820px]:mt-0">
+									<div class="mb-0 text-[0.9rem] text-site-muted max-[820px]:mb-[0.3rem]">{item.period}</div>
+									<div class="career-body">
+										<h3 class="m-0 text-[1.1rem]">{item.title}</h3>
+										<p class="mt-[0.3rem] mb-0 text-[0.95rem] text-site-muted">{item.company}</p>
+										<p class="mt-3 mb-0 text-site-text">{item.description}</p>
+									</div>
+								</section>
+							))}
+						</div>
+					</section>
+				)
+			}
 
-					{
-						uses.length > 0 && (
-							<section class="resume-section border-b border-site-border py-9" aria-labelledby="uses-heading">
-								<h2 id="uses-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Uses</h2>
-								<ul class="uses-groups m-0 grid list-none gap-[1.35rem] p-0">
-									{uses.map((group) => (
-										<li class="uses-group grid grid-cols-[180px_minmax(0,1fr)] gap-6 border-t border-site-border-soft pt-[1.35rem] first:border-t-0 first:pt-0 max-[820px]:block">
-											<h3 class="uses-category m-0 text-base leading-[1.35] font-bold text-site-heading">{group.category}</h3>
-											<ul class="uses-list m-0 grid list-none grid-cols-2 gap-[0.85rem] p-0 max-[820px]:mt-[0.85rem] max-[820px]:grid-cols-1">
-												{group.items.map((item) => (
-													<li class="min-w-0 rounded-lg border border-[rgba(var(--border),0.86)] bg-[rgba(var(--surface-strong),0.55)] px-4 py-[0.9rem]">
-														{
-															item.url ? (
-																<a class="inline-flex leading-[1.35] font-bold text-site-heading decoration-[rgba(var(--gray),0.35)] underline-offset-[0.18em] hover:text-site-accent" href={item.url} target="_blank" rel="noopener noreferrer">
-																	{item.name}
-																</a>
-															) : (
-																<span class="inline-flex leading-[1.35] font-bold text-site-heading">{item.name}</span>
-															)
-														}
-														<p class="mt-[0.45rem] mb-0 text-[0.9rem] leading-[1.6] text-site-muted">{item.description}</p>
-													</li>
-												))}
-											</ul>
-										</li>
-									))}
-								</ul>
-							</section>
-						)
-					}
+			{
+				uses.length > 0 && (
+					<section class="resume-section border-b border-site-border py-9" aria-labelledby="uses-heading">
+						<h2 id="uses-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Uses</h2>
+						<ul class="uses-groups m-0 grid list-none gap-[1.35rem] p-0">
+							{uses.map((group) => (
+								<li class="uses-group grid grid-cols-[180px_minmax(0,1fr)] gap-6 border-t border-site-border-soft pt-[1.35rem] first:border-t-0 first:pt-0 max-[820px]:block">
+									<h3 class="uses-category m-0 text-base leading-[1.35] font-bold text-site-heading">{group.category}</h3>
+									<ul class="uses-list m-0 grid list-none grid-cols-2 gap-[0.85rem] p-0 max-[820px]:mt-[0.85rem] max-[820px]:grid-cols-1">
+										{group.items.map((item) => (
+											<li class="min-w-0 rounded-lg border border-[rgba(var(--border),0.86)] bg-[rgba(var(--surface-strong),0.55)] px-4 py-[0.9rem]">
+												{
+													item.url ? (
+														<a class="inline-flex leading-[1.35] font-bold text-site-heading decoration-[rgba(var(--gray),0.35)] underline-offset-[0.18em] hover:text-site-accent" href={item.url} target="_blank" rel="noopener noreferrer">
+															{item.name}
+														</a>
+													) : (
+														<span class="inline-flex leading-[1.35] font-bold text-site-heading">{item.name}</span>
+													)
+												}
+												<p class="mt-[0.45rem] mb-0 text-[0.9rem] leading-[1.6] text-site-muted">{item.description}</p>
+											</li>
+										))}
+									</ul>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
 
-					{
-						socials.length > 0 && (
-							<section class="resume-section border-b border-site-border py-9" aria-labelledby="details-heading">
-								<h2 id="details-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Socials</h2>
-							<ul class="m-0 flex list-none flex-wrap gap-3 p-0">
-								{socials.map((social) => (
-									<li>
-										<a
-											class="inline-flex size-11 items-center justify-center rounded-full border border-site-border bg-[rgba(var(--surface-strong),0.75)] text-site-heading no-underline transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-px hover:border-[rgba(var(--accent-rgb),0.55)] hover:bg-[rgba(var(--accent-rgb),0.1)] hover:text-site-accent"
-											href={social.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											aria-label={social.label}
-										>
-											<Icon name={SOCIAL_ICON_NAMES[social.icon]} size={22} />
-										</a>
-									</li>
-								))}
-							</ul>
-						</section>
-					)
-				}
-			</article>
-		</main>
+			{
+				socials.length > 0 && (
+					<section class="resume-section border-b border-site-border py-9" aria-labelledby="details-heading">
+						<h2 id="details-heading" class="section-title mt-0 mb-5 text-[1.35rem]">Socials</h2>
+						<ul class="m-0 flex list-none flex-wrap gap-3 p-0">
+							{socials.map((social) => (
+								<li>
+									<a
+										class="inline-flex size-11 items-center justify-center rounded-full border border-site-border bg-[rgba(var(--surface-strong),0.75)] text-site-heading no-underline transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-px hover:border-[rgba(var(--accent-rgb),0.55)] hover:bg-[rgba(var(--accent-rgb),0.1)] hover:text-site-accent"
+										href={social.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={social.label}
+									>
+										<Icon name={SOCIAL_ICON_NAMES[social.icon]} size={22} />
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+		</article>
+	</main>
 </PageLayout>

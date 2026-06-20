@@ -11,40 +11,6 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @plugin "@tailwindcss/typography";
 
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-
-  ::view-transition {
-    background: rgb(var(--surface));
-  }
-
-  ::view-transition-group(*) {
-    animation-duration: 180ms;
-    animation-timing-function: ease;
-  }
-
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    mix-blend-mode: normal;
-  }
-
-  ::view-transition-old(root) {
-    animation: none;
-  }
-
-  ::view-transition-new(root) {
-    animation: page-fade-in 160ms ease both;
-  }
-}
-
-@keyframes page-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
 @theme inline {
   --font-site-sans: var(--font-sans);
   --font-site-mono: var(--font-mono);
@@ -372,7 +338,20 @@
 }
 
 @utility listing-main {
-  width: calc(var(--spacing-site-wide) + 2em);
+  width: min(calc(var(--spacing-site-wide) + 1.5rem), 100%);
+  padding-inline: 0.75rem;
+}
+
+@utility wide-main {
+  width: min(calc(var(--spacing-site-wide) + 1.5rem), 100%);
+  padding-inline: 0.75rem;
+}
+
+@media (max-width: 720px) {
+  .listing-main,
+  .wide-main {
+    padding-inline: 0.75rem;
+  }
 }
 
 @utility taxonomy-title {
