@@ -1,11 +1,9 @@
 ---
 import ProjectList from '../organisms/ProjectList.astro';
-import BackLink from '../molecules/BackLink.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
 import {
 	getProjectTaxonomyCopy,
-	getProjectTaxonomyIndexPath,
 	getProjectTaxonomyPage,
 	type ProjectTaxonomyType,
 } from '../../utils/projects';
@@ -22,7 +20,6 @@ const copy = getProjectTaxonomyCopy(type, value, projects.length);
 
 <PageLayout title={`${value} Projects | ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
 	<main class="wide-main">
-		<BackLink href={getProjectTaxonomyIndexPath(type)} />
 		<section class="mb-8">
 			<p class="mt-0 mb-[0.35rem] text-[0.85rem] font-bold tracking-normal text-site-muted uppercase">{copy.eyebrow}</p>
 			<h1 class="mt-0 mb-2 text-4xl">{value}</h1>

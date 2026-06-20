@@ -17,6 +17,8 @@ const {
 	emptyDescription = 'Published projects will appear here.',
 	variant = 'masonry',
 } = Astro.props;
+const isSparse = projects.length <= 2;
+const isMasonry = variant === 'masonry' && !isSparse;
 ---
 
 {
@@ -24,16 +26,18 @@ const {
 		<ul
 			class:list={[
 				'project-list m-0 list-none p-0',
-				variant === 'masonry'
-					? '[columns:3_18rem] [column-gap:1rem] max-[1080px]:[columns:2_18rem] max-[720px]:[columns:1]'
-					: 'grid grid-cols-3 gap-4 max-[1080px]:grid-cols-2 max-[720px]:grid-cols-1',
+				isSparse
+					? 'grid justify-center gap-4 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),28rem))]'
+					: isMasonry
+						? '[columns:3_18rem] [column-gap:1rem] max-[1080px]:[columns:2_18rem] max-[720px]:[columns:1]'
+						: 'grid grid-cols-3 gap-4 max-[1080px]:grid-cols-2 max-[720px]:grid-cols-1',
 			]}
 		>
 			{projects.map((project) => (
 				<li
 					class:list={[
 						'project inline-flex w-full min-w-0 break-inside-avoid flex-col rounded-lg border border-[rgba(var(--border),0.86)] bg-[rgba(var(--surface-strong),0.62)] p-0',
-						variant === 'masonry' ? 'mb-4' : 'm-0',
+						isMasonry ? 'mb-4' : 'm-0',
 					]}
 				>
 					<a

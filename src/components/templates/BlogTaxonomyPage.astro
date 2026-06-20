@@ -4,12 +4,10 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import {
 	getBlogTaxonomyBasePath,
 	getBlogTaxonomyCopy,
-	getBlogTaxonomyIndexPath,
 	getBlogTaxonomyPage,
 	type BlogTaxonomyType,
 } from '../../utils/blog';
 import { getProjectsByYear } from '../../utils/projects';
-import BackLink from '../molecules/BackLink.astro';
 import Pagination from '../molecules/Pagination.astro';
 import PostList from '../organisms/PostList.astro';
 import ProjectList from '../organisms/ProjectList.astro';
@@ -30,7 +28,6 @@ const pageTitle =
 
 <PageLayout title={pageTitle} description={SITE_DESCRIPTION}>
 	<main class="listing-main">
-		<BackLink href={getBlogTaxonomyIndexPath(type)} />
 		<h1 class="taxonomy-title">{value}</h1>
 		{
 			type === 'year' ? (

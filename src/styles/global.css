@@ -180,6 +180,28 @@
 }
 
 @layer components {
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgb(var(--border));
+    border-radius: 999px;
+    background: rgb(var(--surface-strong));
+    color: rgb(var(--black));
+    font-size: 0.85rem;
+    line-height: 1.2;
+    text-decoration: none;
+    transform: translateY(calc(-100% - 1rem));
+  }
+
+  .skip-link:focus-visible {
+    outline: 2px solid rgba(var(--accent-rgb), 0.55);
+    outline-offset: 3px;
+    transform: translateY(0);
+  }
+
   .prose-blog {
     max-width: none;
     line-height: 1.9;
@@ -338,7 +360,7 @@
 }
 
 @utility listing-main {
-  width: min(calc(var(--spacing-site-wide) + 1.5rem), 100%);
+  width: min(calc(var(--spacing-site-content) + 1.5rem), 100%);
   padding-inline: 0.75rem;
 }
 

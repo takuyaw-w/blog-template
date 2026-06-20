@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
-import BackLink from '../components/molecules/BackLink.astro';
 import FormattedDate from '../components/atoms/FormattedDate.astro';
 import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug, type BlogPostEntry } from '../utils/blog';
 import type { GitFileHistory } from '../utils/git-history';
@@ -47,11 +46,15 @@ const publishedAt = gitHistory.publishedAt ?? pubDate;
 const updatedAt = gitHistory.updatedAt ?? updatedDate;
 const shouldShowUpdatedAt =
 	updatedAt !== undefined && formatPostDate(updatedAt) !== formatPostDate(publishedAt);
+const mobileArticleMetaItems = [
+	category,
+	formatPostDate(publishedAt),
+	readingTimeMinutes !== undefined ? `約${readingTimeMinutes}分` : undefined,
+].filter((item): item is string => Boolean(item));
 ---
 
 <PageLayout title={title} description={description} image={ogImage}>
 	<main class="w-[calc(var(--spacing-site-wide)+2em)] max-w-full">
-		<BackLink href="/blog/" spacing="loose" />
 		<article>
 			<div
 				class:list={[
@@ -64,6 +67,19 @@ const shouldShowUpdatedAt =
 					<h1 class="mb-[0.5em] text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.18] break-anywhere max-[480px]:text-[clamp(1.375rem,6vw,1.5rem)] max-[480px]:leading-[1.3]">
 						{title}
 					</h1>
+					{
+						mobileArticleMetaItems.length > 0 && (
+							<ul
+								class="mx-auto mt-[-0.15rem] mb-[1rem] hidden list-none flex-wrap justify-center gap-y-[0.2rem] gap-x-[0.75rem] p-0 text-[0.82rem] leading-[1.45] text-site-muted max-[980px]:flex"
+								aria-label="Article metadata"
+								role="list"
+							>
+								{mobileArticleMetaItems.map((item) => (
+									<li class="m-0">{item}</li>
+								))}
+							</ul>
+						)
+					}
 					<hr />
 				</div>
 				{

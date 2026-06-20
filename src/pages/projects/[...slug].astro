@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BackLink from '../../components/molecules/BackLink.astro';
 import ProjectActionLink from '../../components/molecules/ProjectActionLink.astro';
 import { SITE_TITLE } from '../../consts';
 import PageLayout from '../../layouts/PageLayout.astro';
@@ -30,7 +29,6 @@ const ogImage = new URL(`/og/projects/${project.id}.png`, Astro.site ?? Astro.ur
 	image={ogImage}
 >
 	<main class="w-[calc(var(--spacing-site-wide)+2em)] max-w-full max-[980px]:w-[calc(var(--spacing-site-content)+2em)]">
-		<BackLink href="/projects/" spacing="loose" />
 		<article class="project-detail">
 			<header class:list={[hasHeroImage && 'border-b border-site-border pb-8']}>
 				<h1 class="m-0 text-[2.6rem] leading-[1.08] max-[720px]:text-4xl">{project.data.title}</h1>
