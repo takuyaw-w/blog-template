@@ -4,7 +4,13 @@ import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import BackLink from '../components/molecules/BackLink.astro';
 import FormattedDate from '../components/atoms/FormattedDate.astro';
-import { formatPostDate, getReadingTimeMinutes, toTaxonomySlug, type BlogPostEntry } from '../utils/blog';
+import {
+	formatPostDate,
+	getBlogTitleTransitionName,
+	getReadingTimeMinutes,
+	toTaxonomySlug,
+	type BlogPostEntry,
+} from '../utils/blog';
 import type { GitFileHistory } from '../utils/git-history';
 import PageLayout from './PageLayout.astro';
 
@@ -47,6 +53,7 @@ const publishedAt = gitHistory.publishedAt ?? pubDate;
 const updatedAt = gitHistory.updatedAt ?? updatedDate;
 const shouldShowUpdatedAt =
 	updatedAt !== undefined && formatPostDate(updatedAt) !== formatPostDate(publishedAt);
+const titleTransitionName = postId ? getBlogTitleTransitionName(postId) : undefined;
 ---
 
 <PageLayout title={title} description={description} image={ogImage}>
@@ -61,7 +68,10 @@ const shouldShowUpdatedAt =
 				]}
 			>
 				<div class="title col-span-full mx-auto mb-5 w-[1040px] max-w-full px-4 pt-4 text-center leading-none">
-					<h1 class="mb-[0.5em] text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.18] break-anywhere max-[480px]:text-[clamp(1.375rem,6vw,1.5rem)] max-[480px]:leading-[1.3]">
+					<h1
+						class="mb-[0.5em] text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.18] break-anywhere max-[480px]:text-[clamp(1.375rem,6vw,1.5rem)] max-[480px]:leading-[1.3]"
+						style={titleTransitionName ? `view-transition-name: ${titleTransitionName}` : undefined}
+					>
 						{title}
 					</h1>
 					<hr />

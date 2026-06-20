@@ -16,10 +16,32 @@
     navigation: auto;
   }
 
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
+  ::view-transition {
+    background: rgb(var(--surface));
+  }
+
+  ::view-transition-group(*) {
     animation-duration: 180ms;
     animation-timing-function: ease;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    animation: page-fade-in 160ms ease both;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
   }
 }
 

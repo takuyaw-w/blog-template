@@ -48,6 +48,14 @@ export const toTaxonomySlug = (value: string) => encodeURIComponent(value);
 
 export const fromTaxonomySlug = (value: string) => decodeURIComponent(value);
 
+const toViewTransitionIdent = (value: string) =>
+  Array.from(value, (char) =>
+    /[A-Za-z0-9_-]/.test(char) ? char : `-${char.codePointAt(0)?.toString(36) ?? "x"}-`,
+  ).join("");
+
+export const getBlogTitleTransitionName = (postId: string) =>
+  `blog-title-${toViewTransitionIdent(postId)}`;
+
 export const getBlogListingPage = async (page: number) => {
   const posts = sortPostsByDate(await getBlogPosts());
 
