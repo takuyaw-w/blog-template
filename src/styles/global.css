@@ -370,6 +370,18 @@ html[data-theme="dark"] .theme-toggle [data-theme-icon="light"] {
   display: inline-flex;
 }
 
+.menu-toggle [data-menu-icon="close"] {
+  display: none;
+}
+
+.site-header[data-menu-open="true"] .menu-toggle [data-menu-icon="open"] {
+  display: none;
+}
+
+.site-header[data-menu-open="true"] .menu-toggle [data-menu-icon="close"] {
+  display: inline-flex;
+}
+
 .prose-blog {
   --tw-prose-body: rgb(var(--gray-dark));
   --tw-prose-headings: rgb(var(--black));

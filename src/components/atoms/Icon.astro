@@ -3,17 +3,21 @@ import type { HTMLAttributes } from 'astro/types';
 import BrandGithub from '@tabler/icons/outline/brand-github.svg?raw';
 import BrandX from '@tabler/icons/outline/brand-x.svg?raw';
 import ExternalLink from '@tabler/icons/outline/external-link.svg?raw';
+import Menu2 from '@tabler/icons/outline/menu-2.svg?raw';
 import Moon from '@tabler/icons/outline/moon.svg?raw';
 import Rss from '@tabler/icons/outline/rss.svg?raw';
 import Sun from '@tabler/icons/outline/sun.svg?raw';
+import X from '@tabler/icons/outline/x.svg?raw';
 
 const icons = {
 	'brand-github': BrandGithub,
 	'brand-x': BrandX,
 	'external-link': ExternalLink,
+	'menu-2': Menu2,
 	moon: Moon,
 	rss: Rss,
 	sun: Sun,
+	x: X,
 } as const;
 
 interface Props extends HTMLAttributes<'span'> {

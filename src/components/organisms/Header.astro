@@ -47,21 +47,14 @@ import { SOCIAL_LINKS } from '../../utils/social-links';
 				}
 			</div>
 			<button
-				class="menu-toggle relative hidden size-10 cursor-pointer items-center justify-center rounded-full border border-site-border bg-site-surface-soft text-site-heading hover:text-site-accent max-[720px]:inline-flex"
+				class="menu-toggle hidden size-10 cursor-pointer items-center justify-center rounded-full border border-site-border bg-site-surface-soft text-site-heading hover:text-site-accent max-[720px]:inline-flex"
 				type="button"
 				aria-controls="primary-navigation"
 				aria-expanded="false"
 				aria-label="Open navigation menu"
 			>
-				<span
-					class="absolute h-0.5 w-[1.05rem] -translate-y-[0.36rem] rounded-full bg-current transition-[opacity,transform] duration-200 group-data-[menu-open=true]:translate-y-0 group-data-[menu-open=true]:rotate-45"
-				></span>
-				<span
-					class="absolute h-0.5 w-[1.05rem] rounded-full bg-current transition-[opacity,transform] duration-200 group-data-[menu-open=true]:opacity-0"
-				></span>
-				<span
-					class="absolute h-0.5 w-[1.05rem] translate-y-[0.36rem] rounded-full bg-current transition-[opacity,transform] duration-200 group-data-[menu-open=true]:translate-y-0 group-data-[menu-open=true]:-rotate-45"
-				></span>
+				<Icon name="menu-2" data-menu-icon="open" size={22} />
+				<Icon name="x" data-menu-icon="close" size={22} />
 			</button>
 		</div>
 	</nav>
