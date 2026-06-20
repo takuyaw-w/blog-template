@@ -7,6 +7,7 @@
 @layer theme, base, components, utilities;
 
 @import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 @plugin "@tailwindcss/typography";
 
@@ -32,15 +33,6 @@
 }
 
 @layer base {
-  html {
-    box-sizing: border-box;
-  }
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit;
-  }
-
   :root {
     color-scheme: light;
     --font-sans:
@@ -96,8 +88,6 @@
   }
   body {
     font-family: var(--font-sans);
-    margin: 0;
-    padding: 0;
     text-align: left;
     background-color: rgb(var(--surface));
     word-break: normal;
@@ -145,10 +135,6 @@
   h5 {
     font-size: 1.25em;
   }
-  strong,
-  b {
-    font-weight: 700;
-  }
   a {
     color: var(--accent);
   }
@@ -158,19 +144,10 @@
   p {
     margin-bottom: 1em;
   }
-  textarea {
-    width: 100%;
-    font-size: 16px;
-  }
-  input {
-    font-size: 16px;
-  }
   table {
     width: 100%;
   }
   img {
-    max-width: 100%;
-    height: auto;
     border-radius: 8px;
   }
   :where(:not(pre, .prose, .prose *) > code) {
