@@ -10,6 +10,9 @@ playwright-report/
 # code intelligence index
 .codegraph/
 
+# local worktrees
+.worktrees/
+
 # dependencies
 node_modules/
 
