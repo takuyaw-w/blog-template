@@ -9,7 +9,9 @@ test.describe("blog list readability", () => {
     const description = firstPost.locator("p").first();
 
     await expect(title).toBeVisible();
+    await expect(title).toHaveText("日本語タイトルの表示確認サンプル");
     await expect(description).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
 
     const wrapping = await firstPost.evaluate((element) => {
       const titleElement = element.querySelector("h4");
@@ -23,11 +25,13 @@ test.describe("blog list readability", () => {
       const descriptionStyle = window.getComputedStyle(descriptionElement);
 
       return {
+        titleFontSizeAdjust: titleStyle.fontSizeAdjust,
         titleTextWrapStyle: titleStyle.getPropertyValue("text-wrap-style"),
         descriptionTextWrapStyle: descriptionStyle.getPropertyValue("text-wrap-style"),
       };
     });
 
+    expect(wrapping.titleFontSizeAdjust).toBe("none");
     expect(wrapping.titleTextWrapStyle).toBe("balance");
     expect(wrapping.descriptionTextWrapStyle).toBe("pretty");
   });
