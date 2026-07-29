@@ -5,12 +5,14 @@ import Icon from '../atoms/Icon.astro';
 import { SOCIAL_LINKS } from '../../utils/social-links';
 ---
 
-<header class="site-header group m-0 border-b border-[rgba(var(--border),0.72)] bg-site-surface-strong px-4">
+<header class="site-header group m-0 border-b-2 border-dashed border-site-border bg-site-surface-strong px-4 shadow-[0_4px_0_rgba(var(--brand-rgb),0.14)]">
 	<nav
 		class="mx-auto grid w-site-nav max-w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center max-[720px]:grid-cols-[minmax(0,1fr)_auto] max-[720px]:gap-y-[0.65rem] max-[720px]:gap-x-4 max-[720px]:py-[0.6rem]"
 		aria-label="Primary"
 	>
-		<h2 class="m-0 text-base max-[720px]:col-start-1 max-[720px]:row-start-1 max-[720px]:min-w-0 max-[720px]:leading-[1.2]">
+		<h2
+			class="m-0 font-site-sans text-2xl font-normal max-[720px]:col-start-1 max-[720px]:row-start-1 max-[720px]:min-w-0 max-[720px]:text-xl max-[720px]:leading-[1.2]"
+		>
 			<a
 				class="block text-site-heading! no-underline transition-colors duration-200 [-webkit-tap-highlight-color:transparent] hover:text-site-heading! focus-visible:text-site-heading! active:text-site-heading! max-[720px]:break-anywhere"
 				href="/"
@@ -29,7 +31,7 @@ import { SOCIAL_LINKS } from '../../utils/social-links';
 		<div class="flex justify-self-end gap-1 max-[720px]:col-start-2 max-[720px]:row-start-1 max-[720px]:justify-end">
 			<div class="flex items-center">
 				<button
-					class="theme-toggle inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-site-border bg-site-surface-soft text-site-heading hover:text-site-accent"
+					class="theme-toggle inline-flex size-10 -rotate-2 cursor-pointer items-center justify-center rounded-[46%_54%_43%_57%/55%_45%_55%_45%] border-2 border-dashed border-site-heading bg-site-surface-soft text-site-heading shadow-[2px_3px_0_rgba(var(--accent-secondary-rgb),0.24)] hover:rotate-2 hover:text-site-accent"
 					type="button"
 					aria-label="Toggle color theme"
 					title="Toggle color theme"
@@ -47,7 +49,7 @@ import { SOCIAL_LINKS } from '../../utils/social-links';
 				}
 			</div>
 			<button
-				class="menu-toggle hidden size-10 cursor-pointer items-center justify-center rounded-full border border-site-border bg-site-surface-soft text-site-heading hover:text-site-accent max-[720px]:inline-flex"
+				class="menu-toggle hidden size-10 rotate-2 cursor-pointer items-center justify-center rounded-[54%_46%_57%_43%/45%_55%_45%_55%] border-2 border-dashed border-site-heading bg-site-surface-soft text-site-heading shadow-[2px_3px_0_rgba(var(--accent-secondary-rgb),0.24)] hover:-rotate-2 hover:text-site-accent max-[720px]:inline-flex"
 				type="button"
 				aria-controls="primary-navigation"
 				aria-expanded="false"

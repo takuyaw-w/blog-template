@@ -1,5 +1,27 @@
 import { expect, test } from "@playwright/test";
 
+const relativeLuminance = (color: string) => {
+  const channels = color.match(/\d+/g)?.slice(0, 3).map(Number);
+
+  if (!channels || channels.length !== 3) {
+    throw new Error(`Expected an RGB color, received: ${color}`);
+  }
+
+  const [red, green, blue] = channels.map((channel) => {
+    const value = channel / 255;
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+
+const contrastRatio = (foreground: string, background: string) => {
+  const lighter = Math.max(relativeLuminance(foreground), relativeLuminance(background));
+  const darker = Math.min(relativeLuminance(foreground), relativeLuminance(background));
+
+  return (lighter + 0.05) / (darker + 0.05);
+};
+
 test.describe("header interactions", () => {
   test("theme toggle switches the document theme and persists the choice", async ({ page }) => {
     await page.goto("/");
@@ -58,12 +80,15 @@ test.describe("header interactions", () => {
       const heading = document.querySelector(".prose-blog h2");
 
       return {
+        background: getComputedStyle(document.body).backgroundColor,
         paragraph: paragraph ? getComputedStyle(paragraph).color : null,
         heading: heading ? getComputedStyle(heading).color : null,
       };
     });
 
-    expect(colors.paragraph).toBe("rgb(220, 228, 245)");
-    expect(colors.heading).toBe("rgb(244, 247, 255)");
+    expect(colors.paragraph).not.toBeNull();
+    expect(colors.heading).not.toBeNull();
+    expect(contrastRatio(colors.paragraph!, colors.background)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(colors.heading!, colors.background)).toBeGreaterThanOrEqual(4.5);
   });
 });

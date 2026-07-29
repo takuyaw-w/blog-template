@@ -9,10 +9,18 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
+@import "@fontsource/delius-swash-caps/latin-400.css";
+@import "@fontsource/klee-one/japanese-400.css";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-700.css";
+@import "@fontsource/noto-sans-jp/japanese-400.css";
+@import "@fontsource/noto-sans-jp/japanese-700.css";
+@import "@fontsource/noto-sans-jp/latin-400.css";
+@import "@fontsource/noto-sans-jp/latin-700.css";
 @plugin "@tailwindcss/typography";
 
 @theme inline {
-  --font-site-sans: var(--font-sans);
+  --font-site-sans: var(--font-display);
   --font-site-mono: var(--font-mono);
   --color-site-accent: var(--accent);
   --color-site-accent-dark: var(--accent-dark);
@@ -35,51 +43,62 @@
 @layer base {
   :root {
     color-scheme: light;
-    --font-sans:
-      -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic",
-      YuGothic, Meiryo, "Noto Sans JP", system-ui, sans-serif;
+    --font-display:
+      "Delius Swash Caps", "Klee One", "Hiragino Maru Gothic ProN", "Yu Gothic", YuGothic,
+      sans-serif;
+    --font-body:
+      "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, system-ui, sans-serif;
     --font-mono:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    --solarized-base03: 0, 43, 54;
-    --solarized-base02: 7, 54, 66;
-    --solarized-base01: 88, 110, 117;
-    --solarized-base00: 101, 123, 131;
-    --solarized-base0: 131, 148, 150;
-    --solarized-base1: 147, 161, 161;
-    --solarized-base2: 238, 232, 213;
-    --solarized-base3: 253, 246, 227;
+      "JetBrains Mono", "Noto Sans JP", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", monospace;
+    --solarized-base03: 17, 17, 17;
+    --solarized-base02: 17, 17, 17;
+    --solarized-base01: 82, 82, 82;
+    --solarized-base00: 115, 115, 115;
+    --solarized-base0: 161, 161, 161;
+    --solarized-base1: 209, 209, 209;
+    --solarized-base2: 241, 241, 241;
+    --solarized-base3: 255, 255, 255;
     --solarized-yellow: 181, 137, 0;
     --solarized-orange: 203, 75, 22;
     --solarized-red: 220, 50, 47;
     --solarized-blue: 38, 139, 210;
     --solarized-cyan: 42, 161, 152;
     --solarized-green: 133, 153, 0;
-    --accent: #268bd2;
-    --accent-rgb: var(--solarized-blue);
-    --accent-dark: #1b6f9f;
-    --black: var(--solarized-base02);
-    --gray: var(--solarized-base01);
-    --gray-light: var(--solarized-base2);
-    --gray-dark: var(--solarized-base02);
-    --surface: var(--solarized-base3);
-    --surface-soft: var(--solarized-base2);
-    --surface-strong: 255, 250, 235;
-    --border: 211, 203, 179;
+    --brand: #49b6e5;
+    --brand-rgb: 73, 182, 229;
+    --accent: #0e7490;
+    --accent-rgb: 14, 116, 144;
+    --accent-dark: #155e75;
+    --accent-secondary: #263d5b;
+    --accent-secondary-rgb: 38, 61, 91;
+    --black: 17, 24, 39;
+    --gray: 75, 85, 99;
+    --gray-light: 224, 242, 254;
+    --gray-dark: 17, 24, 39;
+    --surface: 255, 255, 255;
+    --surface-soft: 240, 249, 255;
+    --surface-strong: 255, 255, 255;
+    --border: 73, 182, 229;
   }
 
   html[data-theme="dark"] {
     color-scheme: dark;
-    --accent: #6ee7ff;
-    --accent-rgb: 110, 231, 255;
-    --accent-dark: #35b8d8;
-    --black: 244, 247, 255;
-    --gray: 151, 164, 195;
-    --gray-light: 47, 54, 64;
-    --gray-dark: 220, 228, 245;
-    --surface: 17, 19, 23;
-    --surface-soft: 23, 28, 32;
-    --surface-strong: 30, 36, 42;
-    --border: 58, 68, 78;
+    --brand: #7dd3fc;
+    --brand-rgb: 125, 211, 252;
+    --accent: #7dd3fc;
+    --accent-rgb: 125, 211, 252;
+    --accent-dark: #bae6fd;
+    --accent-secondary: #dbeafe;
+    --accent-secondary-rgb: 219, 234, 254;
+    --black: 243, 244, 246;
+    --gray: 209, 213, 219;
+    --gray-light: 22, 78, 99;
+    --gray-dark: 229, 231, 235;
+    --surface: 15, 23, 42;
+    --surface-soft: 30, 41, 59;
+    --surface-strong: 17, 24, 39;
+    --border: 56, 189, 248;
   }
   html {
     scroll-behavior: smooth;
@@ -87,14 +106,20 @@
     scrollbar-gutter: stable;
   }
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     text-align: left;
     background-color: rgb(var(--surface));
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(var(--brand-rgb), 0.16) 1px, transparent 0),
+      linear-gradient(100deg, transparent 49.7%, rgba(var(--brand-rgb), 0.035) 50%);
+    background-size:
+      24px 24px,
+      100% 100%;
     word-break: normal;
     overflow-wrap: break-word;
     color: rgb(var(--gray-dark));
-    font-size: 20px;
-    line-height: 1.85;
+    font-size: 18px;
+    line-height: 1.7;
     font-feature-settings: "palt";
     font-kerning: normal;
     hanging-punctuation: allow-end;
@@ -107,7 +132,7 @@
     width: calc(720px + 2em);
     max-width: 100%;
     margin: auto;
-    padding: 3em 1em;
+    padding: 4rem 1rem;
   }
   h1,
   h2,
@@ -117,11 +142,15 @@
   h6 {
     margin: 0 0 0.5rem 0;
     color: rgb(var(--black));
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-size-adjust: from-font;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1.08;
     text-wrap: balance;
   }
   h1 {
-    font-size: 3.052em;
+    font-size: clamp(2rem, 5vw, 2.5rem);
   }
   h2 {
     font-size: 2.441em;
@@ -135,11 +164,17 @@
   h5 {
     font-size: 1.25em;
   }
+  .title h1 {
+    font-family: var(--font-body);
+    font-weight: 700;
+  }
   a {
     color: var(--accent);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.16em;
   }
   a:hover {
-    color: var(--accent);
+    color: var(--accent-dark);
   }
   p {
     margin-bottom: 1em;
@@ -148,28 +183,30 @@
     width: 100%;
   }
   img {
-    border-radius: 8px;
+    border: 2px dashed rgb(var(--border));
+    border-radius: 12px 7px 14px 9px;
+    box-shadow: 4px 5px 0 rgba(var(--accent-secondary-rgb), 0.18);
   }
   :where(:not(pre, .prose, .prose *) > code) {
     font-family: var(--font-mono);
     font-feature-settings: normal;
     padding: 2px 5px;
-    background-color: rgba(var(--solarized-base2), 0.86);
-    border-radius: 2px;
+    background-color: rgb(var(--surface-soft));
+    border-radius: 5px 9px 6px 8px;
   }
   :where(:not(.prose, .prose *) > pre) {
     font-family: var(--font-mono);
     font-feature-settings: normal;
     line-break: auto;
     padding: 1.5em;
-    border-radius: 8px;
+    border-radius: 10px 6px 12px 8px;
   }
   :where(:not(.prose, .prose *) > pre) > code {
     all: unset;
   }
   blockquote {
-    border-left: 4px solid var(--accent);
-    padding: 0 0 0 20px;
+    border-left: 5px solid var(--brand);
+    padding: 0 0 0 1.25rem;
     margin: 0;
     font-size: 1.333em;
   }
@@ -187,7 +224,7 @@
     inset-inline-start: 0.75rem;
     padding: 0.45rem 0.75rem;
     border: 1px solid rgb(var(--border));
-    border-radius: 999px;
+    border-radius: 7px 10px 6px 9px;
     background: rgb(var(--surface-strong));
     color: rgb(var(--black));
     font-size: 0.85rem;
@@ -204,6 +241,7 @@
 
   .prose-blog {
     max-width: none;
+    font-size: 1rem;
     line-height: 1.9;
     line-break: strict;
   }
@@ -211,12 +249,13 @@
     text-wrap: pretty;
   }
   .prose-blog :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-    text-decoration-color: rgba(var(--accent-rgb), 0.35);
+    text-decoration-color: rgba(var(--black), 0.45);
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.18em;
   }
   .prose-blog :where(a:hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-    text-decoration-color: var(--accent);
+    color: rgb(var(--black));
+    text-decoration-color: rgb(var(--black));
   }
   .prose-blog :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
     border: 1px solid rgb(var(--border));
@@ -266,8 +305,8 @@
     padding: 1rem;
     overflow-x: auto;
     border: 1px solid rgb(var(--border));
-    border-radius: 8px;
-    background: rgba(var(--surface-strong), 0.72);
+    border-radius: 4px;
+    background: rgb(var(--surface-soft));
   }
   .mermaid-diagram {
     display: flex;
@@ -355,7 +394,16 @@
 }
 @media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
